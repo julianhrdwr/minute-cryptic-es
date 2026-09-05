@@ -61,7 +61,7 @@ function enterTestMode(puzzleId) {
   closeModal("hintModal");
   closeModal("resultModal");
 
-  renderPuzzle();
+  renderPuzzle(puzzle);
 
   if (gameScreen) {
     gameScreen.classList.remove("hidden");
@@ -164,6 +164,10 @@ function closeTestModeSelector() {
 }
 
 function createTestModeUI() {
+  if (document.getElementById("testModeButton")) {
+    return;
+  }
+
   // Botón MODO PRUEBA
   const testButton = document.createElement("button");
 
@@ -524,6 +528,10 @@ function createTestModeUI() {
 
   function saveState() {
 
+    if (testMode) {
+      return;
+    }
+
     localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify(state)
@@ -714,6 +722,7 @@ function createTestModeUI() {
     updateHome();
 
     bindEvents();
+    createTestModeUI();
 
   }
 
@@ -754,7 +763,9 @@ function createTestModeUI() {
   function openGame() {
 
     const puzzle =
-      getPuzzleOfTheDay();
+      testMode
+        ? getCurrentPuzzle()
+        : getPuzzleOfTheDay();
 
 
     if (!puzzle) {
@@ -790,6 +801,11 @@ function createTestModeUI() {
 
 
   function goHome() {
+
+    if (testMode) {
+      exitTestMode();
+      return;
+    }
 
     stopTimer();
 
@@ -1693,35 +1709,29 @@ function createTestModeUI() {
     }
 
 
-    state.solved++;
+    if (!testMode) {
+      state.solved++;
 
-
-    state.times.push(
-      state.elapsed
-    );
-
-
-    const today =
-      getDateKey();
-
-
-    if (
-      !state.completedDates.includes(
-        today
-      )
-    ) {
-
-      state.completedDates.push(
-        today
+      state.times.push(
+        state.elapsed
       );
 
+      const today =
+        getDateKey();
+
+      if (
+        !state.completedDates.includes(
+          today
+        )
+      ) {
+        state.completedDates.push(
+          today
+        );
+      }
+
+      updateStreak();
+      saveState();
     }
-
-
-    updateStreak();
-
-
-    saveState();
 
 
     const answer =
