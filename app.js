@@ -5,11 +5,13 @@
 (() => {
   "use strict";
 
+
   /* =======================================================
      CONFIGURACIÓN
   ======================================================= */
 
-  const STORAGE_KEY = "criptico_diario_v1";
+  const STORAGE_KEY = "criptico_diario_v2";
+
 
   const mechanismNames = {
     anagram: "Anagrama",
@@ -32,6 +34,7 @@
   ======================================================= */
 
   let state = {
+
     currentPuzzleId: null,
     currentDate: null,
 
@@ -53,9 +56,11 @@
     solved: 0,
     streak: 0,
     bestStreak: 0,
+
     times: [],
 
     completedDates: []
+
   };
 
 
@@ -63,50 +68,104 @@
 
 
   /* =======================================================
-     ELEMENTOS
+     SELECTORES
   ======================================================= */
 
-  const $ = (selector) => document.querySelector(selector);
-  const $$ = (selector) => [...document.querySelectorAll(selector)];
+  const $ = selector =>
+    document.querySelector(selector);
 
-  const homeScreen = $("#homeScreen");
-  const gameScreen = $("#gameScreen");
-  const learnScreen = $("#learnScreen");
+  const $$ = selector =>
+    [...document.querySelectorAll(selector)];
 
-  const playBtn = $("#playBtn");
-  const backBtn = $("#backBtn");
-  const learnBtn = $("#learnBtn");
-  const learnBackBtn = $("#learnBackBtn");
 
-  const clueText = $("#clueText");
-  const answerContainer = $("#answerContainer");
+  const homeScreen =
+    $("#homeScreen");
 
-  const keyboard = $("#keyboard");
+  const gameScreen =
+    $("#gameScreen");
 
-  const timer = $("#timer");
+  const learnScreen =
+    $("#learnScreen");
 
-  const hintBtn = $("#hintBtn");
-  const revealBtn = $("#revealBtn");
-  const checkBtn = $("#checkBtn");
 
-  const hintModal = $("#hintModal");
-  const resultModal = $("#resultModal");
-  const lessonModal = $("#lessonModal");
-  const statsModal = $("#statsModal");
+  const playBtn =
+    $("#playBtn");
 
-  const resultAnswer = $("#resultAnswer");
-  const resultExplanation = $("#resultExplanation");
-  const resultTime = $("#resultTime");
-  const resultStreak = $("#resultStreak");
+  const backBtn =
+    $("#backBtn");
 
-  const statsBtn = $("#statsBtn");
-  const shareBtn = $("#shareBtn");
-  const resultCloseBtn = $("#resultCloseBtn");
+  const learnBtn =
+    $("#learnBtn");
 
-  const difficultyBadge = $("#difficultyBadge");
-  const mechanismBadge = $("#mechanismBadge");
+  const learnBackBtn =
+    $("#learnBackBtn");
 
-  const alreadySolved = $("#alreadySolved");
+
+  const clueText =
+    $("#clueText");
+
+  const answerContainer =
+    $("#answerContainer");
+
+  const timer =
+    $("#timer");
+
+
+  const hintBtn =
+    $("#hintBtn");
+
+  const revealBtn =
+    $("#revealBtn");
+
+  const checkBtn =
+    $("#checkBtn");
+
+
+  const hintModal =
+    $("#hintModal");
+
+  const resultModal =
+    $("#resultModal");
+
+  const lessonModal =
+    $("#lessonModal");
+
+  const statsModal =
+    $("#statsModal");
+
+
+  const resultAnswer =
+    $("#resultAnswer");
+
+  const resultExplanation =
+    $("#resultExplanation");
+
+  const resultTime =
+    $("#resultTime");
+
+  const resultStreak =
+    $("#resultStreak");
+
+
+  const statsBtn =
+    $("#statsBtn");
+
+  const shareBtn =
+    $("#shareBtn");
+
+  const resultCloseBtn =
+    $("#resultCloseBtn");
+
+
+  const difficultyBadge =
+    $("#difficultyBadge");
+
+  const mechanismBadge =
+    $("#mechanismBadge");
+
+
+  const alreadySolved =
+    $("#alreadySolved");
 
 
   /* =======================================================
@@ -117,16 +176,21 @@
 
     try {
 
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved =
+        localStorage.getItem(STORAGE_KEY);
 
       if (!saved) {
         return;
       }
 
-      const parsed = JSON.parse(saved);
+      const parsed =
+        JSON.parse(saved);
+
 
       state = {
+
         ...state,
+
         ...parsed,
 
         hintsUsed: {
@@ -134,26 +198,34 @@
           ...(parsed.hintsUsed || {})
         },
 
-        answer: Array.isArray(parsed.answer)
-          ? parsed.answer
-          : [],
+        answer:
+          Array.isArray(parsed.answer)
+            ? parsed.answer
+            : [],
 
-        revealed: Array.isArray(parsed.revealed)
-          ? parsed.revealed
-          : [],
+        revealed:
+          Array.isArray(parsed.revealed)
+            ? parsed.revealed
+            : [],
 
-        completedDates: Array.isArray(parsed.completedDates)
-          ? parsed.completedDates
-          : [],
+        completedDates:
+          Array.isArray(parsed.completedDates)
+            ? parsed.completedDates
+            : [],
 
-        times: Array.isArray(parsed.times)
-          ? parsed.times
-          : []
+        times:
+          Array.isArray(parsed.times)
+            ? parsed.times
+            : []
+
       };
 
     } catch (error) {
 
-      console.warn("No se pudo cargar el progreso:", error);
+      console.warn(
+        "No se pudo cargar el progreso:",
+        error
+      );
 
     }
 
@@ -174,39 +246,53 @@
      FECHA
   ======================================================= */
 
-  function getDateKey(date = new Date()) {
+  function getDateKey(
+    date = new Date()
+  ) {
 
-    const year = date.getFullYear();
+    const year =
+      date.getFullYear();
 
-    const month = String(
-      date.getMonth() + 1
-    ).padStart(2, "0");
+    const month =
+      String(
+        date.getMonth() + 1
+      ).padStart(2, "0");
 
-    const day = String(
-      date.getDate()
-    ).padStart(2, "0");
+    const day =
+      String(
+        date.getDate()
+      ).padStart(2, "0");
+
 
     return `${year}-${month}-${day}`;
 
   }
 
 
-  function getDayNumber(date = new Date()) {
+  function getDayNumber(
+    date = new Date()
+  ) {
 
-    const start = new Date(
-      date.getFullYear(),
-      0,
-      0
-    );
+    const start =
+      new Date(
+        date.getFullYear(),
+        0,
+        0
+      );
+
 
     const diff =
-      date - start +
+      date -
+      start +
       (
-        (start.getTimezoneOffset() -
-        date.getTimezoneOffset()) *
+        (
+          start.getTimezoneOffset() -
+          date.getTimezoneOffset()
+        ) *
         60 *
         1000
       );
+
 
     return Math.floor(
       diff / 86400000
@@ -221,15 +307,28 @@
 
   function getPuzzleOfTheDay() {
 
-    if (!Array.isArray(PUZZLES) || PUZZLES.length === 0) {
-      console.error("No hay puzzles disponibles.");
+    if (
+      !Array.isArray(PUZZLES) ||
+      PUZZLES.length === 0
+    ) {
+
+      console.error(
+        "No hay puzzles disponibles."
+      );
+
       return null;
+
     }
 
-    const dayNumber = getDayNumber();
+
+    const dayNumber =
+      getDayNumber();
+
 
     const index =
-      (dayNumber - 1) % PUZZLES.length;
+      (dayNumber - 1) %
+      PUZZLES.length;
+
 
     return PUZZLES[index];
 
@@ -238,9 +337,15 @@
 
   function getCurrentPuzzle() {
 
-    return PUZZLES.find(
-      puzzle => puzzle.id === state.currentPuzzleId
-    ) || getPuzzleOfTheDay();
+    return (
+      PUZZLES.find(
+        puzzle =>
+          puzzle.id ===
+          state.currentPuzzleId
+      )
+      ||
+      getPuzzleOfTheDay()
+    );
 
   }
 
@@ -253,9 +358,14 @@
 
     loadState();
 
-    const today = getDateKey();
 
-    const puzzle = getPuzzleOfTheDay();
+    const today =
+      getDateKey();
+
+
+    const puzzle =
+      getPuzzleOfTheDay();
+
 
     if (!puzzle) {
       return;
@@ -263,29 +373,48 @@
 
 
     /*
-      Si cambió el día, reiniciamos únicamente
-      el estado específico del puzzle.
+      Si estamos ante un nuevo día,
+      reiniciamos el puzzle.
     */
 
-    if (state.currentDate !== today) {
+    if (
+      state.currentDate !== today
+    ) {
 
-      state.currentDate = today;
-      state.currentPuzzleId = puzzle.id;
+      state.currentDate =
+        today;
+
+      state.currentPuzzleId =
+        puzzle.id;
+
 
       state.answer = [];
+
       state.revealed = [];
 
+
       state.started = false;
+
       state.finished = false;
 
-      state.startTime = null;
-      state.elapsed = 0;
+
+      state.startTime =
+        null;
+
+      state.elapsed =
+        0;
+
 
       state.hintsUsed = {
+
         fodder: false,
+
         indicator: false,
+
         definition: false
+
       };
+
 
       saveState();
 
@@ -305,12 +434,24 @@
 
   function showScreen(screen) {
 
-    [homeScreen, gameScreen, learnScreen]
+    [
+      homeScreen,
+      gameScreen,
+      learnScreen
+    ]
       .forEach(element => {
-        element.classList.remove("active");
+
+        element.classList.remove(
+          "active"
+        );
+
       });
 
-    screen.classList.add("active");
+
+    screen.classList.add(
+      "active"
+    );
+
 
     window.scrollTo({
       top: 0,
@@ -322,32 +463,38 @@
 
   function openGame() {
 
-    const puzzle = getPuzzleOfTheDay();
+    const puzzle =
+      getPuzzleOfTheDay();
+
 
     if (!puzzle) {
       return;
     }
 
 
-    state.currentPuzzleId = puzzle.id;
+    state.currentPuzzleId =
+      puzzle.id;
 
-    renderPuzzle(puzzle);
+
+    renderPuzzle(
+      puzzle
+    );
 
 
     if (state.finished) {
 
       stopTimer();
 
-    } else {
+    } else if (state.started) {
 
-      if (state.started) {
-        startTimer();
-      }
+      startTimer();
 
     }
 
 
-    showScreen(gameScreen);
+    showScreen(
+      gameScreen
+    );
 
   }
 
@@ -358,7 +505,9 @@
 
     updateHome();
 
-    showScreen(homeScreen);
+    showScreen(
+      homeScreen
+    );
 
   }
 
@@ -369,27 +518,38 @@
 
   function updateHome() {
 
-    const puzzle = getPuzzleOfTheDay();
+    const today =
+      getDateKey();
 
-    if (!puzzle) {
-      return;
-    }
-
-    const today = getDateKey();
 
     const solvedToday =
-      state.completedDates.includes(today);
+      state.completedDates.includes(
+        today
+      );
 
 
-    if (solvedToday || state.finished) {
+    if (
+      solvedToday ||
+      state.finished
+    ) {
 
-      playBtn.classList.add("hidden");
-      alreadySolved.classList.remove("hidden");
+      playBtn.classList.add(
+        "hidden"
+      );
+
+      alreadySolved.classList.remove(
+        "hidden"
+      );
 
     } else {
 
-      playBtn.classList.remove("hidden");
-      alreadySolved.classList.add("hidden");
+      playBtn.classList.remove(
+        "hidden"
+      );
+
+      alreadySolved.classList.add(
+        "hidden"
+      );
 
     }
 
@@ -400,25 +560,36 @@
      RENDER PUZZLE
   ======================================================= */
 
-  function renderPuzzle(puzzle) {
+  function renderPuzzle(
+    puzzle
+  ) {
 
-    clueText.textContent = puzzle.clue;
+    renderClue(
+      puzzle
+    );
 
 
     difficultyBadge.textContent =
-      String(puzzle.difficulty || "medium")
-        .toUpperCase();
+      String(
+        puzzle.difficulty ||
+        "medium"
+      ).toUpperCase();
 
 
     const mechanisms =
-      puzzle.mechanisms || [];
+      puzzle.mechanisms ||
+      [];
 
 
-    if (mechanisms.length === 1) {
+    if (
+      mechanisms.length === 1
+    ) {
 
       mechanismBadge.textContent =
-        mechanismNames[mechanisms[0]]
-        || mechanisms[0];
+        mechanismNames[
+          mechanisms[0]
+        ] ||
+        mechanisms[0];
 
     } else {
 
@@ -438,35 +609,289 @@
 
 
   /* =======================================================
-     RESPUESTA
+     RENDER DE LA PISTA
   ======================================================= */
 
-  function normalizeAnswer(value) {
-
-    return String(value || "")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toUpperCase()
-      .replace(/[^A-ZÑ]/g, "");
-
-  }
-
-
-  function renderAnswer() {
-
-    const puzzle = getCurrentPuzzle();
+  function renderClue(
+    puzzle
+  ) {
 
     if (!puzzle) {
       return;
     }
 
 
-    const answer = normalizeAnswer(
-      puzzle.answer
+    /*
+      Si no hay pistas utilizadas,
+      mostramos el texto normal.
+    */
+
+    const activeHints =
+      Object.keys(
+        state.hintsUsed
+      )
+      .filter(
+        type =>
+          state.hintsUsed[type]
+      );
+
+
+    if (
+      activeHints.length === 0
+    ) {
+
+      clueText.textContent =
+        puzzle.clue;
+
+      return;
+
+    }
+
+
+    /*
+      Creamos segmentos de la frase
+      para poder tener varios subrayados
+      simultáneamente.
+    */
+
+    const text =
+      String(puzzle.clue);
+
+
+    const ranges = [];
+
+
+    activeHints.forEach(
+      type => {
+
+        let target = "";
+
+
+        if (
+          type === "fodder"
+        ) {
+
+          target =
+            puzzle.fodder ||
+            "";
+
+        }
+
+
+        if (
+          type === "indicator"
+        ) {
+
+          if (
+            Array.isArray(
+              puzzle.indicators
+            )
+          ) {
+
+            target =
+              puzzle.indicators[0] ||
+              "";
+
+          } else {
+
+            target =
+              puzzle.indicators ||
+              "";
+
+          }
+
+        }
+
+
+        if (
+          type === "definition"
+        ) {
+
+          target =
+            puzzle.definition ||
+            "";
+
+        }
+
+
+        if (!target) {
+          return;
+        }
+
+
+        const index =
+          text.toLocaleLowerCase()
+            .indexOf(
+              String(target)
+                .toLocaleLowerCase()
+            );
+
+
+        if (
+          index === -1
+        ) {
+
+          console.warn(
+            `No se encontró "${target}" dentro de la pista.`
+          );
+
+          return;
+
+        }
+
+
+        ranges.push({
+
+          start: index,
+
+          end:
+            index +
+            String(target).length,
+
+          type
+
+        });
+
+      }
     );
 
 
-    answerContainer.innerHTML = "";
+    /*
+      Ordenamos los fragmentos.
+    */
+
+    ranges.sort(
+      (a, b) =>
+        a.start - b.start
+    );
+
+
+    /*
+      Evitamos problemas si dos ayudas
+      apuntan exactamente al mismo texto.
+    */
+
+    const finalRanges = [];
+
+
+    ranges.forEach(
+      range => {
+
+        const overlaps =
+          finalRanges.some(
+            existing =>
+              range.start <
+                existing.end &&
+              range.end >
+                existing.start
+          );
+
+
+        if (!overlaps) {
+
+          finalRanges.push(
+            range
+          );
+
+        }
+
+      }
+    );
+
+
+    /*
+      Construimos HTML seguro.
+    */
+
+    let html = "";
+
+    let cursor = 0;
+
+
+    finalRanges.forEach(
+      range => {
+
+        html +=
+          escapeHTML(
+            text.slice(
+              cursor,
+              range.start
+            )
+          );
+
+
+        html +=
+          `<span class="clue-highlight ${range.type}">` +
+          escapeHTML(
+            text.slice(
+              range.start,
+              range.end
+            )
+          ) +
+          `</span>`;
+
+
+        cursor =
+          range.end;
+
+      }
+    );
+
+
+    html +=
+      escapeHTML(
+        text.slice(cursor)
+      );
+
+
+    clueText.innerHTML =
+      html;
+
+  }
+
+
+  /* =======================================================
+     RESPUESTA
+  ======================================================= */
+
+  function normalizeAnswer(
+    value
+  ) {
+
+    return String(value || "")
+      .normalize("NFD")
+      .replace(
+        /[\u0300-\u036f]/g,
+        ""
+      )
+      .toUpperCase()
+      .replace(
+        /[^A-ZÑ]/g,
+        ""
+      );
+
+  }
+
+
+  function renderAnswer() {
+
+    const puzzle =
+      getCurrentPuzzle();
+
+
+    if (!puzzle) {
+      return;
+    }
+
+
+    const answer =
+      normalizeAnswer(
+        puzzle.answer
+      );
+
+
+    answerContainer.innerHTML =
+      "";
 
 
     for (
@@ -476,22 +901,31 @@
     ) {
 
       const box =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
-      box.className = "answer-letter";
+
+      box.className =
+        "answer-letter";
 
 
       const value =
-        state.answer[i] || "";
+        state.answer[i] ||
+        "";
 
 
       const isRevealed =
-        state.revealed.includes(i);
+        state.revealed.includes(
+          i
+        );
 
 
       if (isRevealed) {
 
-        box.classList.add("revealed");
+        box.classList.add(
+          "revealed"
+        );
 
         box.textContent =
           answer[i];
@@ -506,15 +940,20 @@
 
       if (
         !state.finished &&
-        i === getNextInputPosition()
+        i ===
+          getNextInputPosition()
       ) {
 
-        box.classList.add("active");
+        box.classList.add(
+          "active"
+        );
 
       }
 
 
-      answerContainer.appendChild(box);
+      answerContainer.appendChild(
+        box
+      );
 
     }
 
@@ -523,7 +962,9 @@
 
   function getNextInputPosition() {
 
-    const puzzle = getCurrentPuzzle();
+    const puzzle =
+      getCurrentPuzzle();
+
 
     if (!puzzle) {
       return 0;
@@ -531,8 +972,14 @@
 
 
     const answer =
-      normalizeAnswer(puzzle.answer);
+      normalizeAnswer(
+        puzzle.answer
+      );
 
+
+    /*
+      Primero buscamos un hueco vacío.
+    */
 
     for (
       let i = 0;
@@ -553,8 +1000,9 @@
 
 
     /*
-      Si todos los casilleros están llenos,
-      seleccionamos el último no revelado.
+      Si no hay huecos vacíos,
+      buscamos el primer casillero
+      que todavía pueda editarse.
     */
 
     for (
@@ -563,8 +1011,12 @@
       i++
     ) {
 
-      if (!state.revealed.includes(i)) {
+      if (
+        !state.revealed.includes(i)
+      ) {
+
         return i;
+
       }
 
     }
@@ -575,14 +1027,18 @@
   }
 
 
-  function addLetter(letter) {
+  function addLetter(
+    letter
+  ) {
 
     if (state.finished) {
       return;
     }
 
 
-    const puzzle = getCurrentPuzzle();
+    const puzzle =
+      getCurrentPuzzle();
+
 
     if (!puzzle) {
       return;
@@ -590,7 +1046,9 @@
 
 
     const answer =
-      normalizeAnswer(puzzle.answer);
+      normalizeAnswer(
+        puzzle.answer
+      );
 
 
     if (!state.started) {
@@ -598,16 +1056,15 @@
     }
 
 
-    let position = getNextInputPosition();
+    let position =
+      getNextInputPosition();
 
-
-    /*
-      Buscar el primer hueco editable.
-    */
 
     while (
       position < answer.length &&
-      state.revealed.includes(position)
+      state.revealed.includes(
+        position
+      )
     ) {
 
       position++;
@@ -615,16 +1072,25 @@
     }
 
 
-    if (position >= answer.length) {
+    if (
+      position >=
+      answer.length
+    ) {
+
       return;
+
     }
 
 
     state.answer[position] =
-      normalizeAnswer(letter).slice(0, 1);
+      normalizeAnswer(
+        letter
+      ).slice(0, 1);
 
 
     renderAnswer();
+
+    renderKeyboard();
 
     saveState();
 
@@ -638,27 +1104,30 @@
     }
 
 
-    /*
-      Borra la última letra introducida
-      que no haya sido revelada.
-    */
-
     for (
-      let i = state.answer.length - 1;
+      let i =
+        state.answer.length - 1;
       i >= 0;
       i--
     ) {
 
       if (
         state.answer[i] &&
-        !state.revealed.includes(i)
+        !state.revealed.includes(
+          i
+        )
       ) {
 
-        state.answer[i] = "";
+        state.answer[i] =
+          "";
+
 
         renderAnswer();
 
+        renderKeyboard();
+
         saveState();
+
 
         return;
 
@@ -680,7 +1149,9 @@
     }
 
 
-    const puzzle = getCurrentPuzzle();
+    const puzzle =
+      getCurrentPuzzle();
+
 
     if (!puzzle) {
       return;
@@ -688,7 +1159,9 @@
 
 
     const answer =
-      normalizeAnswer(puzzle.answer);
+      normalizeAnswer(
+        puzzle.answer
+      );
 
 
     if (!state.started) {
@@ -696,13 +1169,13 @@
     }
 
 
-    /*
-      Primero buscamos una posición que todavía
-      no haya sido revelada.
-    */
-
     let position = -1;
 
+
+    /*
+      Siempre revela la primera letra
+      que todavía no fue revelada.
+    */
 
     for (
       let i = 0;
@@ -710,9 +1183,12 @@
       i++
     ) {
 
-      if (!state.revealed.includes(i)) {
+      if (
+        !state.revealed.includes(i)
+      ) {
 
         position = i;
+
         break;
 
       }
@@ -728,7 +1204,10 @@
     state.answer[position] =
       answer[position];
 
-    state.revealed.push(position);
+
+    state.revealed.push(
+      position
+    );
 
 
     state.revealed.sort(
@@ -738,23 +1217,25 @@
 
     renderAnswer();
 
+    renderKeyboard();
+
     saveState();
 
 
     /*
-      Si ya completó todas las letras,
+      Si todas las letras fueron reveladas,
       comprobamos automáticamente.
     */
 
     if (
-      state.revealed.length === answer.length
+      state.revealed.length ===
+      answer.length
     ) {
 
-      setTimeout(() => {
-
-        checkAnswer();
-
-      }, 300);
+      setTimeout(
+        () => checkAnswer(),
+        300
+      );
 
     }
 
@@ -772,7 +1253,9 @@
     }
 
 
-    const puzzle = getCurrentPuzzle();
+    const puzzle =
+      getCurrentPuzzle();
+
 
     if (!puzzle) {
       return;
@@ -780,16 +1263,24 @@
 
 
     const correct =
-      normalizeAnswer(puzzle.answer);
+      normalizeAnswer(
+        puzzle.answer
+      );
 
 
     const userAnswer =
       state.answer
-        .map(letter => letter || "")
+        .map(
+          letter =>
+            letter || ""
+        )
         .join("");
 
 
-    if (userAnswer.length !== correct.length) {
+    if (
+      userAnswer.length !==
+      correct.length
+    ) {
 
       shakeCard();
 
@@ -798,7 +1289,9 @@
     }
 
 
-    if (userAnswer === correct) {
+    if (
+      userAnswer === correct
+    ) {
 
       solvePuzzle();
 
@@ -806,13 +1299,21 @@
 
       shakeCard();
 
-      answerContainer.classList.add("wrong");
+      answerContainer.classList.add(
+        "wrong"
+      );
 
-      setTimeout(() => {
 
-        answerContainer.classList.remove("wrong");
+      setTimeout(
+        () => {
 
-      }, 450);
+          answerContainer.classList.remove(
+            "wrong"
+          );
+
+        },
+        450
+      );
 
     }
 
@@ -822,7 +1323,10 @@
   function shakeCard() {
 
     const card =
-      document.querySelector(".game-card");
+      document.querySelector(
+        ".game-card"
+      );
+
 
     if (!card) {
       return;
@@ -831,12 +1335,30 @@
 
     card.animate(
       [
-        { transform: "translateX(0)" },
-        { transform: "translateX(-7px)" },
-        { transform: "translateX(7px)" },
-        { transform: "translateX(-5px)" },
-        { transform: "translateX(5px)" },
-        { transform: "translateX(0)" }
+        {
+          transform:
+            "translateX(0)"
+        },
+        {
+          transform:
+            "translateX(-7px)"
+        },
+        {
+          transform:
+            "translateX(7px)"
+        },
+        {
+          transform:
+            "translateX(-5px)"
+        },
+        {
+          transform:
+            "translateX(5px)"
+        },
+        {
+          transform:
+            "translateX(0)"
+        }
       ],
       {
         duration: 300
@@ -852,44 +1374,56 @@
 
   function solvePuzzle() {
 
-    state.finished = true;
+    state.finished =
+      true;
 
 
     stopTimer();
 
 
-    const puzzle = getCurrentPuzzle();
+    const puzzle =
+      getCurrentPuzzle();
+
 
     if (!puzzle) {
       return;
     }
 
 
-    state.elapsed =
-      Math.floor(
-        (Date.now() - state.startTime) / 1000
-      );
+    if (state.startTime) {
 
+      state.elapsed =
+        Math.floor(
+          (
+            Date.now() -
+            state.startTime
+          ) / 1000
+        );
 
-    /*
-      Actualizamos estadísticas.
-    */
+    }
+
 
     state.solved++;
 
-    state.times.push(state.elapsed);
+
+    state.times.push(
+      state.elapsed
+    );
 
 
-    /*
-      Evitamos duplicar el día.
-    */
-
-    const today = getDateKey();
+    const today =
+      getDateKey();
 
 
-    if (!state.completedDates.includes(today)) {
+    if (
+      !state.completedDates.includes(
+        today
+      )
+    ) {
 
-      state.completedDates.push(today);
+      state.completedDates.push(
+        today
+      );
 
     }
 
@@ -900,12 +1434,10 @@
     saveState();
 
 
-    /*
-      Mostramos la respuesta completa.
-    */
-
     const answer =
-      normalizeAnswer(puzzle.answer);
+      normalizeAnswer(
+        puzzle.answer
+      );
 
 
     state.answer =
@@ -914,12 +1446,13 @@
 
     renderAnswer();
 
+    renderKeyboard();
 
-    setTimeout(() => {
 
-      showResult();
-
-    }, 350);
+    setTimeout(
+      () => showResult(),
+      350
+    );
 
   }
 
@@ -930,56 +1463,66 @@
 
   function updateStreak() {
 
-    const dates =
-      [...state.completedDates]
-        .sort();
+    const today =
+      new Date();
 
 
-    if (dates.length === 1) {
-
-      state.streak = 1;
-
-    } else {
-
-      const today = new Date();
-
-
-      const todayKey =
-        getDateKey(today);
-
-
-      const yesterday =
-        new Date(today);
-
-      yesterday.setDate(
-        yesterday.getDate() - 1
+    const todayKey =
+      getDateKey(
+        today
       );
 
 
-      const yesterdayKey =
-        getDateKey(yesterday);
+    const yesterday =
+      new Date(
+        today
+      );
 
+
+    yesterday.setDate(
+      yesterday.getDate() - 1
+    );
+
+
+    const yesterdayKey =
+      getDateKey(
+        yesterday
+      );
+
+
+    if (
+      state.completedDates.includes(
+        yesterdayKey
+      ) &&
+      state.completedDates.includes(
+        todayKey
+      )
+    ) {
+
+      /*
+        Si ya había una racha activa,
+        la aumentamos solamente una vez.
+      */
 
       if (
-        state.completedDates.includes(
-          yesterdayKey
-        ) &&
-        state.completedDates.includes(
-          todayKey
-        )
+        state.streak < 1
       ) {
+
+        state.streak = 2;
+
+      } else {
 
         state.streak++;
 
-      } else if (
-        state.completedDates.includes(
-          todayKey
-        )
-      ) {
-
-        state.streak = 1;
-
       }
+
+    } else if (
+      state.completedDates.includes(
+        todayKey
+      )
+    ) {
+
+      state.streak = 1;
 
     }
 
@@ -1004,7 +1547,9 @@
     }
 
 
-    state.started = true;
+    state.started =
+      true;
+
 
     state.startTime =
       Date.now() -
@@ -1034,31 +1579,39 @@
 
 
     timerInterval =
-      setInterval(() => {
+      setInterval(
+        () => {
 
-        state.elapsed =
-          Math.floor(
-            (Date.now() - state.startTime) /
-            1000
-          );
+          state.elapsed =
+            Math.floor(
+              (
+                Date.now() -
+                state.startTime
+              ) / 1000
+            );
 
 
-        updateTimerDisplay();
+          updateTimerDisplay();
 
-      }, 1000);
+        },
+        1000
+      );
 
   }
 
 
   function stopTimer() {
 
-    if (timerInterval) {
+    if (
+      timerInterval
+    ) {
 
       clearInterval(
         timerInterval
       );
 
-      timerInterval = null;
+      timerInterval =
+        null;
 
     }
 
@@ -1068,12 +1621,16 @@
   function updateTimerDisplay() {
 
     timer.textContent =
-      formatTime(state.elapsed);
+      formatTime(
+        state.elapsed
+      );
 
   }
 
 
-  function formatTime(seconds) {
+  function formatTime(
+    seconds
+  ) {
 
     seconds =
       Math.max(
@@ -1083,7 +1640,9 @@
 
 
     const minutes =
-      Math.floor(seconds / 60);
+      Math.floor(
+        seconds / 60
+      );
 
 
     const secs =
@@ -1091,9 +1650,11 @@
 
 
     return (
-      String(minutes).padStart(2, "0") +
+      String(minutes)
+        .padStart(2, "0") +
       ":" +
-      String(secs).padStart(2, "0")
+      String(secs)
+        .padStart(2, "0")
     );
 
   }
@@ -1105,45 +1666,56 @@
 
   function renderKeyboard() {
 
-    $$(".key").forEach(key => {
+    $$(".key").forEach(
+      key => {
 
-      key.classList.remove("used");
+        key.classList.remove(
+          "used"
+        );
 
-    });
-
-
-    /*
-      Marcamos las letras que ya están
-      colocadas visualmente.
-    */
-
-    state.answer.forEach(letter => {
-
-      if (!letter) {
-        return;
       }
+    );
 
 
-      $$(".key").forEach(key => {
+    state.answer.forEach(
+      letter => {
 
-        if (
-          key.textContent.trim() === letter
-        ) {
-
-          key.classList.add("used");
-
+        if (!letter) {
+          return;
         }
 
-      });
 
-    });
+        $$(".key").forEach(
+          key => {
+
+            if (
+              key.textContent.trim() ===
+              letter
+            ) {
+
+              key.classList.add(
+                "used"
+              );
+
+            }
+
+          }
+        );
+
+      }
+    );
 
   }
 
 
-  function handleKeyboardKey(key) {
+  function handleKeyboardKey(
+    key
+  ) {
 
-    if (key.dataset.action === "backspace") {
+    if (
+      key.dataset.action ===
+      "backspace"
+    ) {
 
       removeLetter();
 
@@ -1152,7 +1724,10 @@
     }
 
 
-    if (key.dataset.action === "enter") {
+    if (
+      key.dataset.action ===
+      "enter"
+    ) {
 
       checkAnswer();
 
@@ -1169,7 +1744,9 @@
       letter.length === 1
     ) {
 
-      addLetter(letter);
+      addLetter(
+        letter
+      );
 
     }
 
@@ -1177,7 +1754,7 @@
 
 
   /* =======================================================
-     PISTAS
+     MENÚ DE PISTAS
   ======================================================= */
 
   function openHintMenu() {
@@ -1187,37 +1764,48 @@
     }
 
 
-    $$(".hint-option").forEach(button => {
+    $$(".hint-option")
+      .forEach(
+        button => {
 
-      const type =
-        button.dataset.hint;
-
-
-      if (
-        state.hintsUsed[type]
-      ) {
-
-        button.disabled = true;
-
-        button.style.opacity = ".45";
-
-      } else {
-
-        button.disabled = false;
-
-        button.style.opacity = "1";
-
-      }
-
-    });
+          const type =
+            button.dataset.hint;
 
 
-    openModal(hintModal);
+          if (
+            state.hintsUsed[type]
+          ) {
+
+            button.disabled =
+              true;
+
+            button.style.opacity =
+              ".45";
+
+          } else {
+
+            button.disabled =
+              false;
+
+            button.style.opacity =
+              "1";
+
+          }
+
+        }
+      );
+
+
+    openModal(
+      hintModal
+    );
 
   }
 
 
-  function useHint(type) {
+  function useHint(
+    type
+  ) {
 
     const puzzle =
       getCurrentPuzzle();
@@ -1228,108 +1816,36 @@
     }
 
 
-    if (state.hintsUsed[type]) {
+    if (
+      state.hintsUsed[type]
+    ) {
+
       return;
+
     }
 
 
-    state.hintsUsed[type] = true;
+    state.hintsUsed[type] =
+      true;
 
 
     saveState();
 
-    closeModal(hintModal);
 
-
-    let title = "";
-    let content = "";
-
-
-    if (type === "fodder") {
-
-      title = "Fodder";
-
-      content =
-        puzzle.fodder ||
-        "Esta pista no necesita fodder explícito.";
-
-    }
-
-
-    if (type === "indicator") {
-
-      title = "Indicador";
-
-      const indicators =
-        puzzle.indicators;
-
-
-      if (Array.isArray(indicators)) {
-
-        content =
-          indicators.join(" · ");
-
-      } else {
-
-        content =
-          indicators ||
-          "No hay un indicador explícito.";
-
-      }
-
-    }
-
-
-    if (type === "definition") {
-
-      title = "Definición";
-
-      content =
-        puzzle.definition ||
-        "No hay una definición separada.";
-
-    }
-
-
-    showInformationModal(
-      title,
-      content
+    closeModal(
+      hintModal
     );
 
-  }
 
+    /*
+      En lugar de abrir otro cartel,
+      simplemente marcamos la parte
+      correspondiente de la pista.
+    */
 
-  function showInformationModal(
-    title,
-    content
-  ) {
-
-    const box =
-      document.querySelector(
-        "#lessonModal .modal-box"
-      );
-
-
-    $("#lessonEyebrow").textContent =
-      "PISTA";
-
-
-    $("#lessonTitle").textContent =
-      title;
-
-
-    $("#lessonContent").innerHTML = `
-      <div class="lesson-example">
-        <strong>${escapeHTML(content)}</strong>
-      </div>
-    `;
-
-
-    $("#lessonCloseBtn").textContent =
-      "Volver al críptico";
-
-
-    openModal(lessonModal);
+    renderClue(
+      puzzle
+    );
 
   }
 
@@ -1370,7 +1886,9 @@
       state.streak;
 
 
-    openModal(resultModal);
+    openModal(
+      resultModal
+    );
 
   }
 
@@ -1380,15 +1898,6 @@
   ======================================================= */
 
   async function shareResult() {
-
-    const puzzle =
-      getCurrentPuzzle();
-
-
-    if (!puzzle) {
-      return;
-    }
-
 
     const text =
       `🧩 Críptico Diario\n` +
@@ -1405,7 +1914,8 @@
       ) {
 
         await navigator.share({
-          title: "Críptico Diario",
+          title:
+            "Críptico Diario",
           text
         });
 
@@ -1423,12 +1933,15 @@
         "¡Copiado!";
 
 
-      setTimeout(() => {
+      setTimeout(
+        () => {
 
-        shareBtn.textContent =
-          "Compartir resultado";
+          shareBtn.textContent =
+            "Compartir resultado";
 
-      }, 1500);
+        },
+        1500
+      );
 
 
     } catch (error) {
@@ -1461,11 +1974,16 @@
       state.bestStreak;
 
 
-    if (state.times.length) {
+    if (
+      state.times.length
+    ) {
 
       const average =
         state.times.reduce(
-          (sum, value) =>
+          (
+            sum,
+            value
+          ) =>
             sum + value,
           0
         ) /
@@ -1474,7 +1992,9 @@
 
       $("#statAverage").textContent =
         formatTime(
-          Math.round(average)
+          Math.round(
+            average
+          )
         );
 
     } else {
@@ -1485,7 +2005,9 @@
     }
 
 
-    openModal(statsModal);
+    openModal(
+      statsModal
+    );
 
   }
 
@@ -1497,7 +2019,10 @@
   const LESSONS = {
 
     anagram: {
-      title: "Anagramas",
+
+      title:
+        "Anagramas",
+
       content: `
         <p>
           En un anagrama, las letras de una palabra
@@ -1506,7 +2031,7 @@
         </p>
 
         <div class="lesson-example">
-          <strong>Indicadores típicos</strong>
+          <strong>Indicadores</strong>
           desordenado · alterado · roto · mezclado ·
           revuelto
         </div>
@@ -1517,11 +2042,15 @@
           mezclarlas.
         </p>
       `
+
     },
 
 
     hidden: {
-      title: "Hiddens",
+
+      title:
+        "Hiddens",
+
       content: `
         <p>
           La respuesta está escondida dentro de otras
@@ -1533,17 +2062,16 @@
           <strong>Indicadores</strong>
           escondido · dentro de · oculto · en
         </div>
-
-        <p>
-          No hace falta modificar las letras:
-          simplemente hay que encontrarlas.
-        </p>
       `
+
     },
 
 
     reversal: {
-      title: "Reversals",
+
+      title:
+        "Reversals",
+
       content: `
         <p>
           Un reversal toma unas letras y las lee
@@ -1561,11 +2089,15 @@
           mecanismos.
         </p>
       `
+
     },
 
 
     deletion: {
-      title: "Deletions",
+
+      title:
+        "Deletions",
+
       content: `
         <p>
           En una deletion eliminamos una o más letras
@@ -1578,11 +2110,15 @@
           quitando
         </div>
       `
+
     },
 
 
     synonym: {
-      title: "Sinónimos",
+
+      title:
+        "Sinónimos",
+
       content: `
         <p>
           Una palabra de la pista puede sustituirse
@@ -1590,16 +2126,20 @@
         </p>
 
         <div class="lesson-example">
-          <strong>Ejemplo</strong>
-          Una definición puede pedir una palabra
+          <strong>Clave</strong>
+          La definición puede pedir una palabra
           equivalente sin decirla directamente.
         </div>
       `
+
     },
 
 
     container: {
-      title: "Containers",
+
+      title:
+        "Containers",
+
       content: `
         <p>
           Una palabra o conjunto de letras se mete
@@ -1612,11 +2152,15 @@
           conteniendo
         </div>
       `
+
     },
 
 
     homophone: {
-      title: "Homófonos",
+
+      title:
+        "Homófonos",
+
       content: `
         <p>
           La respuesta suena igual o muy parecido
@@ -1629,11 +2173,15 @@
           escuchado
         </div>
       `
+
     },
 
 
     translation: {
-      title: "Traducciones",
+
+      title:
+        "Traducciones",
+
       content: `
         <p>
           Una palabra puede aparecer en otro idioma
@@ -1647,11 +2195,15 @@
           del idioma.
         </div>
       `
+
     },
 
 
     double: {
-      title: "Doble definición",
+
+      title:
+        "Doble definición",
+
       content: `
         <p>
           Una misma respuesta tiene dos significados
@@ -1664,11 +2216,15 @@
           ¿podría haber dos definiciones?
         </div>
       `
+
     },
 
 
     rebus: {
-      title: "Rebuses",
+
+      title:
+        "Rebuses",
+
       content: `
         <p>
           Los rebuses juegan con símbolos, letras,
@@ -1678,16 +2234,18 @@
         <div class="lesson-example">
           <strong>Más raro = más atención</strong>
           Acá la pista puede estar hablando de
-          cómo se presenta una palabra, no solamente
-          de qué significa.
+          cómo se presenta una palabra.
         </div>
       `
+
     }
 
   };
 
 
-  function openLesson(id) {
+  function openLesson(
+    id
+  ) {
 
     const lesson =
       LESSONS[id];
@@ -1698,23 +2256,29 @@
     }
 
 
-    $("#lessonEyebrow").textContent =
+    $("#lessonEyebrow")
+      .textContent =
       "LECCIÓN";
 
 
-    $("#lessonTitle").textContent =
+    $("#lessonTitle")
+      .textContent =
       lesson.title;
 
 
-    $("#lessonContent").innerHTML =
+    $("#lessonContent")
+      .innerHTML =
       lesson.content;
 
 
-    $("#lessonCloseBtn").textContent =
+    $("#lessonCloseBtn")
+      .textContent =
       "Entendido";
 
 
-    openModal(lessonModal);
+    openModal(
+      lessonModal
+    );
 
   }
 
@@ -1723,64 +2287,87 @@
      MODALES
   ======================================================= */
 
-  function openModal(modal) {
+  function openModal(
+    modal
+  ) {
 
-    modal.classList.remove("hidden");
+    modal.classList.remove(
+      "hidden"
+    );
 
   }
 
 
-  function closeModal(modal) {
+  function closeModal(
+    modal
+  ) {
 
-    modal.classList.add("hidden");
+    modal.classList.add(
+      "hidden"
+    );
 
   }
 
 
   function bindModalCloseButtons() {
 
-    $$("[data-close]").forEach(button => {
+    $$("[data-close]")
+      .forEach(
+        button => {
 
-      button.addEventListener(
-        "click",
-        () => {
+          button.addEventListener(
+            "click",
+            () => {
 
-          const id =
-            button.dataset.close;
-
-
-          const modal =
-            document.getElementById(id);
+              const id =
+                button.dataset.close;
 
 
-          if (modal) {
-            closeModal(modal);
-          }
-
-        }
-      );
-
-    });
+              const modal =
+                document.getElementById(
+                  id
+                );
 
 
-    $$(".modal").forEach(modal => {
+              if (modal) {
 
-      modal.addEventListener(
-        "click",
-        event => {
+                closeModal(
+                  modal
+                );
 
-          if (
-            event.target === modal
-          ) {
+              }
 
-            closeModal(modal);
-
-          }
+            }
+          );
 
         }
       );
 
-    });
+
+    $$(".modal")
+      .forEach(
+        modal => {
+
+          modal.addEventListener(
+            "click",
+            event => {
+
+              if (
+                event.target ===
+                modal
+              ) {
+
+                closeModal(
+                  modal
+                );
+
+              }
+
+            }
+          );
+
+        }
+      );
 
   }
 
@@ -1805,7 +2392,10 @@
 
     learnBtn.addEventListener(
       "click",
-      () => showScreen(learnScreen)
+      () =>
+        showScreen(
+          learnScreen
+        )
     );
 
 
@@ -1843,7 +2433,10 @@
       "click",
       () => {
 
-        closeModal(resultModal);
+        closeModal(
+          resultModal
+        );
+
         goHome();
 
       }
@@ -1856,67 +2449,81 @@
     );
 
 
-    $("#lessonCloseBtn").addEventListener(
-      "click",
-      () => closeModal(lessonModal)
-    );
-
-
-    $$(".key").forEach(key => {
-
-      key.addEventListener(
+    $("#lessonCloseBtn")
+      .addEventListener(
         "click",
-        () => handleKeyboardKey(key)
+        () =>
+          closeModal(
+            lessonModal
+          )
       );
 
-    });
 
+    $$(".key")
+      .forEach(
+        key => {
 
-    $$(".hint-option").forEach(button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          useHint(
-            button.dataset.hint
+          key.addEventListener(
+            "click",
+            () =>
+              handleKeyboardKey(
+                key
+              )
           );
 
         }
       );
 
-    });
 
+    $$(".hint-option")
+      .forEach(
+        button => {
 
-    $$(".lesson-btn").forEach(button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          openLesson(
-            button.dataset.lesson
+          button.addEventListener(
+            "click",
+            () =>
+              useHint(
+                button.dataset.hint
+              )
           );
 
         }
       );
 
-    });
+
+    $$(".lesson-btn")
+      .forEach(
+        button => {
+
+          button.addEventListener(
+            "click",
+            () =>
+              openLesson(
+                button.dataset.lesson
+              )
+          );
+
+        }
+      );
 
 
     bindModalCloseButtons();
 
 
     /*
-      Teclado físico
+      TECLADO FÍSICO
     */
 
     document.addEventListener(
       "keydown",
       event => {
 
-        if (state.finished) {
+        if (
+          state.finished
+        ) {
+
           return;
+
         }
 
 
@@ -1930,7 +2537,9 @@
 
           event.preventDefault();
 
-          addLetter(key);
+          addLetter(
+            key
+          );
 
           return;
 
@@ -1938,7 +2547,8 @@
 
 
         if (
-          event.key === "Backspace"
+          event.key ===
+          "Backspace"
         ) {
 
           event.preventDefault();
@@ -1951,7 +2561,8 @@
 
 
         if (
-          event.key === "Enter"
+          event.key ===
+          "Enter"
         ) {
 
           event.preventDefault();
@@ -1965,31 +2576,41 @@
 
 
     /*
-      Cerrar modales con ESC
+      ESC PARA CERRAR MODALES
     */
 
     document.addEventListener(
       "keydown",
       event => {
 
-        if (event.key !== "Escape") {
+        if (
+          event.key !==
+          "Escape"
+        ) {
+
           return;
+
         }
 
 
-        $$(".modal").forEach(modal => {
+        $$(".modal")
+          .forEach(
+            modal => {
 
-          if (
-            !modal.classList.contains(
-              "hidden"
-            )
-          ) {
+              if (
+                !modal.classList.contains(
+                  "hidden"
+                )
+              ) {
 
-            closeModal(modal);
+                closeModal(
+                  modal
+                );
 
-          }
+              }
 
-        });
+            }
+          );
 
       }
     );
@@ -1998,17 +2619,34 @@
 
 
   /* =======================================================
-     SEGURIDAD HTML
+     SEGURIDAD
   ======================================================= */
 
-  function escapeHTML(value) {
+  function escapeHTML(
+    value
+  ) {
 
     return String(value)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
 
   }
 
