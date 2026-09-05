@@ -12,297 +12,7 @@
 
   const STORAGE_KEY = "criptico_diario_v2";
 
-// ============================================================
-// MODO PRUEBA
-// ============================================================
 
-let testMode = false;
-let realStateBackup = null;
-
-function createEmptyTestState() {
-  return {
-    currentPuzzleId: null,
-    currentDate: null,
-    answer: [],
-    revealed: [],
-    started: false,
-    finished: false,
-    startTime: null,
-    elapsed: 0,
-    hintsUsed: {
-      fodder: false,
-      indicator: false,
-      definition: false
-    },
-    solved: 0,
-    streak: 0,
-    bestStreak: 0,
-    times: [],
-    completedDates: []
-  };
-}
-
-function enterTestMode(puzzleId) {
-  const puzzle = PUZZLES.find(p => p.id === puzzleId);
-
-  if (!puzzle) return;
-
-  // Guardamos el estado real
-  realStateBackup = JSON.parse(JSON.stringify(state));
-
-  testMode = true;
-
-  // Estado independiente para la prueba
-  state = createEmptyTestState();
-  state.currentPuzzleId = puzzle.id;
-
-  stopTimer();
-
-  closeModal("hintModal");
-  closeModal("resultModal");
-
-  renderPuzzle();
-
-  if (gameScreen) {
-    gameScreen.classList.remove("hidden");
-  }
-
-  if (homeScreen) {
-    homeScreen.classList.add("hidden");
-  }
-
-  addTestModeBadge();
-
-  updateTestModeControls();
-}
-
-function exitTestMode() {
-  if (!testMode) return;
-
-  stopTimer();
-
-  // Restauramos exactamente el estado real
-  if (realStateBackup) {
-    state = realStateBackup;
-  }
-
-  realStateBackup = null;
-  testMode = false;
-
-  closeModal("hintModal");
-  closeModal("resultModal");
-
-  removeTestModeBadge();
-
-  updateHome();
-  showScreen("home");
-}
-
-function addTestModeBadge() {
-  removeTestModeBadge();
-
-  if (!gameScreen) return;
-
-  const badge = document.createElement("div");
-
-  badge.id = "testModeBadge";
-  badge.textContent = "🧪 MODO PRUEBA";
-
-  badge.style.cssText = `
-    display: inline-block;
-    margin: 10px auto;
-    padding: 6px 12px;
-    border: 3px solid #000;
-    border-radius: 999px;
-    background: #ffe66d;
-    font-weight: 800;
-    font-size: 13px;
-  `;
-
-  const firstChild = gameScreen.firstElementChild;
-
-  if (firstChild) {
-    firstChild.parentNode.insertBefore(badge, firstChild);
-  } else {
-    gameScreen.appendChild(badge);
-  }
-}
-
-function removeTestModeBadge() {
-  const badge = document.getElementById("testModeBadge");
-
-  if (badge) {
-    badge.remove();
-  }
-}
-
-function updateTestModeControls() {
-  const btn = document.getElementById("exitTestModeBtn");
-
-  if (btn) {
-    btn.style.display = testMode ? "block" : "none";
-  }
-}
-
-function openTestModeSelector() {
-  let modal = document.getElementById("testModeModal");
-
-  if (!modal) {
-    createTestModeUI();
-    modal = document.getElementById("testModeModal");
-  }
-
-  modal.classList.remove("hidden");
-}
-
-function closeTestModeSelector() {
-  const modal = document.getElementById("testModeModal");
-
-  if (modal) {
-    modal.classList.add("hidden");
-  }
-}
-
-function createTestModeUI() {
-  // Botón MODO PRUEBA
-  const testButton = document.createElement("button");
-
-  testButton.id = "testModeButton";
-  testButton.textContent = "🧪 Modo prueba";
-
-  testButton.style.cssText = `
-    display: block;
-    width: 100%;
-    margin-top: 12px;
-    padding: 12px 16px;
-    border: 3px solid #000;
-    border-radius: 14px;
-    background: #ffe66d;
-    color: #000;
-    font-weight: 800;
-    cursor: pointer;
-  `;
-
-  testButton.addEventListener("click", () => {
-    const password = prompt("Contraseña del modo prueba:");
-
-    if (password !== "1999") {
-      alert("Contraseña incorrecta.");
-      return;
-    }
-
-    openTestModeSelector();
-  });
-
-  // Lo ponemos en la pantalla de inicio
-  if (homeScreen) {
-    const container =
-      homeScreen.querySelector(".home-actions") ||
-      homeScreen.querySelector(".actions") ||
-      homeScreen;
-
-    container.appendChild(testButton);
-  }
-
-  // Modal
-  const modal = document.createElement("div");
-
-  modal.id = "testModeModal";
-  modal.className = "modal hidden";
-
-  modal.innerHTML = `
-    <div class="modal-content" style="
-      max-width: 500px;
-      width: calc(100% - 32px);
-      max-height: 80vh;
-      overflow-y: auto;
-    ">
-      <div style="
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        gap:12px;
-        margin-bottom:16px;
-      ">
-        <h2 style="margin:0;">🧪 Modo prueba</h2>
-
-        <button
-          id="closeTestModeModal"
-          style="
-            border:3px solid #000;
-            background:#fff;
-            border-radius:10px;
-            padding:6px 10px;
-            font-weight:800;
-            cursor:pointer;
-          "
-        >✕</button>
-      </div>
-
-      <p>
-        Elegí cualquier crucigrama para probarlo.
-        Las estadísticas del modo diario no se modifican.
-      </p>
-
-      <select
-        id="testPuzzleSelect"
-        style="
-          width:100%;
-          padding:12px;
-          border:3px solid #000;
-          border-radius:12px;
-          font-size:16px;
-          background:#fff;
-        "
-      ></select>
-
-      <button
-        id="startSelectedTestPuzzle"
-        style="
-          width:100%;
-          margin-top:14px;
-          padding:13px;
-          border:3px solid #000;
-          border-radius:12px;
-          background:#ff7eb6;
-          font-weight:800;
-          cursor:pointer;
-        "
-      >
-        Probar este crucigrama
-      </button>
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-
-  const select = modal.querySelector("#testPuzzleSelect");
-
-  PUZZLES.forEach((puzzle, index) => {
-    const option = document.createElement("option");
-
-    option.value = puzzle.id;
-
-    option.textContent =
-      `${index + 1}. ${puzzle.id} — ` +
-      `${puzzle.difficulty || "medium"} — ` +
-      `${(puzzle.mechanisms || []).join(", ")}`;
-
-    select.appendChild(option);
-  });
-
-  modal.querySelector("#closeTestModeModal")
-    .addEventListener("click", closeTestModeSelector);
-
-  modal.querySelector("#startSelectedTestPuzzle")
-    .addEventListener("click", () => {
-      const puzzleId = select.value;
-
-      closeTestModeSelector();
-      enterTestMode(puzzleId);
-    });
-}
-   
   const mechanismNames = {
     anagram: "Anagrama",
     hidden: "Hidden",
@@ -355,6 +65,17 @@ function createTestModeUI() {
 
 
   let timerInterval = null;
+
+
+  /* =======================================================
+     MODO PRUEBA
+  ======================================================= */
+
+  // El modo prueba permite elegir cualquier puzzle sin modificar
+  // el progreso real guardado en el navegador.
+  let testMode = false;
+  let realStateBackup = null;
+  let testUIReady = false;
 
 
   /* =======================================================
@@ -523,6 +244,11 @@ function createTestModeUI() {
 
 
   function saveState() {
+
+    // Nunca guardamos cambios del modo prueba.
+    if (testMode) {
+      return;
+    }
 
     localStorage.setItem(
       STORAGE_KEY,
@@ -713,6 +439,8 @@ function createTestModeUI() {
 
     updateHome();
 
+    createTestModeUI();
+
     bindEvents();
 
   }
@@ -753,6 +481,46 @@ function createTestModeUI() {
 
   function openGame() {
 
+    // En modo prueba no debemos volver a cambiar al puzzle del día.
+    if (testMode) {
+
+      const puzzle =
+        getCurrentPuzzle();
+
+
+      if (!puzzle) {
+        return;
+      }
+
+
+      renderPuzzle(
+        puzzle
+      );
+
+
+      if (state.finished) {
+
+        stopTimer();
+
+      } else if (state.started) {
+
+        startTimer();
+
+      }
+
+
+      showScreen(
+        gameScreen
+      );
+
+
+      setTestBadge(true);
+
+      return;
+
+    }
+
+
     const puzzle =
       getPuzzleOfTheDay();
 
@@ -790,6 +558,15 @@ function createTestModeUI() {
 
 
   function goHome() {
+
+    if (testMode) {
+
+      exitTestMode();
+
+      return;
+
+    }
+
 
     stopTimer();
 
@@ -1693,35 +1470,41 @@ function createTestModeUI() {
     }
 
 
-    state.solved++;
+    // En modo prueba mostramos el resultado, pero no modificamos
+    // estadísticas, racha ni fechas completadas.
+    if (!testMode) {
+
+      state.solved++;
 
 
-    state.times.push(
-      state.elapsed
-    );
-
-
-    const today =
-      getDateKey();
-
-
-    if (
-      !state.completedDates.includes(
-        today
-      )
-    ) {
-
-      state.completedDates.push(
-        today
+      state.times.push(
+        state.elapsed
       );
 
+
+      const today =
+        getDateKey();
+
+
+      if (
+        !state.completedDates.includes(
+          today
+        )
+      ) {
+
+        state.completedDates.push(
+          today
+        );
+
+      }
+
+
+      updateStreak();
+
+
+      saveState();
+
     }
-
-
-    updateStreak();
-
-
-    saveState();
 
 
     const answer =
@@ -2173,7 +1956,9 @@ function createTestModeUI() {
 
 
     resultStreak.textContent =
-      state.streak;
+      testMode
+        ? "—"
+        : state.streak;
 
 
     openModal(
@@ -2189,12 +1974,18 @@ function createTestModeUI() {
 
   async function shareResult() {
 
-    const text =
-      `🧩 Críptico Diario\n` +
-      `✓ Resuelto\n` +
-      `⏱️ ${formatTime(state.elapsed)}\n` +
-      `🔥 Racha: ${state.streak}\n\n` +
-      `¿Podés resolverlo vos?`;
+    const puzzle =
+      getCurrentPuzzle();
+
+    const text = testMode
+      ? `🧪 Críptico Diario — Modo prueba\n` +
+        `✓ Resuelto\n` +
+        `Respuesta: ${normalizeAnswer(puzzle?.answer || "")}`
+      : `🧩 Críptico Diario\n` +
+        `✓ Resuelto\n` +
+        `⏱️ ${formatTime(state.elapsed)}\n` +
+        `🔥 Racha: ${state.streak}\n\n` +
+        `¿Podés resolverlo vos?`;
 
 
     try {
@@ -2727,7 +2518,11 @@ function createTestModeUI() {
           resultModal
         );
 
-        goHome();
+        if (testMode) {
+          openTestModeModal();
+        } else {
+          goHome();
+        }
 
       }
     );
@@ -2904,6 +2699,836 @@ function createTestModeUI() {
 
       }
     );
+
+  }
+
+
+  /* =======================================================
+     MODO PRUEBA — INTERFAZ
+  ======================================================= */
+
+  function createTestModeUI() {
+
+    if (testUIReady) {
+      return;
+    }
+
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.id =
+      "testModeBtn";
+
+
+    button.type =
+      "button";
+
+
+    button.textContent =
+      "🧪 Modo prueba";
+
+
+    Object.assign(
+      button.style,
+      {
+        display: "block",
+        width: "100%",
+        marginTop: "12px",
+        padding: "12px 16px",
+        border: "3px solid #111",
+        borderRadius: "14px",
+        background: "#ffd6e7",
+        color: "#111",
+        fontWeight: "800",
+        fontSize: "15px",
+        cursor: "pointer",
+        boxSizing: "border-box"
+      }
+    );
+
+
+    if (
+      playBtn?.parentElement
+    ) {
+
+      playBtn.parentElement.appendChild(
+        button
+      );
+
+    }
+
+
+    const modal =
+      document.createElement(
+        "div"
+      );
+
+
+    modal.id =
+      "testModeModal";
+
+
+    modal.className =
+      "modal hidden";
+
+
+    Object.assign(
+      modal.style,
+      {
+        position: "fixed",
+        inset: "0",
+        zIndex: "9999",
+        display: "none",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "20px",
+        background: "rgba(0,0,0,.55)",
+        boxSizing: "border-box"
+      }
+    );
+
+
+    modal.innerHTML = `
+      <div style="
+        width:min(520px,100%);
+        max-height:90vh;
+        overflow:auto;
+        background:#fff;
+        color:#111;
+        border:4px solid #111;
+        border-radius:24px;
+        padding:24px;
+        box-sizing:border-box;
+        box-shadow:8px 8px 0 #111;
+      ">
+
+        <div style="
+          font-size:13px;
+          font-weight:900;
+          letter-spacing:.08em;
+          margin-bottom:6px;
+        ">
+          🧪 MODO PRUEBA
+        </div>
+
+
+        <h2 style="
+          margin:0 0 8px;
+          font-size:28px;
+        ">
+          Probá cualquier pista
+        </h2>
+
+
+        <p style="
+          margin:0 0 18px;
+          line-height:1.45;
+        ">
+          Este modo no cambia tu racha,
+          estadísticas ni puzzle del día.
+        </p>
+
+
+        <label
+          for="testPasswordInput"
+          style="
+            display:block;
+            font-weight:800;
+            margin-bottom:7px;
+          "
+        >
+          Contraseña
+        </label>
+
+
+        <input
+          id="testPasswordInput"
+          type="password"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="Ingresá la contraseña"
+          style="
+            width:100%;
+            padding:13px 14px;
+            border:3px solid #111;
+            border-radius:12px;
+            font-size:17px;
+            box-sizing:border-box;
+            margin-bottom:10px;
+          "
+        />
+
+
+        <div
+          id="testPasswordError"
+          style="
+            display:none;
+            color:#b00020;
+            font-weight:800;
+            margin:6px 0 12px;
+          "
+        >
+          Contraseña incorrecta.
+        </div>
+
+
+        <button
+          id="testPasswordBtn"
+          type="button"
+          style="
+            width:100%;
+            padding:13px 16px;
+            border:3px solid #111;
+            border-radius:12px;
+            background:#ffe66d;
+            color:#111;
+            font-weight:900;
+            font-size:16px;
+            cursor:pointer;
+          "
+        >
+          Entrar
+        </button>
+
+
+        <div
+          id="testPuzzleChooser"
+          style="
+            display:none;
+            margin-top:22px;
+          "
+        >
+
+          <label
+            for="testPuzzleSelect"
+            style="
+              display:block;
+              font-weight:800;
+              margin-bottom:7px;
+            "
+          >
+            Elegí una pista
+          </label>
+
+
+          <select
+            id="testPuzzleSelect"
+            style="
+              width:100%;
+              padding:13px 14px;
+              border:3px solid #111;
+              border-radius:12px;
+              font-size:15px;
+              background:#fff;
+              box-sizing:border-box;
+            "
+          ></select>
+
+
+          <button
+            id="testOpenPuzzleBtn"
+            type="button"
+            style="
+              width:100%;
+              padding:13px 16px;
+              margin-top:10px;
+              border:3px solid #111;
+              border-radius:12px;
+              background:#bde0fe;
+              color:#111;
+              font-weight:900;
+              font-size:16px;
+              cursor:pointer;
+            "
+          >
+            Probar esta pista
+          </button>
+
+
+          <button
+            id="testCancelBtn"
+            type="button"
+            style="
+              width:100%;
+              padding:11px 16px;
+              margin-top:8px;
+              border:0;
+              border-radius:12px;
+              background:transparent;
+              color:#111;
+              font-weight:800;
+              font-size:15px;
+              cursor:pointer;
+            "
+          >
+            Cancelar
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+
+    document.body.appendChild(
+      modal
+    );
+
+
+    const passwordInput =
+      $("#testPasswordInput");
+
+
+    const passwordBtn =
+      $("#testPasswordBtn");
+
+
+    const passwordError =
+      $("#testPasswordError");
+
+
+    const chooser =
+      $("#testPuzzleChooser");
+
+
+    const puzzleSelect =
+      $("#testPuzzleSelect");
+
+
+    const openPuzzleBtn =
+      $("#testOpenPuzzleBtn");
+
+
+    const cancelBtn =
+      $("#testCancelBtn");
+
+
+    function unlockTestMode() {
+
+      if (
+        passwordInput.value.trim() !==
+        "1999"
+      ) {
+
+        passwordError.style.display =
+          "block";
+
+
+        passwordInput.focus();
+
+        passwordInput.select();
+
+        return;
+
+      }
+
+
+      passwordError.style.display =
+        "none";
+
+
+      chooser.style.display =
+        "block";
+
+
+      passwordInput.style.display =
+        "none";
+
+
+      passwordBtn.style.display =
+        "none";
+
+
+      populateTestPuzzleSelect();
+
+      puzzleSelect.focus();
+
+    }
+
+
+    passwordBtn.addEventListener(
+      "click",
+      unlockTestMode
+    );
+
+
+    passwordInput.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key ===
+          "Enter"
+        ) {
+
+          event.preventDefault();
+
+          unlockTestMode();
+
+        }
+
+      }
+    );
+
+
+    openPuzzleBtn.addEventListener(
+      "click",
+      () => {
+
+        const index =
+          Number(
+            puzzleSelect.value
+          );
+
+
+        if (
+          !Number.isInteger(index) ||
+          !PUZZLES[index]
+        ) {
+
+          return;
+
+        }
+
+
+        closeTestModeModal();
+
+        enterTestMode(
+          PUZZLES[index]
+        );
+
+      }
+    );
+
+
+    cancelBtn.addEventListener(
+      "click",
+      closeTestModeModal
+    );
+
+
+    modal.addEventListener(
+      "click",
+      event => {
+
+        if (
+          event.target ===
+          modal
+        ) {
+
+          closeTestModeModal();
+
+        }
+
+      }
+    );
+
+
+    button.addEventListener(
+      "click",
+      openTestModeModal
+    );
+
+
+    testUIReady =
+      true;
+
+  }
+
+
+  function populateTestPuzzleSelect() {
+
+    const select =
+      $("#testPuzzleSelect");
+
+
+    if (
+      !select ||
+      !Array.isArray(PUZZLES)
+    ) {
+
+      return;
+
+    }
+
+
+    select.innerHTML =
+      "";
+
+
+    PUZZLES.forEach(
+      (puzzle, index) => {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+
+        option.value =
+          String(index);
+
+
+        const difficulty =
+          String(
+            puzzle.difficulty ||
+            "medium"
+          );
+
+
+        const mechanism =
+          Array.isArray(
+            puzzle.mechanisms
+          )
+            ? puzzle.mechanisms.join(
+                ", "
+              )
+            : "";
+
+
+        option.textContent =
+          `${index + 1}. ` +
+          `${puzzle.id || "puzzle"} — ` +
+          `${difficulty}` +
+          (
+            mechanism
+              ? ` — ${mechanism}`
+              : ""
+          );
+
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
+
+  }
+
+
+  function resetTestPasswordForm() {
+
+    const passwordInput =
+      $("#testPasswordInput");
+
+
+    const passwordBtn =
+      $("#testPasswordBtn");
+
+
+    const passwordError =
+      $("#testPasswordError");
+
+
+    const chooser =
+      $("#testPuzzleChooser");
+
+
+    if (
+      passwordInput
+    ) {
+
+      passwordInput.value =
+        "";
+
+
+      passwordInput.style.display =
+        "";
+
+    }
+
+
+    if (
+      passwordBtn
+    ) {
+
+      passwordBtn.style.display =
+        "";
+
+    }
+
+
+    if (
+      passwordError
+    ) {
+
+      passwordError.style.display =
+        "none";
+
+    }
+
+
+    if (
+      chooser
+    ) {
+
+      chooser.style.display =
+        "none";
+
+    }
+
+  }
+
+
+  function openTestModeModal() {
+
+    const modal =
+      $("#testModeModal");
+
+
+    if (!modal) {
+      return;
+    }
+
+
+    resetTestPasswordForm();
+
+
+    modal.classList.remove(
+      "hidden"
+    );
+
+
+    modal.style.display =
+      "flex";
+
+
+    setTimeout(
+      () =>
+        $("#testPasswordInput")?.focus(),
+      50
+    );
+
+  }
+
+
+  function closeTestModeModal() {
+
+    const modal =
+      $("#testModeModal");
+
+
+    if (!modal) {
+      return;
+    }
+
+
+    modal.classList.add(
+      "hidden"
+    );
+
+
+    modal.style.display =
+      "none";
+
+  }
+
+
+  function enterTestMode(
+    puzzle
+  ) {
+
+    if (!puzzle) {
+      return;
+    }
+
+
+    realStateBackup =
+      JSON.parse(
+        JSON.stringify(
+          state
+        )
+      );
+
+
+    testMode =
+      true;
+
+
+    state = {
+
+      ...state,
+
+      currentPuzzleId:
+        puzzle.id,
+
+      answer: [],
+
+      revealed: [],
+
+      started: false,
+
+      finished: false,
+
+      startTime: null,
+
+      elapsed: 0,
+
+      hintsUsed: {
+
+        fodder: false,
+
+        indicator: false,
+
+        definition: false
+
+      }
+
+    };
+
+
+    stopTimer();
+
+
+    renderPuzzle(
+      puzzle
+    );
+
+
+    showScreen(
+      gameScreen
+    );
+
+
+    setTestBadge(
+      true
+    );
+
+  }
+
+
+  function exitTestMode() {
+
+    stopTimer();
+
+
+    closeModal(
+      resultModal
+    );
+
+
+    closeModal(
+      hintModal
+    );
+
+
+    testMode =
+      false;
+
+
+    if (
+      realStateBackup
+    ) {
+
+      state =
+        realStateBackup;
+
+    }
+
+
+    realStateBackup =
+      null;
+
+
+    setTestBadge(
+      false
+    );
+
+
+    updateHome();
+
+
+    showScreen(
+      homeScreen
+    );
+
+  }
+
+
+  function setTestBadge(
+    visible
+  ) {
+
+    let badge =
+      $("#testModeBadge");
+
+
+    if (!badge) {
+
+      badge =
+        document.createElement(
+          "div"
+        );
+
+
+      badge.id =
+        "testModeBadge";
+
+
+      Object.assign(
+        badge.style,
+        {
+
+          display: "none",
+
+          width: "fit-content",
+
+          margin:
+            "0 auto 10px",
+
+          padding:
+            "6px 11px",
+
+          border:
+            "2px solid #111",
+
+          borderRadius:
+            "999px",
+
+          background:
+            "#ffd6e7",
+
+          color:
+            "#111",
+
+          fontSize:
+            "12px",
+
+          fontWeight:
+            "900",
+
+          letterSpacing:
+            ".05em",
+
+          boxSizing:
+            "border-box"
+
+        }
+      );
+
+
+      if (
+        gameScreen
+      ) {
+
+        gameScreen.prepend(
+          badge
+        );
+
+      }
+
+    }
+
+
+    badge.style.display =
+      visible
+        ? "block"
+        : "none";
 
   }
 
