@@ -951,16 +951,51 @@ function createTestModeUI() {
      RENDER DE LA PISTA
   ======================================================= */
 
-  function addHintInfo(container, type, value) {
+  function getHintValue(puzzle, type) {
+
+    if (!puzzle) return "";
+
+    if (type === "fodder") {
+      return String(puzzle.fodder || "");
+    }
+
+    if (type === "indicator") {
+      if (Array.isArray(puzzle.indicators)) {
+        return String(puzzle.indicators[0] || "");
+      }
+      return String(puzzle.indicators || "");
+    }
+
+    if (type === "definition") {
+      return String(puzzle.definition || "");
+    }
+
+    return "";
+  }
+
+  function renderClue(puzzle) {
+
+    if (!puzzle) {
+      return;
+    }
+
+    // Durante la partida la pista siempre se muestra limpia.
+    // Las ayudas aparecen únicamente en su propio cartelito.
+    clueText.textContent = String(puzzle.clue).replace(/[«»“”]/g, "");
+  }
+
+  function showHintResult(puzzle, type) {
+
+    const value = getHintValue(puzzle, type);
 
     if (!value) {
       return;
     }
 
     const labels = {
-      fodder: "Fodder",
-      indicator: "Indicador",
-      definition: "Definición"
+      fodder: "FODDER",
+      indicator: "INDICADOR",
+      definition: "DEFINICIÓN"
     };
 
     const colors = {
@@ -969,274 +1004,51 @@ function createTestModeUI() {
       definition: "#8ecae6"
     };
 
-    const item = document.createElement("div");
-    item.style.padding = "10px 14px";
-    item.style.border = "2px solid #111";
-    item.style.borderRadius = "12px";
-    item.style.background = "#fff";
-    item.style.fontSize = "15px";
-    item.style.lineHeight = "1.35";
+    let modal = document.getElementById("singleHintModal");
 
-    const label = document.createElement("strong");
-    label.textContent = labels[type] || type;
-    label.style.marginRight = "8px";
-    label.style.textDecoration = "underline";
-    label.style.textDecorationColor = colors[type] || "#111";
-    label.style.textDecorationThickness = "3px";
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = "singleHintModal";
+      modal.className = "modal hidden";
+      document.body.appendChild(modal);
+    }
 
-    const valueNode = document.createElement("span");
-    valueNode.textContent = String(value);
+    modal.innerHTML = `
+      <div class="modal-box single-hint-box">
+        <button class="modal-close" id="singleHintClose" aria-label="Cerrar">×</button>
+        <div class="eyebrow">PISTA</div>
+        <h2 id="singleHintTitle"></h2>
+        <div class="single-hint-value" id="singleHintValue"></div>
+        <button class="primary-btn" id="singleHintOk">Entendido</button>
+      </div>
+    `;
 
-    item.append(label, valueNode);
-    container.appendChild(item);
+    const title = modal.querySelector("#singleHintTitle");
+    const valueNode = modal.querySelector("#singleHintValue");
+    const close = modal.querySelector("#singleHintClose");
+    const ok = modal.querySelector("#singleHintOk");
+
+    title.textContent = labels[type] || "PISTA";
+    title.style.textDecoration = "underline";
+    title.style.textDecorationColor = colors[type] || "#111";
+    title.style.textDecorationThickness = "4px";
+    valueNode.textContent = value;
+
+    const closeHint = () => {
+      modal.classList.add("hidden");
+    };
+
+    close.addEventListener("click", closeHint);
+    ok.addEventListener("click", closeHint);
+
+    modal.addEventListener("click", event => {
+      if (event.target === modal) {
+        closeHint();
+      }
+    }, { once: true });
+
+    modal.classList.remove("hidden");
   }
-
-  function renderClue(
-    puzzle
-  ) {
-
-    if (!puzzle) {
-      return;
-    }
-
-    // Contenedor de ayuda: se crea dinámicamente para no depender
-    // de cambios en index.html. Si una pista no aparece literalmente
-    // dentro del clue, mostramos igualmente el dato solicitado aquí.
-    let hintInfo = document.getElementById("hintInfo");
-
-    if (!hintInfo) {
-      hintInfo = document.createElement("div");
-      hintInfo.id = "hintInfo";
-      hintInfo.style.marginTop = "18px";
-      hintInfo.style.display = "flex";
-      hintInfo.style.flexDirection = "column";
-      hintInfo.style.gap = "8px";
-      hintInfo.style.fontFamily = "inherit";
-      clueText.insertAdjacentElement("afterend", hintInfo);
-    }
-
-    hintInfo.innerHTML = "";
-
-    const activeHints =
-      Object.keys(
-        state.hintsUsed || {}
-      )
-      .filter(
-        type =>
-          state.hintsUsed[type]
-      );
-
-    const text =
-      String(puzzle.clue).replace(/[«»“”]/g, "");
-
-    if (activeHints.length === 0) {
-      clueText.textContent = text;
-      hintInfo.style.display = "none";
-      return;
-    }
-
-    hintInfo.style.display = "flex";
-
-
-    /*
-      Creamos segmentos de la frase
-      para poder tener varios subrayados
-      simultáneamente.
-    */
-
-    const ranges = [];
-
-
-    activeHints.forEach(
-      type => {
-
-        let target = "";
-
-
-        if (
-          type === "fodder"
-        ) {
-
-          target =
-            puzzle.fodder ||
-            "";
-
-        }
-
-
-        if (
-          type === "indicator"
-        ) {
-
-          if (
-            Array.isArray(
-              puzzle.indicators
-            )
-          ) {
-
-            target =
-              puzzle.indicators[0] ||
-              "";
-
-          } else {
-
-            target =
-              puzzle.indicators ||
-              "";
-
-          }
-
-        }
-
-
-        if (
-          type === "definition"
-        ) {
-
-          target =
-            puzzle.definition ||
-            "";
-
-        }
-
-
-        if (!target) {
-          return;
-        }
-
-
-        const index =
-          text.toLocaleLowerCase()
-            .indexOf(
-              String(target)
-                .toLocaleLowerCase()
-            );
-
-
-        if (
-          index === -1
-        ) {
-
-          // Algunos puzzles usan una definición, fodder o indicador
-          // conceptual que no aparece literalmente en la superficie.
-          // La pista debe seguir funcionando: mostramos el dato pedido
-          // debajo del clue en vez de fallar silenciosamente.
-          addHintInfo(hintInfo, type, target);
-          return;
-
-        }
-
-        addHintInfo(hintInfo, type, target);
-
-        ranges.push({
-
-          start: index,
-
-          end:
-            index +
-            String(target).length,
-
-          type
-
-        });
-
-      }
-    );
-
-
-    /*
-      Ordenamos los fragmentos.
-    */
-
-    ranges.sort(
-      (a, b) =>
-        a.start - b.start
-    );
-
-
-    /*
-      Evitamos problemas si dos ayudas
-      apuntan exactamente al mismo texto.
-    */
-
-    const finalRanges = [];
-
-
-    ranges.forEach(
-      range => {
-
-        const overlaps =
-          finalRanges.some(
-            existing =>
-              range.start <
-                existing.end &&
-              range.end >
-                existing.start
-          );
-
-
-        if (!overlaps) {
-
-          finalRanges.push(
-            range
-          );
-
-        }
-
-      }
-    );
-
-
-    /*
-      Construimos HTML seguro.
-    */
-
-    let html = "";
-
-    let cursor = 0;
-
-
-    finalRanges.forEach(
-      range => {
-
-        html +=
-          escapeHTML(
-            text.slice(
-              cursor,
-              range.start
-            )
-          );
-
-
-        html +=
-          `<span class="clue-highlight ${range.type}">` +
-          escapeHTML(
-            text.slice(
-              range.start,
-              range.end
-            )
-          ) +
-          `</span>`;
-
-
-        cursor =
-          range.end;
-
-      }
-    );
-
-
-    html +=
-      escapeHTML(
-        text.slice(cursor)
-      );
-
-
-    clueText.innerHTML =
-      html;
-
-  }
-
 
   /* =======================================================
      RESPUESTA
@@ -2192,43 +2004,24 @@ function createTestModeUI() {
     const puzzle =
       getCurrentPuzzle();
 
-
     if (!puzzle) {
       return;
     }
 
-
-    if (
-      state.hintsUsed[type]
-    ) {
-
+    if (state.hintsUsed[type]) {
       return;
-
     }
 
+    state.hintsUsed[type] = true;
 
-    state.hintsUsed[type] =
-      true;
-
-    // En modo prueba el estado es temporal: no se escribe en localStorage.
-    // En modo diario saveState() sí conserva el progreso normalmente.
     saveState();
 
-    closeModal(
-      hintModal
-    );
+    closeModal(hintModal);
 
-
-    /*
-      En lugar de abrir otro cartel,
-      simplemente marcamos la parte
-      correspondiente de la pista.
-    */
-
-    renderClue(
-      puzzle
-    );
-
+    // Cada elección abre SU propio cartelito.
+    // No se agregan cajas debajo de la pista ni se muestran
+    // simultáneamente las tres ayudas.
+    showHintResult(puzzle, type);
   }
 
 
