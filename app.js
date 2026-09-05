@@ -47,29 +47,31 @@ function enterTestMode(puzzleId) {
 
   if (!puzzle) return;
 
-  // Guardamos el estado real
+  // Guardamos una copia REAL del progreso diario. Nada de lo que ocurra
+  // durante la prueba debe tocarlo.
   realStateBackup = JSON.parse(JSON.stringify(state));
-
   testMode = true;
 
-  // Estado independiente para la prueba
+  // Estado completamente independiente para el crucigrama elegido.
   state = createEmptyTestState();
   state.currentPuzzleId = puzzle.id;
 
   stopTimer();
+  closeTestModeSelector();
+  closeModal(hintModal);
+  closeModal(resultModal);
 
-  closeModal("hintModal");
-  closeModal("resultModal");
+  // Activamos explícitamente la pantalla de juego. Esto evita depender de
+  // la navegación del botón diario y corrige el problema de quedar en Home.
+  homeScreen.classList.remove("active");
+  learnScreen.classList.remove("active");
+  gameScreen.classList.add("active");
 
   renderPuzzle(puzzle);
+  setTestModeVisuals(true);
 
-  // Mostrar la pantalla de juego usando el mismo sistema de navegación
-  // que utiliza el modo diario. No usamos .hidden porque las pantallas
-  // se controlan mediante la clase .active.
-  showScreen(gameScreen);
-
-  addTestModeBadge();
-
+  // No arrancamos el cronómetro hasta que el usuario empiece a responder,
+  // igual que en el modo diario.
   updateTestModeControls();
 }
 
@@ -78,7 +80,7 @@ function exitTestMode() {
 
   stopTimer();
 
-  // Restauramos exactamente el estado real
+  // Restauramos exactamente el estado real del modo diario.
   if (realStateBackup) {
     state = realStateBackup;
   }
@@ -86,13 +88,12 @@ function exitTestMode() {
   realStateBackup = null;
   testMode = false;
 
-  closeModal("hintModal");
-  closeModal("resultModal");
-
-  removeTestModeBadge();
+  closeModal(hintModal);
+  closeModal(resultModal);
+  setTestModeVisuals(false);
 
   updateHome();
-  showScreen("home");
+  showScreen(homeScreen);
 }
 
 function addTestModeBadge() {
@@ -101,44 +102,78 @@ function addTestModeBadge() {
   if (!gameScreen) return;
 
   const badge = document.createElement("div");
-
   badge.id = "testModeBadge";
   badge.textContent = "🧪 MODO PRUEBA";
-
   badge.style.cssText = `
-    display: inline-block;
-    margin: 10px auto;
-    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px auto 4px;
+    padding: 7px 14px;
     border: 3px solid #000;
     border-radius: 999px;
     background: #ffe66d;
-    font-weight: 800;
+    color: #000;
+    font-weight: 900;
     font-size: 13px;
+    box-shadow: 3px 3px 0 #000;
   `;
 
-  const firstChild = gameScreen.firstElementChild;
-
-  if (firstChild) {
-    firstChild.parentNode.insertBefore(badge, firstChild);
-  } else {
-    gameScreen.appendChild(badge);
-  }
+  gameScreen.insertBefore(badge, gameScreen.firstElementChild);
 }
 
 function removeTestModeBadge() {
   const badge = document.getElementById("testModeBadge");
+  if (badge) badge.remove();
+}
 
-  if (badge) {
-    badge.remove();
+function setTestModeVisuals(active) {
+  if (!gameScreen) return;
+
+  gameScreen.classList.toggle("test-mode-screen", active);
+
+  const label = gameScreen.querySelector(".daily-label");
+  if (label) {
+    label.textContent = active ? "MODO PRUEBA" : "CRÍPTICO DIARIO";
+  }
+
+  if (active) {
+    addTestModeBadge();
+  } else {
+    removeTestModeBadge();
+  }
+
+  let exitBtn = document.getElementById("exitTestModeBtn");
+
+  if (active && !exitBtn) {
+    exitBtn = document.createElement("button");
+    exitBtn.id = "exitTestModeBtn";
+    exitBtn.type = "button";
+    exitBtn.textContent = "Salir del modo prueba";
+    exitBtn.style.cssText = `
+      display: block;
+      width: min(540px, calc(100% - 32px));
+      margin: 10px auto 18px;
+      padding: 11px 16px;
+      border: 3px solid #000;
+      border-radius: 14px;
+      background: #fff;
+      color: #000;
+      font-weight: 900;
+      cursor: pointer;
+    `;
+    exitBtn.addEventListener("click", exitTestMode);
+    gameScreen.appendChild(exitBtn);
+  }
+
+  if (exitBtn) {
+    exitBtn.style.display = active ? "block" : "none";
   }
 }
 
 function updateTestModeControls() {
-  const btn = document.getElementById("exitTestModeBtn");
-
-  if (btn) {
-    btn.style.display = testMode ? "block" : "none";
-  }
+  setTestModeVisuals(testMode);
 }
 
 function openTestModeSelector() {
@@ -316,7 +351,8 @@ function createTestModeUI() {
     homophone: "Homófono",
     "double-definition": "Doble definición",
     translation: "Traducción",
-    rebus: "Rebus"
+    rebus: "Rebus",
+    charade: "Charade"
   };
 
 
@@ -2125,9 +2161,9 @@ function createTestModeUI() {
     state.hintsUsed[type] =
       true;
 
-
+    // En modo prueba el estado es temporal: no se escribe en localStorage.
+    // En modo diario saveState() sí conserva el progreso normalmente.
     saveState();
-
 
     closeModal(
       hintModal
