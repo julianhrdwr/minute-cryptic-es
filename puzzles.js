@@ -1,8 +1,61 @@
+// Banco interno de indicadores de anagrama. Se usa al construir/revisar nuevos puzzles.
+// No se muestra durante el juego.
+const MECHANISM_INDICATORS = {
+  anagram: {
+    medio: ["revuelto", "mezclado", "desordenado", "alterado", "barajado", "reordenado"],
+    medioDificil: ["trastocado", "alborotado", "enredado", "confundido", "disperso", "descolocado", "cruzado"],
+    dificil: ["perdido", "suelto", "fuera de lugar", "sin orden", "de cualquier manera", "patas arriba", "deshecho", "sin concierto"]
+  },
+  hidden: {
+    medio: ["oculto", "escondido", "dentro de", "entre", "en"],
+    medioDificil: ["guardado en", "encerrado en", "metido en", "alojado en", "escondido entre"],
+    dificil: ["perdido entre", "agazapado en", "disimulado en", "camuflado entre", "infiltrado en"]
+  },
+  deletion: {
+    medio: ["sin", "quitando", "sin la", "pierde", "elimina"],
+    medioDificil: ["dejando fuera", "al perder", "despojado de", "privado de", "sin su"],
+    dificil: ["desnudo de", "al caer", "tras perder", "con menos", "desprovisto de"]
+  },
+  reversal: {
+    medio: ["al revés", "de vuelta", "invertido", "retornado", "dado vuelta"],
+    medioDificil: ["volviendo", "regresando", "en retorno", "hacia atrás", "girado"],
+    dificil: ["reflejado", "en sentido contrario", "de regreso", "que vuelve", "mirando atrás"]
+  },
+  charade: {
+    medio: ["con", "más", "junto a", "seguido de", "tras"],
+    medioDificil: ["pegado a", "al lado de", "después de", "acompañado por", "sumado a"],
+    dificil: ["encadenado con", "a continuación de", "uniéndose a", "precedido por", "rematado con"]
+  },
+  homophone: {
+    medio: ["de oído", "al sonar", "que suena como", "según se oye", "sonando"],
+    medioDificil: ["dicho en voz alta", "al escucharlo", "por cómo suena", "oído así", "de palabra"],
+    dificil: ["para el oído", "si se pronuncia", "en boca de alguien", "como se escucha", "fonéticamente"]
+  },
+  initials: {
+    medio: ["al principio", "iniciales", "primeras", "comienzos", "cabezas"],
+    medioDificil: ["al empezar", "de entrada", "por sus comienzos", "primeras letras", "al inicio"],
+    dificil: ["abreviando desde el comienzo", "tomando sus arranques", "por lo primero", "en sus comienzos", "de entrada" ]
+  },
+  finals: {
+    medio: ["al final", "finales", "últimas", "terminaciones", "colas"],
+    medioDificil: ["por sus finales", "al terminar", "de salida", "últimas letras", "por detrás"],
+    dificil: ["tomando sus remates", "por lo último", "en sus terminaciones", "al cerrar", "de salida"]
+  },
+  container: {
+    medio: ["dentro de", "rodeando", "abrazando", "contiene", "encierra"],
+    medioDificil: ["envolviendo", "guardando", "abarcando", "metiendo en", "enmarcando"],
+    dificil: ["dándole cobijo a", "cerrando sobre", "abrazando por ambos lados", "englobando", "encajando en"]
+  }
+};
+
+// Alias de compatibilidad con cualquier código que ya use el banco de anagramas.
+const ANAGRAM_INDICATORS = MECHANISM_INDICATORS.anagram;
+
 const PUZZLES = [
   {
     "id": "d001",
     "difficulty": "medio+",
-    "clue": "Vehículo de carga que salió de una cartera revuelta. (7)",
+    "clue": "Vehículo de carga que salió de una cartera mezclada. (7)",
     "answer": "CARRETA",
     "mechanisms": [
       "anagram"
@@ -10,14 +63,14 @@ const PUZZLES = [
     "definition": "Vehículo de carga",
     "fodder": "cartera",
     "indicators": [
-      "revuelta"
+      "mezclada"
     ],
     "explanation": "«Vehículo de carga» define CARRETA. CARTERA, al estar «revuelta», se reordena exactamente como CARRETA."
   },
   {
     "id": "d002",
     "difficulty": "medio+",
-    "clue": "Orientar hacia el norte, con la tronera revuelta. (7)",
+    "clue": "Orientar hacia el norte, con la tronera alterada. (7)",
     "answer": "NORTEAR",
     "mechanisms": [
       "anagram"
@@ -25,7 +78,7 @@ const PUZZLES = [
     "definition": "Orientar hacia el norte",
     "fodder": "tronera",
     "indicators": [
-      "revuelta"
+      "alterada"
     ],
     "explanation": "«Orientar hacia el norte» define NORTEAR. TRONERA revuelta produce NORTEAR."
   },
@@ -62,7 +115,7 @@ const PUZZLES = [
   {
     "id": "d005",
     "difficulty": "difícil",
-    "clue": "Se sube peldaño a peldaño: nació de aceleras revuelto. (8)",
+    "clue": "Se sube peldaño a peldaño: nació de aceleras trastocadas. (8)",
     "answer": "ESCALERA",
     "mechanisms": [
       "anagram"
@@ -70,7 +123,7 @@ const PUZZLES = [
     "definition": "Se sube peldaño a peldaño",
     "fodder": "aceleras",
     "indicators": [
-      "revuelto"
+      "trastocadas"
     ],
     "explanation": "«Se sube peldaño a peldaño» define ESCALERA. ACELERAS revuelto produce ESCALERA."
   },
@@ -539,7 +592,7 @@ const PUZZLES = [
   {
     "id": "d038",
     "difficulty": "difícil",
-    "clue": "El lugar donde se descansa nació de una tarea alterada. (4)",
+    "clue": "El lugar donde se descansa nació de una tarea mezclada. (4)",
     "answer": "CAMA",
     "mechanisms": [
       "anagram"
@@ -547,14 +600,14 @@ const PUZZLES = [
     "definition": "El lugar donde se descansa",
     "fodder": "maca",
     "indicators": [
-      "alterada"
+      "mezclada"
     ],
     "explanation": "MACA alterada produce CAMA. «El lugar donde se descansa» define CAMA."
   },
   {
     "id": "d039",
     "difficulty": "difícil",
-    "clue": "El final de una comida nació de un presto cambiado de forma. (6)",
+    "clue": "El final de una comida nació cuando presto quedó trastocado. (6)",
     "answer": "POSTRE",
     "mechanisms": [
       "anagram"
@@ -562,14 +615,14 @@ const PUZZLES = [
     "definition": "El final de una comida",
     "fodder": "presto",
     "indicators": [
-      "cambiado de forma"
+      "trastocado"
     ],
     "explanation": "PRESTO reordenado produce POSTRE. «El final de una comida» define POSTRE."
   },
   {
     "id": "d040",
     "difficulty": "difícil",
-    "clue": "El animal doméstico nació de una gota alterada. (4)",
+    "clue": "El animal doméstico nació de una gota mezclada. (4)",
     "answer": "GATO",
     "mechanisms": [
       "anagram"
@@ -577,7 +630,7 @@ const PUZZLES = [
     "definition": "El animal doméstico",
     "fodder": "gota",
     "indicators": [
-      "alterada"
+      "mezclada"
     ],
     "explanation": "GOTA alterada produce GATO. «El animal doméstico» define GATO."
   },
@@ -599,7 +652,7 @@ const PUZZLES = [
   {
     "id": "d042",
     "difficulty": "difícil",
-    "clue": "Un lugar para dormir nació de una nuca alterada. (4)",
+    "clue": "Un lugar para dormir nació de una nuca reordenada. (4)",
     "answer": "CUNA",
     "mechanisms": [
       "anagram"
@@ -607,7 +660,7 @@ const PUZZLES = [
     "definition": "Un lugar para dormir",
     "fodder": "nuca",
     "indicators": [
-      "alterada"
+      "reordenada"
     ],
     "explanation": "NUCA alterada produce CUNA. «Un lugar para dormir» define CUNA."
   },
