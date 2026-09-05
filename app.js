@@ -11,6 +11,7 @@
   ======================================================= */
 
   const STORAGE_KEY = "criptico_diario_v2";
+const HINTS_STATE_VERSION = 2;
 
 // ============================================================
 // MODO PRUEBA
@@ -34,6 +35,8 @@ function createEmptyTestState() {
       indicator: false,
       definition: false
     },
+
+    hintsVersion: HINTS_STATE_VERSION,
     solved: 0,
     streak: 0,
     bestStreak: 0,
@@ -525,6 +528,8 @@ function createTestModeUI() {
           ...(parsed.hintsUsed || {})
         },
 
+        hintsVersion: Number(parsed.hintsVersion || 0),
+
         answer:
           Array.isArray(parsed.answer)
             ? parsed.answer
@@ -546,6 +551,19 @@ function createTestModeUI() {
             : []
 
       };
+
+      // Si venimos de una versión anterior, las pistas usadas no se
+      // arrastran. Esto evita que un cambio de archivos o una sesión de
+      // prueba haga que el puzzle del día aparezca ya subrayado.
+      if (state.hintsVersion !== HINTS_STATE_VERSION) {
+        state.hintsUsed = {
+          fodder: false,
+          indicator: false,
+          definition: false
+        };
+        state.hintsVersion = HINTS_STATE_VERSION;
+        saveState();
+      }
 
     } catch (error) {
 
@@ -745,6 +763,8 @@ function createTestModeUI() {
         definition: false
 
       };
+
+      state.hintsVersion = HINTS_STATE_VERSION;
 
 
       saveState();
