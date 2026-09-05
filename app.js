@@ -980,7 +980,7 @@ function createTestModeUI() {
     ) {
 
       clueText.textContent =
-        puzzle.clue;
+        String(puzzle.clue).replace(/[«»“”]/g, "");
 
       return;
 
@@ -994,7 +994,7 @@ function createTestModeUI() {
     */
 
     const text =
-      String(puzzle.clue);
+      String(puzzle.clue).replace(/[«»“”]/g, "");
 
 
     const ranges = [];
