@@ -146,15 +146,15 @@ const PUZZLES = [
   {
     "id": "d008",
     "difficulty": "difícil",
-    "clue": "Entre dos plantas hay un tramo que se escondió en una frase sobre algo que cruje. (8)",
-    "answer": "ESCALERA",
+    "clue": "Acuerdo que quedó perdido en un retrato familiar. (5)",
+    "answer": "TRATO",
     "mechanisms": [
       "hidden"
     ],
-    "definition": "Un edificio de peldaños",
-    "fodder": "la escalera cruje",
-    "indicators": ["se escondió en"],
-    "explanation": "«Entre dos plantas hay un tramo» define ESCALERA. ESCALERA aparece consecutivamente en «la escalera cruje»."
+    "definition": "Acuerdo",
+    "fodder": "un retrato familiar",
+    "indicators": ["perdido en"],
+    "explanation": "«Acuerdo» define TRATO. TRATO aparece oculto dentro de «retrato»."
   },
   {
     "id": "d009",
