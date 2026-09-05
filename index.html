@@ -1,482 +1,921 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f2ed">
+<title>Minute Cryptic — Español</title>
 
-  <title>Minute Cryptic — Español</title>
+<style>
+*{box-sizing:border-box}
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+:root{
+  --bg:#f4f2ed;
+  --ink:#171717;
+  --muted:#77736b;
+  --line:#dedbd3;
+  --card:#fff;
+  --soft:#efede7;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #f4f2ed;
-      color: #171717;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Arial,Helvetica,sans-serif;
+}
 
-    .app {
-      width: 100%;
-      max-width: 520px;
-      margin: auto;
-      padding: 24px 18px 40px;
-    }
+.app{
+  max-width:560px;
+  margin:auto;
+  min-height:100vh;
+  padding:22px 18px 42px;
+}
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 55px;
-    }
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:48px;
+}
 
-    .logo {
-      font-size: 19px;
-      font-weight: 900;
-      letter-spacing: -0.5px;
-    }
+.logo{
+  font-size:19px;
+  font-weight:900;
+  letter-spacing:-.5px;
+}
 
-    .logo span {
-      font-weight: 400;
-    }
+.logo span{
+  font-weight:400;
+}
 
-    .streak {
-      background: white;
-      border: 1px solid #dedbd3;
-      border-radius: 50px;
-      padding: 8px 13px;
-      font-size: 14px;
-      font-weight: bold;
-    }
+.streak{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:8px 13px;
+  font-size:14px;
+  font-weight:800;
+}
 
-    .eyebrow {
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 1.5px;
-      color: #77736b;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
+.eyebrow{
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:1.6px;
+  color:var(--muted);
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
 
-    h1 {
-      font-family: Georgia, serif;
-      font-size: 42px;
-      line-height: 0.98;
-      letter-spacing: -2px;
-      margin: 0 0 12px;
-    }
+h1{
+  font-family:Georgia,serif;
+  font-size:43px;
+  line-height:.98;
+  letter-spacing:-2.2px;
+  margin:0 0 13px;
+}
 
-    .subtitle {
-      color: #706d66;
-      margin-bottom: 30px;
-      font-size: 16px;
-    }
+.subtitle{
+  color:#706d66;
+  font-size:16px;
+  margin-bottom:28px;
+}
 
-    .card {
-      background: white;
-      border: 1px solid #dedbd3;
-      border-radius: 24px;
-      padding: 23px;
-      box-shadow: 0 12px 35px rgba(0,0,0,0.05);
-    }
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 12px 35px #00000008;
+}
 
-    .difficulty {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      background: #f0eee8;
-      padding: 7px 10px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-    }
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:19px;
+}
 
-    .clue {
-      font-family: Georgia, serif;
-      font-size: 25px;
-      line-height: 1.35;
-      margin-bottom: 25px;
-    }
+.difficulty{
+  display:inline-block;
+  font-size:11px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  background:var(--soft);
+  padding:7px 10px;
+  border-radius:20px;
+}
 
-    .length {
-      color: #77736b;
-      font-size: 15px;
-    }
+.number{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:700;
+}
 
-    input {
-      width: 100%;
-      border: 2px solid #d9d6ce;
-      border-radius: 14px;
-      padding: 15px;
-      font-size: 21px;
-      outline: none;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
+.clue{
+  font-family:Georgia,serif;
+  font-size:26px;
+  line-height:1.35;
+  margin-bottom:24px;
+}
 
-    input:focus {
-      border-color: #171717;
-    }
+input{
+  width:100%;
+  border:2px solid #d9d6ce;
+  border-radius:14px;
+  padding:15px;
+  font-size:21px;
+  outline:none;
+  text-transform:uppercase;
+  margin-bottom:10px;
+  background:#fff;
+}
 
-    button {
-      width: 100%;
-      border: 0;
-      border-radius: 14px;
-      padding: 15px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 8px;
-    }
+input:focus{
+  border-color:var(--ink);
+}
 
-    .check {
-      background: #171717;
-      color: white;
-    }
+button{
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:15px;
+  font-size:15px;
+  font-weight:900;
+  cursor:pointer;
+  margin-top:8px;
+}
 
-    .hint-button {
-      background: #eeeae2;
-      color: #222;
-    }
+.primary{
+  background:var(--ink);
+  color:#fff;
+}
 
-    .hint {
-      display: none;
-      margin-top: 18px;
-      padding: 15px;
-      background: #f5f3ee;
-      border-radius: 13px;
-      color: #68645d;
-      font-size: 14px;
-      line-height: 1.5;
-    }
+.secondary{
+  background:var(--soft);
+  color:#222;
+}
 
-    .result {
-      display: none;
-      margin-top: 18px;
-      padding: 17px;
-      background: #f3f1eb;
-      border-radius: 14px;
-      line-height: 1.5;
-    }
+.tools{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:8px;
+}
 
-    .result-title {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
+.tools button{
+  font-size:13px;
+}
 
-    .answer {
-      font-family: Georgia, serif;
-      font-size: 29px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
+.timer{
+  text-align:center;
+  margin:19px 0 2px;
+  font-variant-numeric:tabular-nums;
+  font-size:14px;
+  color:var(--muted);
+}
 
-    .explanation {
-      color: #65615a;
-      font-size: 14px;
-    }
+.timer strong{
+  color:var(--ink);
+}
 
-    .timer {
-      text-align: center;
-      margin: 20px 0 3px;
-      font-variant-numeric: tabular-nums;
-      font-size: 14px;
-      color: #77736b;
-    }
+.hint,
+.result{
+  display:none;
+  margin-top:17px;
+  padding:16px;
+  border-radius:14px;
+  line-height:1.5;
+}
 
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 14px;
-    }
+.hint{
+  background:var(--soft);
+  color:#65615a;
+  font-size:14px;
+}
 
-    .stat {
-      background: white;
-      border: 1px solid #dedbd3;
-      border-radius: 16px;
-      padding: 16px;
-    }
+.result{
+  background:#f1efe9;
+}
 
-    .stat strong {
-      display: block;
-      font-size: 23px;
-      margin-bottom: 3px;
-    }
+.result-title{
+  font-weight:900;
+  margin-bottom:5px;
+}
 
-    .stat small {
-      color: #77736b;
-    }
+.answer{
+  font-family:Georgia,serif;
+  font-size:30px;
+  font-weight:900;
+  margin-bottom:8px;
+}
 
-    footer {
-      text-align: center;
-      color: #99958d;
-      font-size: 12px;
-      margin-top: 30px;
-    }
-  </style>
+.explanation{
+  color:#65615a;
+  font-size:14px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+  margin-top:14px;
+}
+
+.stat{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:14px;
+}
+
+.stat strong{
+  display:block;
+  font-size:21px;
+  margin-bottom:3px;
+}
+
+.stat small{
+  color:var(--muted);
+}
+
+footer{
+  text-align:center;
+  color:#99958d;
+  font-size:12px;
+  margin-top:28px;
+}
+
+.disabled{
+  opacity:.55;
+  pointer-events:none;
+}
+</style>
 </head>
 
 <body>
 
-  <main class="app">
+<main class="app">
 
-    <header>
-      <div class="logo">
-        MINUTE <span>CRYPTIC</span>
-      </div>
+<header>
 
-      <div class="streak">
-        🔥 <span id="streak">0</span>
-      </div>
-    </header>
+  <div class="logo">
+    MINUTE <span>CRYPTIC</span>
+  </div>
 
-    <div class="eyebrow">
-      Acertijo del día
+  <div class="streak">
+    🔥 <span id="streak">0</span>
+  </div>
+
+</header>
+
+
+<div class="eyebrow">
+  Acertijo del día
+</div>
+
+
+<h1>
+  ¿Podés<br>
+  resolverlo?
+</h1>
+
+
+<div class="subtitle">
+  Una pista. Una respuesta. Un minuto.
+</div>
+
+
+<section class="card" id="card">
+
+  <div class="top">
+
+    <div class="difficulty" id="difficulty">
+      Fácil
     </div>
 
-    <h1>
-      ¿Podés<br>
-      resolverlo?
-    </h1>
-
-    <div class="subtitle">
-      Una pista. Una respuesta. Un minuto.
+    <div class="number" id="number">
     </div>
 
-    <section class="card">
-
-      <div class="difficulty">
-        Fácil
-      </div>
-
-      <div class="clue">
-        Ave escondida en
-        “caLOROsa”.
-        <span class="length">(4)</span>
-      </div>
-
-      <input
-        id="answer"
-        type="text"
-        placeholder="Tu respuesta"
-        autocomplete="off"
-        autocapitalize="characters"
-      >
-
-      <button class="check" onclick="checkAnswer()">
-        COMPROBAR
-      </button>
-
-      <button class="hint-button" onclick="showHint()">
-        💡 DARME UNA PISTA
-      </button>
-
-      <div id="hint" class="hint">
-        La respuesta aparece literalmente dentro de otra palabra.
-      </div>
-
-      <div id="result" class="result"></div>
-
-      <div class="timer">
-        ⏱️ <span id="timer">00:00</span>
-      </div>
-
-    </section>
-
-    <div class="stats">
-
-      <div class="stat">
-        <strong id="solved">0</strong>
-        <small>Resueltos</small>
-      </div>
-
-      <div class="stat">
-        <strong id="best">—</strong>
-        <small>Mejor tiempo</small>
-      </div>
-
-    </div>
-
-    <footer>
-      Minute Cryptic Español · Prototipo
-    </footer>
-
-  </main>
+  </div>
 
 
-  <script>
-
-    const correctAnswer = "LORO";
-
-    const startTime = Date.now();
-
-    let solved =
-      Number(localStorage.getItem("solved") || 0);
-
-    let best =
-      Number(localStorage.getItem("best") || 0);
-
-    let streak =
-      Number(localStorage.getItem("streak") || 0);
+  <div class="clue" id="clue">
+  </div>
 
 
-    document.getElementById("solved").textContent = solved;
+  <input
+    id="answer"
+    type="text"
+    placeholder="Tu respuesta"
+    autocomplete="off"
+    autocapitalize="characters"
+  >
+
+
+  <button
+    class="primary"
+    id="checkBtn"
+    onclick="checkAnswer()"
+  >
+    COMPROBAR
+  </button>
+
+
+  <div class="tools">
+
+    <button
+      class="secondary"
+      onclick="showHint()"
+    >
+      💡 PISTA
+    </button>
+
+    <button
+      class="secondary"
+      onclick="revealLetter()"
+    >
+      🔤 LETRA
+    </button>
+
+  </div>
+
+
+  <div id="hint" class="hint">
+  </div>
+
+
+  <div id="result" class="result">
+  </div>
+
+
+  <div class="timer">
+    ⏱️ <strong id="timer">01:00</strong>
+  </div>
+
+</section>
+
+
+<div class="stats">
+
+  <div class="stat">
+    <strong id="solved">0</strong>
+    <small>Resueltos</small>
+  </div>
+
+  <div class="stat">
+    <strong id="best">—</strong>
+    <small>Mejor tiempo</small>
+  </div>
+
+  <div class="stat">
+    <strong id="played">0</strong>
+    <small>Jugados</small>
+  </div>
+
+</div>
+
+
+<footer>
+  Minute Cryptic Español · versión 0.2
+</footer>
+
+</main>
+
+
+<script>
+
+const puzzles = [
+
+  {
+    a:"AMOR",
+    d:"Cariño, en desorden de ROMA. (4)",
+    t:"Anagrama",
+    e:"ROMA desordenado puede formar AMOR.",
+    h:"La palabra indicada para mezclar es ROMA.",
+    diff:"Fácil"
+  },
+
+  {
+    a:"ROMA",
+    d:"Ciudad italiana que aparece al ordenar AMOR. (4)",
+    t:"Anagrama",
+    e:"AMOR reordenado forma ROMA.",
+    h:"Hay que cambiar el orden de las letras de AMOR.",
+    diff:"Fácil"
+  },
+
+  {
+    a:"MORA",
+    d:"Fruta escondida en MORADO. (4)",
+    t:"Palabra escondida",
+    e:"MORA aparece literalmente dentro de MORADO.",
+    h:"Buscá cuatro letras consecutivas al comienzo de MORADO.",
+    diff:"Fácil"
+  },
+
+  {
+    a:"LOBO",
+    d:"Animal que queda al quitar la S final de LOBOS. (4)",
+    t:"Eliminación",
+    e:"LOBOS sin su última letra, S, queda LOBO.",
+    h:"Quitale la última letra a LOBOS.",
+    diff:"Fácil"
+  },
+
+  {
+    a:"COPA",
+    d:"Vaso o parte alta de un árbol. (4)",
+    t:"Doble definición",
+    e:"COPA puede ser un recipiente para beber y también la parte superior de un árbol.",
+    h:"La misma palabra tiene dos significados.",
+    diff:"Fácil"
+  },
+
+  {
+    a:"AVE",
+    d:"Animal volador escondido en CLAVE. (3)",
+    t:"Palabra escondida",
+    e:"CLAVE contiene literalmente AVE.",
+    h:"Está dentro de una palabra muy común.",
+    diff:"Fácil"
+  }
+
+];
+
+
+function normalize(text){
+
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .trim()
+    .toUpperCase();
+
+}
+
+
+const today = new Date();
+
+
+const key =
+  today.getFullYear()
+  + "-"
+  + String(today.getMonth()+1).padStart(2,"0")
+  + "-"
+  + String(today.getDate()).padStart(2,"0");
+
+
+let seed = 0;
+
+
+for(const c of key){
+
+  seed =
+    (seed * 31 + c.charCodeAt(0))
+    >>> 0;
+
+}
+
+
+const index =
+  seed % puzzles.length;
+
+
+const puzzle =
+  puzzles[index];
+
+
+document.getElementById("clue").textContent =
+  puzzle.d;
+
+
+document.getElementById("difficulty").textContent =
+  puzzle.diff;
+
+
+document.getElementById("number").textContent =
+  "ACERTIJO #" +
+  String(index+1).padStart(2,"0");
+
+
+document.getElementById("hint").textContent =
+  puzzle.h;
+
+
+let solved =
+  Number(localStorage.getItem("solved") || 0);
+
+
+let played =
+  Number(localStorage.getItem("played") || 0);
+
+
+let best =
+  Number(localStorage.getItem("best") || 0);
+
+
+let streak =
+  Number(localStorage.getItem("streak") || 0);
+
+
+document.getElementById("solved").textContent =
+  solved;
+
+
+document.getElementById("played").textContent =
+  played;
+
+
+document.getElementById("best").textContent =
+  best ? best + "s" : "—";
+
+
+document.getElementById("streak").textContent =
+  streak;
+
+
+const stateKey =
+  "played-" + key;
+
+
+let alreadyPlayed =
+  localStorage.getItem(stateKey) === "1";
+
+
+let start =
+  Date.now();
+
+
+let finished =
+  false;
+
+
+let remaining =
+  60;
+
+
+if(alreadyPlayed){
+
+  finish(false,true);
+
+}
+
+
+function tick(){
+
+  if(finished) return;
+
+
+  remaining =
+    Math.max(
+      0,
+      60 -
+      Math.floor(
+        (Date.now() - start) / 1000
+      )
+    );
+
+
+  document.getElementById("timer").textContent =
+    "00:" +
+    String(remaining).padStart(2,"0");
+
+
+  if(remaining <= 10){
+
+    document.getElementById("timer").style.fontWeight =
+      "900";
+
+  }
+
+
+  if(remaining === 0){
+
+    timeUp();
+
+  }
+
+}
+
+
+setInterval(tick,250);
+
+
+function showHint(){
+
+  document.getElementById("hint").style.display =
+    "block";
+
+}
+
+
+function revealLetter(){
+
+  if(finished) return;
+
+
+  const input =
+    document.getElementById("answer");
+
+
+  const current =
+    normalize(input.value);
+
+
+  const position =
+    current.length;
+
+
+  if(position < puzzle.a.length){
+
+    input.value =
+      puzzle.a.slice(0,position+1);
+
+    input.focus();
+
+  }
+
+}
+
+
+function checkAnswer(){
+
+  if(finished) return;
+
+
+  const input =
+    document.getElementById("answer");
+
+
+  const result =
+    document.getElementById("result");
+
+
+  const value =
+    normalize(input.value);
+
+
+  if(!value){
+
+    result.style.display =
+      "block";
+
+    result.innerHTML =
+      "Escribí una respuesta primero.";
+
+    return;
+
+  }
+
+
+  if(value === normalize(puzzle.a)){
+
+    const seconds =
+      Math.max(
+        1,
+        60 - remaining
+      );
+
+
+    solved++;
+
+    played++;
+
+
+    if(!best || seconds < best){
+
+      best =
+        seconds;
+
+      localStorage.setItem(
+        "best",
+        best
+      );
+
+    }
+
+
+    streak++;
+
+
+    localStorage.setItem(
+      "solved",
+      solved
+    );
+
+
+    localStorage.setItem(
+      "played",
+      played
+    );
+
+
+    localStorage.setItem(
+      "streak",
+      streak
+    );
+
+
+    localStorage.setItem(
+      stateKey,
+      "1"
+    );
+
+
+    result.style.display =
+      "block";
+
+
+    result.innerHTML =
+
+      '<div class="result-title">' +
+      '✅ ¡Correcto!' +
+      '</div>' +
+
+      '<div class="answer">' +
+      puzzle.a +
+      '</div>' +
+
+      '<div class="explanation">' +
+
+      '<b>Mecanismo:</b> ' +
+      puzzle.t +
+      '.<br><br>' +
+
+      puzzle.e +
+
+      '</div>';
+
+
+    document.getElementById("solved").textContent =
+      solved;
+
+
+    document.getElementById("played").textContent =
+      played;
+
 
     document.getElementById("best").textContent =
-      best ? best + "s" : "—";
+      best + "s";
+
 
     document.getElementById("streak").textContent =
       streak;
 
 
-    function updateTimer() {
+    finish(true,false);
 
-      const seconds =
-        Math.floor((Date.now() - startTime) / 1000);
+  }
 
-      const minutes =
-        Math.floor(seconds / 60);
+  else{
 
-      const remainingSeconds =
-        seconds % 60;
-
-      document.getElementById("timer").textContent =
-        String(minutes).padStart(2, "0") +
-        ":" +
-        String(remainingSeconds).padStart(2, "0");
-    }
+    result.style.display =
+      "block";
 
 
-    setInterval(updateTimer, 1000);
+    result.innerHTML =
+      "❌ No es esa. Pensalo un poco más.";
+
+  }
+
+}
 
 
-    function showHint() {
+function timeUp(){
 
-      document.getElementById("hint").style.display =
-        "block";
-    }
+  if(finished) return;
 
 
-    function checkAnswer() {
-
-      const input =
-        document.getElementById("answer");
-
-      const result =
-        document.getElementById("result");
-
-      const answer =
-        input.value.trim().toUpperCase();
+  played++;
 
 
-      if (!answer) {
+  localStorage.setItem(
+    "played",
+    played
+  );
 
-        result.style.display = "block";
 
-        result.innerHTML =
-          "Escribí una respuesta primero.";
+  document.getElementById("played").textContent =
+    played;
 
-        return;
+
+  const result =
+    document.getElementById("result");
+
+
+  result.style.display =
+    "block";
+
+
+  result.innerHTML =
+
+    '<div class="result-title">' +
+    '⏰ Se terminó el minuto.' +
+    '</div>' +
+
+    '<div class="answer">' +
+    puzzle.a +
+    '</div>' +
+
+    '<div class="explanation">' +
+
+    '<b>Mecanismo:</b> ' +
+    puzzle.t +
+    '.<br><br>' +
+
+    puzzle.e +
+
+    '</div>';
+
+
+  localStorage.setItem(
+    stateKey,
+    "1"
+  );
+
+
+  finish(false,false);
+
+}
+
+
+function finish(won,restore){
+
+  finished =
+    true;
+
+
+  document.getElementById("card")
+    .classList.add("done");
+
+
+  document.getElementById("answer")
+    .disabled = true;
+
+
+  document.getElementById("checkBtn")
+    .classList.add("disabled");
+
+
+  if(restore){
+
+    document.getElementById("result")
+      .style.display = "block";
+
+
+    document.getElementById("result")
+      .innerHTML =
+
+      '<div class="result-title">' +
+      '📅 Ya jugaste hoy.' +
+      '</div>' +
+
+      '<div class="answer">' +
+      puzzle.a +
+      '</div>' +
+
+      '<div class="explanation">' +
+      puzzle.e +
+      '</div>';
+
+
+    document.getElementById("timer")
+      .textContent = "—";
+
+  }
+
+  else{
+
+    document.getElementById("timer")
+      .textContent =
+      won
+      ? "00:" +
+        String(remaining).padStart(2,"0")
+      : "00:00";
+
+  }
+
+}
+
+
+document
+  .getElementById("answer")
+  .addEventListener(
+    "keydown",
+    function(event){
+
+      if(event.key === "Enter"){
+
+        checkAnswer();
+
       }
 
-
-      if (answer === correctAnswer) {
-
-        const seconds =
-          Math.max(
-            1,
-            Math.floor((Date.now() - startTime) / 1000)
-          );
-
-
-        solved++;
-
-        if (!best || seconds < best) {
-
-          best = seconds;
-
-          localStorage.setItem(
-            "best",
-            best
-          );
-        }
-
-
-        streak++;
-
-        localStorage.setItem(
-          "solved",
-          solved
-        );
-
-        localStorage.setItem(
-          "streak",
-          streak
-        );
-
-
-        document.getElementById("solved").textContent =
-          solved;
-
-        document.getElementById("best").textContent =
-          best + "s";
-
-        document.getElementById("streak").textContent =
-          streak;
-
-
-        result.style.display = "block";
-
-        result.innerHTML = `
-          <div class="result-title">
-            ✅ ¡Correcto!
-          </div>
-
-          <div class="answer">
-            LORO
-          </div>
-
-          <div class="explanation">
-            <b>Mecanismo:</b> palabra escondida.<br><br>
-
-            ca<strong>LORO</strong>sa contiene
-            literalmente la respuesta.
-          </div>
-        `;
-
-
-        input.disabled = true;
-
-      } else {
-
-        result.style.display = "block";
-
-        result.innerHTML =
-          "❌ No es esa. Probá de nuevo.";
-      }
-
     }
+  );
 
-
-    document
-      .getElementById("answer")
-      .addEventListener(
-        "keydown",
-        function(event) {
-
-          if (event.key === "Enter") {
-            checkAnswer();
-          }
-
-        }
-      );
-
-  </script>
+</script>
 
 </body>
 </html>
