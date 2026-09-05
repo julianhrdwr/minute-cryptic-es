@@ -306,7 +306,7 @@ button:disabled {
 }
 
 .mechanism-badge {
-  background: var(--yellow);
+  display: none;
 }
 
 .clue-area {
