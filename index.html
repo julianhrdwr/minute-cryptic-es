@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Minute Cryptic — Español</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #f4f2ed;
+      color: #171717;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 520px;
+      margin: auto;
+      padding: 24px 18px 40px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 55px;
+    }
+
+    .logo {
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      font-weight: 400;
+    }
+
+    .streak {
+      background: white;
+      border: 1px solid #dedbd3;
+      border-radius: 50px;
+      padding: 8px 13px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      color: #77736b;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: Georgia, serif;
+      font-size: 42px;
+      line-height: 0.98;
+      letter-spacing: -2px;
+      margin: 0 0 12px;
+    }
+
+    .subtitle {
+      color: #706d66;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #dedbd3;
+      border-radius: 24px;
+      padding: 23px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.05);
+    }
+
+    .difficulty {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: #f0eee8;
+      padding: 7px 10px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .clue {
+      font-family: Georgia, serif;
+      font-size: 25px;
+      line-height: 1.35;
+      margin-bottom: 25px;
+    }
+
+    .length {
+      color: #77736b;
+      font-size: 15px;
+    }
+
+    input {
+      width: 100%;
+      border: 2px solid #d9d6ce;
+      border-radius: 14px;
+      padding: 15px;
+      font-size: 21px;
+      outline: none;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    input:focus {
+      border-color: #171717;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 14px;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .check {
+      background: #171717;
+      color: white;
+    }
+
+    .hint-button {
+      background: #eeeae2;
+      color: #222;
+    }
+
+    .hint {
+      display: none;
+      margin-top: 18px;
+      padding: 15px;
+      background: #f5f3ee;
+      border-radius: 13px;
+      color: #68645d;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .result {
+      display: none;
+      margin-top: 18px;
+      padding: 17px;
+      background: #f3f1eb;
+      border-radius: 14px;
+      line-height: 1.5;
+    }
+
+    .result-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .answer {
+      font-family: Georgia, serif;
+      font-size: 29px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .explanation {
+      color: #65615a;
+      font-size: 14px;
+    }
+
+    .timer {
+      text-align: center;
+      margin: 20px 0 3px;
+      font-variant-numeric: tabular-nums;
+      font-size: 14px;
+      color: #77736b;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .stat {
+      background: white;
+      border: 1px solid #dedbd3;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 23px;
+      margin-bottom: 3px;
+    }
+
+    .stat small {
+      color: #77736b;
+    }
+
+    footer {
+      text-align: center;
+      color: #99958d;
+      font-size: 12px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="app">
+
+    <header>
+      <div class="logo">
+        MINUTE <span>CRYPTIC</span>
+      </div>
+
+      <div class="streak">
+        🔥 <span id="streak">0</span>
+      </div>
+    </header>
+
+    <div class="eyebrow">
+      Acertijo del día
+    </div>
+
+    <h1>
+      ¿Podés<br>
+      resolverlo?
+    </h1>
+
+    <div class="subtitle">
+      Una pista. Una respuesta. Un minuto.
+    </div>
+
+    <section class="card">
+
+      <div class="difficulty">
+        Fácil
+      </div>
+
+      <div class="clue">
+        Ave escondida en
+        “caLOROsa”.
+        <span class="length">(4)</span>
+      </div>
+
+      <input
+        id="answer"
+        type="text"
+        placeholder="Tu respuesta"
+        autocomplete="off"
+        autocapitalize="characters"
+      >
+
+      <button class="check" onclick="checkAnswer()">
+        COMPROBAR
+      </button>
+
+      <button class="hint-button" onclick="showHint()">
+        💡 DARME UNA PISTA
+      </button>
+
+      <div id="hint" class="hint">
+        La respuesta aparece literalmente dentro de otra palabra.
+      </div>
+
+      <div id="result" class="result"></div>
+
+      <div class="timer">
+        ⏱️ <span id="timer">00:00</span>
+      </div>
+
+    </section>
+
+    <div class="stats">
+
+      <div class="stat">
+        <strong id="solved">0</strong>
+        <small>Resueltos</small>
+      </div>
+
+      <div class="stat">
+        <strong id="best">—</strong>
+        <small>Mejor tiempo</small>
+      </div>
+
+    </div>
+
+    <footer>
+      Minute Cryptic Español · Prototipo
+    </footer>
+
+  </main>
+
+
+  <script>
+
+    const correctAnswer = "LORO";
+
+    const startTime = Date.now();
+
+    let solved =
+      Number(localStorage.getItem("solved") || 0);
+
+    let best =
+      Number(localStorage.getItem("best") || 0);
+
+    let streak =
+      Number(localStorage.getItem("streak") || 0);
+
+
+    document.getElementById("solved").textContent = solved;
+
+    document.getElementById("best").textContent =
+      best ? best + "s" : "—";
+
+    document.getElementById("streak").textContent =
+      streak;
+
+
+    function updateTimer() {
+
+      const seconds =
+        Math.floor((Date.now() - startTime) / 1000);
+
+      const minutes =
+        Math.floor(seconds / 60);
+
+      const remainingSeconds =
+        seconds % 60;
+
+      document.getElementById("timer").textContent =
+        String(minutes).padStart(2, "0") +
+        ":" +
+        String(remainingSeconds).padStart(2, "0");
+    }
+
+
+    setInterval(updateTimer, 1000);
+
+
+    function showHint() {
+
+      document.getElementById("hint").style.display =
+        "block";
+    }
+
+
+    function checkAnswer() {
+
+      const input =
+        document.getElementById("answer");
+
+      const result =
+        document.getElementById("result");
+
+      const answer =
+        input.value.trim().toUpperCase();
+
+
+      if (!answer) {
+
+        result.style.display = "block";
+
+        result.innerHTML =
+          "Escribí una respuesta primero.";
+
+        return;
+      }
+
+
+      if (answer === correctAnswer) {
+
+        const seconds =
+          Math.max(
+            1,
+            Math.floor((Date.now() - startTime) / 1000)
+          );
+
+
+        solved++;
+
+        if (!best || seconds < best) {
+
+          best = seconds;
+
+          localStorage.setItem(
+            "best",
+            best
+          );
+        }
+
+
+        streak++;
+
+        localStorage.setItem(
+          "solved",
+          solved
+        );
+
+        localStorage.setItem(
+          "streak",
+          streak
+        );
+
+
+        document.getElementById("solved").textContent =
+          solved;
+
+        document.getElementById("best").textContent =
+          best + "s";
+
+        document.getElementById("streak").textContent =
+          streak;
+
+
+        result.style.display = "block";
+
+        result.innerHTML = `
+          <div class="result-title">
+            ✅ ¡Correcto!
+          </div>
+
+          <div class="answer">
+            LORO
+          </div>
+
+          <div class="explanation">
+            <b>Mecanismo:</b> palabra escondida.<br><br>
+
+            ca<strong>LORO</strong>sa contiene
+            literalmente la respuesta.
+          </div>
+        `;
+
+
+        input.disabled = true;
+
+      } else {
+
+        result.style.display = "block";
+
+        result.innerHTML =
+          "❌ No es esa. Probá de nuevo.";
+      }
+
+    }
+
+
+    document
+      .getElementById("answer")
+      .addEventListener(
+        "keydown",
+        function(event) {
+
+          if (event.key === "Enter") {
+            checkAnswer();
+          }
+
+        }
+      );
+
+  </script>
+
+</body>
+</html>
