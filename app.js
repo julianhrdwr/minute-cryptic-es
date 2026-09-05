@@ -12,7 +12,297 @@
 
   const STORAGE_KEY = "criptico_diario_v2";
 
+// ============================================================
+// MODO PRUEBA
+// ============================================================
 
+let testMode = false;
+let realStateBackup = null;
+
+function createEmptyTestState() {
+  return {
+    currentPuzzleId: null,
+    currentDate: null,
+    answer: [],
+    revealed: [],
+    started: false,
+    finished: false,
+    startTime: null,
+    elapsed: 0,
+    hintsUsed: {
+      fodder: false,
+      indicator: false,
+      definition: false
+    },
+    solved: 0,
+    streak: 0,
+    bestStreak: 0,
+    times: [],
+    completedDates: []
+  };
+}
+
+function enterTestMode(puzzleId) {
+  const puzzle = PUZZLES.find(p => p.id === puzzleId);
+
+  if (!puzzle) return;
+
+  // Guardamos el estado real
+  realStateBackup = JSON.parse(JSON.stringify(state));
+
+  testMode = true;
+
+  // Estado independiente para la prueba
+  state = createEmptyTestState();
+  state.currentPuzzleId = puzzle.id;
+
+  stopTimer();
+
+  closeModal("hintModal");
+  closeModal("resultModal");
+
+  renderPuzzle();
+
+  if (gameScreen) {
+    gameScreen.classList.remove("hidden");
+  }
+
+  if (homeScreen) {
+    homeScreen.classList.add("hidden");
+  }
+
+  addTestModeBadge();
+
+  updateTestModeControls();
+}
+
+function exitTestMode() {
+  if (!testMode) return;
+
+  stopTimer();
+
+  // Restauramos exactamente el estado real
+  if (realStateBackup) {
+    state = realStateBackup;
+  }
+
+  realStateBackup = null;
+  testMode = false;
+
+  closeModal("hintModal");
+  closeModal("resultModal");
+
+  removeTestModeBadge();
+
+  updateHome();
+  showScreen("home");
+}
+
+function addTestModeBadge() {
+  removeTestModeBadge();
+
+  if (!gameScreen) return;
+
+  const badge = document.createElement("div");
+
+  badge.id = "testModeBadge";
+  badge.textContent = "🧪 MODO PRUEBA";
+
+  badge.style.cssText = `
+    display: inline-block;
+    margin: 10px auto;
+    padding: 6px 12px;
+    border: 3px solid #000;
+    border-radius: 999px;
+    background: #ffe66d;
+    font-weight: 800;
+    font-size: 13px;
+  `;
+
+  const firstChild = gameScreen.firstElementChild;
+
+  if (firstChild) {
+    firstChild.parentNode.insertBefore(badge, firstChild);
+  } else {
+    gameScreen.appendChild(badge);
+  }
+}
+
+function removeTestModeBadge() {
+  const badge = document.getElementById("testModeBadge");
+
+  if (badge) {
+    badge.remove();
+  }
+}
+
+function updateTestModeControls() {
+  const btn = document.getElementById("exitTestModeBtn");
+
+  if (btn) {
+    btn.style.display = testMode ? "block" : "none";
+  }
+}
+
+function openTestModeSelector() {
+  let modal = document.getElementById("testModeModal");
+
+  if (!modal) {
+    createTestModeUI();
+    modal = document.getElementById("testModeModal");
+  }
+
+  modal.classList.remove("hidden");
+}
+
+function closeTestModeSelector() {
+  const modal = document.getElementById("testModeModal");
+
+  if (modal) {
+    modal.classList.add("hidden");
+  }
+}
+
+function createTestModeUI() {
+  // Botón MODO PRUEBA
+  const testButton = document.createElement("button");
+
+  testButton.id = "testModeButton";
+  testButton.textContent = "🧪 Modo prueba";
+
+  testButton.style.cssText = `
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px 16px;
+    border: 3px solid #000;
+    border-radius: 14px;
+    background: #ffe66d;
+    color: #000;
+    font-weight: 800;
+    cursor: pointer;
+  `;
+
+  testButton.addEventListener("click", () => {
+    const password = prompt("Contraseña del modo prueba:");
+
+    if (password !== "1999") {
+      alert("Contraseña incorrecta.");
+      return;
+    }
+
+    openTestModeSelector();
+  });
+
+  // Lo ponemos en la pantalla de inicio
+  if (homeScreen) {
+    const container =
+      homeScreen.querySelector(".home-actions") ||
+      homeScreen.querySelector(".actions") ||
+      homeScreen;
+
+    container.appendChild(testButton);
+  }
+
+  // Modal
+  const modal = document.createElement("div");
+
+  modal.id = "testModeModal";
+  modal.className = "modal hidden";
+
+  modal.innerHTML = `
+    <div class="modal-content" style="
+      max-width: 500px;
+      width: calc(100% - 32px);
+      max-height: 80vh;
+      overflow-y: auto;
+    ">
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:12px;
+        margin-bottom:16px;
+      ">
+        <h2 style="margin:0;">🧪 Modo prueba</h2>
+
+        <button
+          id="closeTestModeModal"
+          style="
+            border:3px solid #000;
+            background:#fff;
+            border-radius:10px;
+            padding:6px 10px;
+            font-weight:800;
+            cursor:pointer;
+          "
+        >✕</button>
+      </div>
+
+      <p>
+        Elegí cualquier crucigrama para probarlo.
+        Las estadísticas del modo diario no se modifican.
+      </p>
+
+      <select
+        id="testPuzzleSelect"
+        style="
+          width:100%;
+          padding:12px;
+          border:3px solid #000;
+          border-radius:12px;
+          font-size:16px;
+          background:#fff;
+        "
+      ></select>
+
+      <button
+        id="startSelectedTestPuzzle"
+        style="
+          width:100%;
+          margin-top:14px;
+          padding:13px;
+          border:3px solid #000;
+          border-radius:12px;
+          background:#ff7eb6;
+          font-weight:800;
+          cursor:pointer;
+        "
+      >
+        Probar este crucigrama
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const select = modal.querySelector("#testPuzzleSelect");
+
+  PUZZLES.forEach((puzzle, index) => {
+    const option = document.createElement("option");
+
+    option.value = puzzle.id;
+
+    option.textContent =
+      `${index + 1}. ${puzzle.id} — ` +
+      `${puzzle.difficulty || "medium"} — ` +
+      `${(puzzle.mechanisms || []).join(", ")}`;
+
+    select.appendChild(option);
+  });
+
+  modal.querySelector("#closeTestModeModal")
+    .addEventListener("click", closeTestModeSelector);
+
+  modal.querySelector("#startSelectedTestPuzzle")
+    .addEventListener("click", () => {
+      const puzzleId = select.value;
+
+      closeTestModeSelector();
+      enterTestMode(puzzleId);
+    });
+}
+   
   const mechanismNames = {
     anagram: "Anagrama",
     hidden: "Hidden",
