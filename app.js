@@ -63,13 +63,10 @@ function enterTestMode(puzzleId) {
 
   renderPuzzle(puzzle);
 
-  if (gameScreen) {
-    gameScreen.classList.remove("hidden");
-  }
-
-  if (homeScreen) {
-    homeScreen.classList.add("hidden");
-  }
+  // Mostrar la pantalla de juego usando el mismo sistema de navegación
+  // que utiliza el modo diario. No usamos .hidden porque las pantallas
+  // se controlan mediante la clase .active.
+  showScreen(gameScreen);
 
   addTestModeBadge();
 
