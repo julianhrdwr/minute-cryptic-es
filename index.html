@@ -12,16 +12,15 @@
 
 :root{
   --blue:#b9dcff;
-  --blue-dark:#8fc4f5;
   --pink:#f4b8dc;
-  --pink-dark:#e68cc0;
+  --pink-dark:#dc76b2;
   --yellow:#ffe58f;
   --green:#b9edc9;
-  --red:#ffb6b6;
+  --red:#ffb8b8;
   --white:#fffdf9;
   --black:#171717;
   --gray:#6e6e6e;
-  --light:#f4f4f1;
+  --light:#f3f3f0;
 
   --border:3px solid var(--black);
   --shadow:5px 5px 0 var(--black);
@@ -33,7 +32,8 @@
   -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
+html,
+body{
   margin:0;
   min-height:100%;
 }
@@ -48,6 +48,7 @@ button{
   font:inherit;
   color:inherit;
   cursor:pointer;
+  -webkit-appearance:none;
 }
 
 .app{
@@ -66,7 +67,7 @@ button{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:22px;
+  margin-bottom:24px;
 }
 
 .logo{
@@ -78,12 +79,12 @@ button{
 }
 
 .logo small{
+  display:block;
   font-family:"DM Mono",monospace;
-  font-size:11px;
+  font-size:10px;
   font-style:normal;
   letter-spacing:0;
-  display:block;
-  margin-top:-5px;
+  margin-top:-4px;
   opacity:.7;
 }
 
@@ -127,13 +128,13 @@ button{
   font-size:48px;
   line-height:.95;
   letter-spacing:-3px;
-  margin:0 0 14px;
-  max-width:500px;
+  margin:0 0 18px;
 }
 
 .hero h1 span{
+  display:inline-block;
   background:var(--pink);
-  padding:0 8px;
+  padding:2px 8px 5px;
   border:var(--border);
   border-radius:12px;
   box-shadow:4px 4px 0 var(--black);
@@ -144,6 +145,11 @@ button{
   line-height:1.4;
   max-width:480px;
   margin:20px 0;
+}
+
+.home-buttons{
+  display:grid;
+  gap:12px;
 }
 
 .primary{
@@ -179,11 +185,6 @@ button{
   box-shadow:2px 2px 0 var(--black);
 }
 
-.home-buttons{
-  display:grid;
-  gap:12px;
-}
-
 .stats{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -195,7 +196,7 @@ button{
   background:var(--white);
   border:var(--border);
   border-radius:18px;
-  padding:14px 10px;
+  padding:14px 8px;
   text-align:center;
 }
 
@@ -205,9 +206,34 @@ button{
 }
 
 .stat span{
-  font-size:11px;
+  display:block;
+  font-size:10px;
   text-transform:uppercase;
   font-family:"DM Mono",monospace;
+}
+
+/* =========================
+   DAILY STATUS
+========================= */
+
+.daily-done{
+  background:var(--green);
+  border:var(--border);
+  border-radius:20px;
+  padding:18px;
+  margin-top:25px;
+  box-shadow:4px 4px 0 var(--black);
+}
+
+.daily-done h3{
+  margin:0 0 6px;
+  font-size:20px;
+}
+
+.daily-done p{
+  margin:0;
+  line-height:1.4;
+  font-size:14px;
 }
 
 /* =========================
@@ -231,7 +257,8 @@ button{
 
 .daily{
   font-family:"DM Mono",monospace;
-  font-size:12px;
+  font-size:11px;
+  font-weight:500;
 }
 
 .game-card{
@@ -240,6 +267,7 @@ button{
   border-radius:var(--radius);
   box-shadow:var(--shadow);
   padding:20px;
+  overflow:hidden;
 }
 
 .puzzle-meta{
@@ -273,13 +301,23 @@ button{
 
 .clue{
   font-family:Georgia,serif;
-  font-size:27px;
+  font-size:28px;
   line-height:1.25;
-  margin:12px 0 24px;
+  margin:12px 0 12px;
 }
 
+.enumeration{
+  font-family:"DM Mono",monospace;
+  font-size:12px;
+  color:var(--gray);
+}
+
+/* Highlighted clue parts */
+
 .clue .definition{
-  border-bottom:4px solid var(--pink-dark);
+  background:var(--pink);
+  border-radius:5px;
+  padding:1px 3px;
 }
 
 .clue .indicator{
@@ -294,23 +332,21 @@ button{
   padding:1px 3px;
 }
 
-.enumeration{
-  font-family:"DM Mono",monospace;
-  font-size:12px;
-  color:var(--gray);
-}
-
-/* ANSWER */
+/* =========================
+   ANSWER
+========================= */
 
 .answer-area{
-  margin:20px 0;
+  margin:28px 0 18px;
 }
 
 .answer-boxes{
   display:flex;
   justify-content:center;
+  align-items:center;
   gap:7px;
   flex-wrap:wrap;
+  width:100%;
 }
 
 .letter-box{
@@ -338,22 +374,75 @@ button{
 .answer-message{
   text-align:center;
   font-weight:800;
-  min-height:24px;
+  min-height:25px;
   margin-top:12px;
 }
 
-/* HINTS */
+.answer-message.error{
+  color:#a90026;
+}
+
+.answer-message.success{
+  color:#19733b;
+}
+
+/* =========================
+   HINT MENU
+========================= */
+
+.hint-menu{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  background:var(--yellow);
+  border:2px solid var(--black);
+  border-radius:15px;
+  gap:8px;
+}
+
+.hint-menu.show{
+  display:grid;
+}
+
+.hint-option{
+  width:100%;
+  border:2px solid var(--black);
+  background:white;
+  border-radius:11px;
+  padding:11px 12px;
+  text-align:left;
+  font-size:13px;
+  font-weight:800;
+}
+
+.hint-option:active{
+  transform:translateY(2px);
+}
+
+.hint-option.used{
+  opacity:.45;
+}
+
+.hint-option strong{
+  display:block;
+}
+
+.hint-option small{
+  display:block;
+  margin-top:3px;
+  font-weight:500;
+  color:var(--gray);
+}
 
 .hint-panel{
-  margin-top:15px;
+  margin-top:10px;
 }
 
 .hint{
   border:2px solid var(--black);
   border-radius:14px;
-  background:#fff;
+  background:white;
   padding:12px;
-  margin-top:8px;
   font-size:14px;
   line-height:1.4;
 }
@@ -363,8 +452,12 @@ button{
   font-size:10px;
   text-transform:uppercase;
   font-weight:800;
-  margin-bottom:4px;
+  margin-bottom:5px;
 }
+
+/* =========================
+   ACTIONS
+========================= */
 
 .game-actions{
   display:grid;
@@ -377,47 +470,56 @@ button{
   border:2px solid var(--black);
   background:var(--light);
   border-radius:13px;
-  padding:11px 8px;
+  padding:12px 8px;
   font-size:13px;
   font-weight:800;
 }
 
-.action:disabled{
-  opacity:.45;
+.action:active{
+  transform:translateY(2px);
 }
 
-/* KEYBOARD */
+/* =========================
+   KEYBOARD
+========================= */
 
 .keyboard{
   margin-top:20px;
+  width:100%;
   display:grid;
   gap:6px;
 }
 
 .key-row{
+  width:100%;
   display:flex;
   justify-content:center;
   gap:5px;
 }
 
 .key{
-  width:31px;
+  flex:1 1 0;
+  min-width:0;
   height:43px;
   border:2px solid var(--black);
-  border-radius:7px;
+  border-radius:8px;
   background:white;
   font-weight:800;
   font-size:14px;
   padding:0;
 }
 
+.key.wide{
+  flex:2 1 0;
+}
+
 .key:active{
   transform:translateY(2px);
 }
 
-.key.wide{
-  width:65px;
-}
+/* =========================
+   RESULT
+========================= */
 
 .result{
   display:none;
@@ -442,6 +544,10 @@ button{
   font-size:14px;
 }
 
+.result .secondary{
+  margin-top:12px;
+}
+
 /* =========================
    LEARN
 ========================= */
@@ -462,14 +568,15 @@ button{
 }
 
 .course{
-  margin-bottom:28px;
+  margin-bottom:30px;
 }
 
 .course-title{
   display:flex;
   align-items:end;
   justify-content:space-between;
-  margin-bottom:12px;
+  gap:10px;
+  margin-bottom:5px;
 }
 
 .course-title h3{
@@ -484,7 +591,7 @@ button{
 }
 
 .course-desc{
-  margin:0 0 12px;
+  margin:0 0 13px;
   font-size:14px;
   line-height:1.4;
 }
@@ -494,11 +601,11 @@ button{
   border:var(--border);
   border-radius:18px;
   padding:15px;
-  margin-bottom:10px;
+  margin-bottom:11px;
   box-shadow:4px 4px 0 var(--black);
   display:flex;
   align-items:center;
-  gap:13px;
+  gap:12px;
 }
 
 .lesson-icon{
@@ -511,16 +618,18 @@ button{
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:21px;
+  font-size:19px;
+  font-weight:800;
 }
 
 .lesson-info{
   flex:1;
+  min-width:0;
 }
 
 .lesson-info strong{
   display:block;
-  font-size:16px;
+  font-size:15px;
 }
 
 .lesson-info small{
@@ -533,14 +642,9 @@ button{
   border:2px solid var(--black);
   background:var(--yellow);
   border-radius:10px;
-  padding:8px 10px;
-  font-size:12px;
+  padding:8px 9px;
+  font-size:11px;
   font-weight:800;
-}
-
-.locked{
-  opacity:.55;
-  box-shadow:none;
 }
 
 /* =========================
@@ -580,15 +684,6 @@ button{
   margin-bottom:15px;
 }
 
-.close{
-  border:2px solid var(--black);
-  background:white;
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  font-weight:900;
-}
-
 .lesson-progress{
   display:flex;
   gap:5px;
@@ -603,6 +698,15 @@ button{
 
 .progress-dot.active{
   background:var(--black);
+}
+
+.close{
+  border:2px solid var(--black);
+  background:white;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  font-weight:900;
 }
 
 .slide-number{
@@ -630,13 +734,14 @@ button{
   margin:17px 0;
 }
 
-.big-example .example-clue{
+.example-clue{
   font-family:Georgia,serif;
   font-size:20px;
-  margin-bottom:9px;
+  line-height:1.35;
+  margin-bottom:10px;
 }
 
-.big-example .example-answer{
+.example-answer{
   font-family:"DM Mono",monospace;
   font-weight:800;
   font-size:20px;
@@ -693,6 +798,7 @@ button{
   font-weight:700;
   z-index:100;
   transition:.25s;
+  white-space:nowrap;
 }
 
 .toast.show{
@@ -700,10 +806,38 @@ button{
 }
 
 /* =========================
-   DESKTOP
+   MOBILE
 ========================= */
 
+@media(max-width:380px){
+
+  .app{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .game-card{
+    padding:17px;
+  }
+
+  .clue{
+    font-size:25px;
+  }
+
+  .key{
+    height:40px;
+    font-size:13px;
+  }
+
+  .letter-box{
+    width:39px;
+    height:45px;
+  }
+
+}
+
 @media(min-width:700px){
+
   .app{
     padding-top:28px;
   }
@@ -719,6 +853,7 @@ button{
   .modal-card{
     border-radius:25px;
   }
+
 }
 </style>
 </head>
@@ -727,170 +862,301 @@ button{
 
 <div class="app">
 
-  <!-- ================= HOME ================= -->
+<!-- =========================================================
+     HOME
+========================================================= -->
 
-  <section id="home" class="screen active">
+<section id="home" class="screen active">
 
-    <header class="header">
-      <div class="logo">
-        minute cryptic
-        <small>español · v0.4</small>
-      </div>
+  <header class="header">
 
-      <button class="icon-btn" onclick="openAbout()">?</button>
-    </header>
-
-    <div class="hero">
-      <h1>
-        Una pista.<br>
-        Una <span>respuesta.</span>
-      </h1>
-
-      <p>
-        Aprendé a resolver pistas crípticas,
-        una técnica a la vez.
-      </p>
-
-      <div class="home-buttons">
-        <button class="primary" onclick="startDaily()">
-          Jugar la pista de hoy →
-        </button>
-
-        <button class="secondary" onclick="showScreen('learn')">
-          Aprender cripticismo
-        </button>
-      </div>
+    <div class="logo">
+      minute cryptic
+      <small>español · v0.5</small>
     </div>
 
-    <div class="stats">
-      <div class="stat">
-        <strong id="statSolved">0</strong>
-        <span>resueltas</span>
-      </div>
+    <button class="icon-btn" onclick="openAbout()">?</button>
 
-      <div class="stat">
-        <strong id="statStreak">0</strong>
-        <span>racha</span>
-      </div>
+  </header>
 
-      <div class="stat">
-        <strong id="statHints">0</strong>
-        <span>pistas</span>
-      </div>
-    </div>
+  <div class="hero">
 
-  </section>
+    <h1>
+      Una pista.<br>
+      Una <span>respuesta.</span>
+    </h1>
 
+    <p>
+      Aprendé a resolver pistas crípticas,
+      una técnica a la vez.
+    </p>
 
-  <!-- ================= GAME ================= -->
+    <div id="dailyHome"></div>
 
-  <section id="game" class="screen">
+    <div class="home-buttons">
 
-    <div class="top-row">
-      <button class="back" onclick="showScreen('home')">
-        ← inicio
+      <button
+        id="dailyButton"
+        class="primary"
+        onclick="startDaily()">
+        Jugar la pista de hoy →
       </button>
 
-      <span class="daily" id="dailyLabel">
-        PISTA DEL DÍA
-      </span>
-    </div>
-
-    <div class="game-card">
-
-      <div class="puzzle-meta">
-
-        <div class="badges" id="mechanismBadges"></div>
-
-        <div class="timer" id="timer">
-          00:00
-        </div>
-
-      </div>
-
-      <div class="clue" id="clue"></div>
-
-      <div class="enumeration" id="enumeration"></div>
-
-      <div class="answer-area">
-        <div class="answer-boxes" id="answerBoxes"></div>
-
-        <div class="answer-message" id="answerMessage"></div>
-      </div>
-
-      <div class="hint-panel" id="hintPanel"></div>
-
-      <div class="game-actions">
-
-        <button class="action" onclick="useHint()">
-          💡 Pista
-        </button>
-
-        <button class="action" onclick="revealLetter()">
-          ✦ Revelar letra
-        </button>
-
-        <button class="action" onclick="checkAnswer()">
-          ✓ Comprobar
-        </button>
-
-        <button class="action" onclick="shareResult()">
-          ↗ Compartir
-        </button>
-
-      </div>
-
-      <div class="keyboard" id="keyboard"></div>
-
-      <div class="result" id="result">
-        <h3 id="resultTitle"></h3>
-        <p id="resultExplanation"></p>
-        <button class="secondary" onclick="startRandomPuzzle()">
-          Otra pista →
-        </button>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- ================= LEARN ================= -->
-
-  <section id="learn" class="screen">
-
-    <div class="top-row">
-      <button class="back" onclick="showScreen('home')">
-        ← inicio
+      <button
+        class="secondary"
+        onclick="showScreen('learn')">
+        Aprender cripticismo
       </button>
+
     </div>
 
-    <div class="learn-header">
-      <h2>Aprendé a resolver.</h2>
-      <p>
-        No hace falta adivinar. Cada pista tiene
-        una pequeña máquina escondida adentro.
-      </p>
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+      <strong id="statSolved">0</strong>
+      <span>resueltas</span>
     </div>
 
-    <div id="courses"></div>
+    <div class="stat">
+      <strong id="statStreak">0</strong>
+      <span>racha</span>
+    </div>
 
-  </section>
+    <div class="stat">
+      <strong id="statHints">0</strong>
+      <span>pistas usadas</span>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     GAME
+========================================================= -->
+
+<section id="game" class="screen">
+
+  <div class="top-row">
+
+    <button class="back" onclick="showScreen('home')">
+      ← inicio
+    </button>
+
+    <span class="daily" id="dailyLabel">
+      PISTA DEL DÍA
+    </span>
+
+  </div>
+
+  <div class="game-card">
+
+    <div class="puzzle-meta">
+
+      <div class="badges" id="mechanismBadges"></div>
+
+      <div class="timer" id="timer">
+        00:00
+      </div>
+
+    </div>
+
+    <div class="clue" id="clue"></div>
+
+    <div class="enumeration" id="enumeration"></div>
+
+    <div class="answer-area">
+
+      <div
+        class="answer-boxes"
+        id="answerBoxes">
+      </div>
+
+      <div
+        class="answer-message"
+        id="answerMessage">
+      </div>
+
+    </div>
+
+
+    <!-- MENÚ DE PISTAS -->
+
+    <div
+      class="hint-menu"
+      id="hintMenu">
+
+      <button
+        class="hint-option"
+        onclick="showSelectedHint('definition')">
+
+        <strong>
+          ◎ Mostrar definición
+        </strong>
+
+        <small>
+          Te señala qué parte define la respuesta.
+        </small>
+
+      </button>
+
+
+      <button
+        class="hint-option"
+        onclick="showSelectedHint('indicator')">
+
+        <strong>
+          ⚡ Mostrar indicador
+        </strong>
+
+        <small>
+          Te señala la palabra que indica qué hacer.
+        </small>
+
+      </button>
+
+
+      <button
+        class="hint-option"
+        onclick="showSelectedHint('fodder')">
+
+        <strong>
+          ▣ Mostrar fodder
+        </strong>
+
+        <small>
+          Te muestra las letras que hay que trabajar.
+        </small>
+
+      </button>
+
+    </div>
+
+
+    <div
+      class="hint-panel"
+      id="hintPanel">
+    </div>
+
+
+    <div class="game-actions">
+
+      <button
+        class="action"
+        onclick="useHint()">
+        💡 Pista
+      </button>
+
+      <button
+        class="action"
+        onclick="revealLetter()">
+        ✦ Revelar letra
+      </button>
+
+      <button
+        class="action"
+        onclick="checkAnswer()">
+        ✓ Comprobar
+      </button>
+
+      <button
+        class="action"
+        onclick="shareResult()">
+        ↗ Compartir
+      </button>
+
+    </div>
+
+
+    <div
+      class="keyboard"
+      id="keyboard">
+    </div>
+
+
+    <div
+      class="result"
+      id="result">
+
+      <h3 id="resultTitle"></h3>
+
+      <p id="resultExplanation"></p>
+
+      <button
+        class="secondary"
+        onclick="showScreen('home')">
+        Volver al inicio
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     LEARN
+========================================================= -->
+
+<section id="learn" class="screen">
+
+  <div class="top-row">
+
+    <button
+      class="back"
+      onclick="showScreen('home')">
+      ← inicio
+    </button>
+
+  </div>
+
+  <div class="learn-header">
+
+    <h2>
+      Aprendé a resolver.
+    </h2>
+
+    <p>
+      No hace falta adivinar.
+      Cada pista tiene una pequeña máquina
+      escondida adentro.
+    </p>
+
+  </div>
+
+  <div id="courses"></div>
+
+</section>
 
 </div>
 
 
-<!-- ================= LESSON MODAL ================= -->
+<!-- =========================================================
+     LESSON MODAL
+========================================================= -->
 
-<div class="modal" id="lessonModal">
+<div
+  class="modal"
+  id="lessonModal">
 
   <div class="modal-card">
 
     <div class="modal-top">
 
-      <div class="lesson-progress" id="lessonProgress"></div>
+      <div
+        class="lesson-progress"
+        id="lessonProgress">
+      </div>
 
-      <button class="close" onclick="closeLesson()">×</button>
+      <button
+        class="close"
+        onclick="closeLesson()">
+        ×
+      </button>
 
     </div>
 
@@ -898,11 +1164,17 @@ button{
 
     <div class="modal-actions">
 
-      <button class="secondary" id="lessonBack" onclick="previousSlide()">
+      <button
+        class="secondary"
+        id="lessonBack"
+        onclick="previousSlide()">
         ← Atrás
       </button>
 
-      <button class="primary" id="lessonNext" onclick="nextSlide()">
+      <button
+        class="primary"
+        id="lessonNext"
+        onclick="nextSlide()">
         Siguiente →
       </button>
 
@@ -913,118 +1185,168 @@ button{
 </div>
 
 
-<div class="toast" id="toast"></div>
+<div
+  class="toast"
+  id="toast">
+</div>
 
 
 <script>
 
 /* ============================================================
-   DATA
+   PISTAS
 ============================================================ */
 
 const PUZZLES = [
 
   {
     id:"amor",
-    clue:"Cariño, en desorden de ROMA. (4)",
+    clue:"Cariño, en desorden de roma. (4)",
     answer:"AMOR",
+
     mechanisms:["anagram"],
+
     definition:"Cariño",
-    fodder:"ROMA",
+    fodder:"roma",
     indicator:"desorden",
-    hint:"Buscá una palabra que indique que las letras de ROMA deben mezclarse.",
-    explanation:"ROMA reordenado forma AMOR. «Cariño» es la definición y «desorden» indica el anagrama."
+
+    hint:"Las letras de una palabra tienen que cambiar de orden.",
+
+    explanation:
+      "ROMA reordenado forma AMOR. «Cariño» es la definición y «desorden» indica el anagrama."
   },
+
 
   {
     id:"mora",
-    clue:"Fruta escondida en MORADO. (4)",
+    clue:"Fruta escondida en morado. (4)",
     answer:"MORA",
+
     mechanisms:["hidden"],
+
     definition:"Fruta",
-    fodder:"MORA",
+    fodder:"mora",
     indicator:"escondida",
-    hint:"La respuesta está literalmente dentro de otra palabra.",
-    explanation:"MORA aparece seguida dentro de MORADO. «Escondida» indica que hay que buscar la respuesta dentro del texto."
+
+    hint:"La respuesta ya está dentro de otra palabra.",
+
+    explanation:
+      "MORA aparece seguida dentro de MORADO. «Escondida» indica que hay que buscar la respuesta dentro del texto."
   },
+
 
   {
     id:"lobo",
-    clue:"Animal: LOBOS sin su S final. (4)",
+    clue:"Animal: lobos sin su s final. (4)",
     answer:"LOBO",
+
     mechanisms:["deletion"],
+
     definition:"Animal",
-    fodder:"LOBOS",
-    indicator:"sin su S final",
-    hint:"Tomá LOBOS y quitale una letra.",
-    explanation:"LOBOS sin su última S deja LOBO. La definición es «Animal»."
+    fodder:"lobos",
+    indicator:"sin su s final",
+
+    hint:"Tomá LOBOS y eliminá su última letra.",
+
+    explanation:
+      "LOBOS sin su S final deja LOBO."
   },
+
 
   {
     id:"roma",
-    clue:"Ciudad italiana, AMOR al revés. (4)",
+    clue:"Ciudad italiana, amor al revés. (4)",
     answer:"ROMA",
+
     mechanisms:["reversal"],
+
     definition:"Ciudad italiana",
-    fodder:"AMOR",
+    fodder:"amor",
     indicator:"al revés",
+
     hint:"Probá leer AMOR desde el final hacia el principio.",
-    explanation:"AMOR leído al revés es ROMA. «Ciudad italiana» es la definición y «al revés» es el indicador."
+
+    explanation:
+      "AMOR leído al revés es ROMA. «Ciudad italiana» es la definición y «al revés» indica la reversión."
   },
+
 
   {
     id:"bello",
     clue:"Bonito, según suena «vello». (5)",
     answer:"BELLO",
+
     mechanisms:["homophone"],
+
     definition:"Bonito",
-    fodder:"VELLO",
+    fodder:"vello",
     indicator:"según suena",
+
     hint:"La respuesta suena igual que otra palabra.",
-    explanation:"BELLO y VELLO tienen el mismo sonido en la pronunciación habitual del español. «Bonito» da la definición."
+
+    explanation:
+      "BELLO y VELLO suenan igual en la pronunciación habitual del español."
   },
+
 
   {
     id:"copa",
     clue:"Vaso / parte alta de un árbol. (4)",
     answer:"COPA",
+
     mechanisms:["double"],
+
     definition:"Vaso / parte alta de un árbol",
     fodder:"",
     indicator:"",
+
     hint:"La misma palabra tiene dos significados.",
-    explanation:"COPA puede ser un vaso para beber y también la parte superior de un árbol."
+
+    explanation:
+      "COPA puede ser un vaso para beber y también la parte superior de un árbol."
   },
+
 
   {
     id:"aro",
-    clue:"Círculo: principios de Aves Roban Ocas. (3)",
+    clue:"Círculo: principios de aves que roban ocas. (3)",
     answer:"ARO",
+
     mechanisms:["initials"],
+
     definition:"Círculo",
-    fodder:"Aves Roban Ocas",
+    fodder:"aves que roban ocas",
     indicator:"principios",
-    hint:"Mirá las primeras letras de las palabras centrales.",
-    explanation:"Las iniciales de Aves, Roban y Ocas forman ARO."
+
+    hint:"Tomá las primeras letras de las palabras que siguen al indicador.",
+
+    explanation:
+      "Los principios de Aves, Roban y Ocas forman ARO."
   },
+
 
   {
     id:"ave",
-    clue:"Ave que aparece en CLAVE. (3)",
+    clue:"Ave que aparece en clave. (3)",
     answer:"AVE",
+
     mechanisms:["hidden"],
+
     definition:"Ave",
-    fodder:"AVE",
+    fodder:"ave",
     indicator:"aparece en",
-    hint:"No necesitás modificar ninguna letra.",
-    explanation:"AVE está escondida dentro de CLAVE."
+
+    hint:"No necesitás cambiar ninguna letra.",
+
+    explanation:
+      "AVE está escondida dentro de CLAVE."
   }
 
 ];
 
 
 /* ============================================================
-   MECHANISM NAMES
+   NOMBRES
 ============================================================ */
 
 const MECHANISM_NAMES = {
@@ -1048,7 +1370,7 @@ const MECHANISM_NAMES = {
 
 
 /* ============================================================
-   COURSES
+   CURSOS
 ============================================================ */
 
 const COURSES = [
@@ -1057,51 +1379,2152 @@ const COURSES = [
     id:"letterplay",
     number:"Curso 1",
     title:"letterplay",
-    description:"Jugá directamente con las letras que aparecen en la pista.",
+    description:
+      "Jugá directamente con las letras que aparecen en la pista.",
+
     lessons:[
 
       {
         id:"reversal",
         icon:"↔",
         title:"Reversiones",
+
         slides:[
+
           {
             title:"Las letras pueden darse vuelta.",
-            text:"Una reversión toma un grupo de letras y lo lee en sentido contrario. Es una operación sencilla, pero aparece muchísimo combinada con otras técnicas.",
+
+            text:
+              "Una reversión toma un grupo de letras y lo lee en sentido contrario. Es una operación sencilla, pero aparece mucho combinada con otras técnicas.",
+
             example:{
-              clue:"Ciudad italiana, AMOR al revés. (4)",
+              clue:"Ciudad italiana, amor al revés. (4)",
               answer:"ROMA"
             }
           },
+
           {
             title:"Buscá el indicador.",
-            text:"Ciertas palabras avisan que hay que invertir las letras. No necesitás memorizar una lista infinita: primero reconocé la idea de movimiento hacia atrás.",
+
+            text:
+              "Ciertas palabras avisan que hay que invertir las letras. Primero reconocé la idea de movimiento hacia atrás.",
+
             list:[
               "Literal: al revés, invertido, de vuelta",
               "Figurativo: girando, dado vuelta, regresando",
               "En pistas verticales: palabras que sugieren subir"
             ]
           },
+
           {
             title:"Encontrá las tres piezas.",
-            text:"En una pista de reversión normalmente querés encontrar definición, indicador y letras que deben invertirse.",
+
+            text:
+              "Buscá la definición, el indicador y las letras que deben invertirse.",
+
             example:{
-              clue:"Ciudad italiana, AMOR al revés. (4)",
+              clue:"Ciudad italiana, amor al revés. (4)",
               answer:"ROMA"
             },
-            tip:"Importante: invertir letras que ya fueron mezcladas por un anagrama no aporta información, por eso estas dos operaciones no suelen combinarse."
+
+            tip:
+              "Una reversión y un anagrama normalmente no se combinan: después de mezclar las letras, invertirlas no agrega información."
           }
+
         ]
       },
+
 
       {
         id:"anagram",
         icon:"✣",
         title:"Anagramas",
+
         slides:[
+
           {
             title:"Las letras se mezclan.",
-            text:"Un anagrama usa exactamente las mismas letras, pero cambia su orden.",
+
+            text:
+              "Un anagrama usa exactamente las mismas letras, pero cambia su orden.",
+
             example:{
-              clue:"Cariño, en desorden de ROMA. (4)",
-         
+              clue:"Cariño, en desorden de roma. (4)",
+              answer:"AMOR"
+            }
+          },
+
+          {
+            title:"Encontrá el indicador.",
+
+            text:
+              "Palabras como «desordenado», «mezclado», «revuelto» o «roto» pueden indicar que hay que barajar las letras."
+          },
+
+          {
+            title:"Después verificá.",
+
+            text:
+              "Contá las letras. Si sobra o falta una, el anagrama no funciona. La definición también tiene que encajar con la respuesta."
+          }
+
+        ]
+      },
+
+
+      {
+        id:"hidden",
+        icon:"⌕",
+        title:"Palabras ocultas",
+
+        slides:[
+
+          {
+            title:"La respuesta ya está ahí.",
+
+            text:
+              "En una pista oculta no construís la respuesta: simplemente encontrás sus letras dentro de otras palabras.",
+
+            example:{
+              clue:"Fruta escondida en morado. (4)",
+              answer:"MORA"
+            }
+          },
+
+          {
+            title:"Palabras que avisan.",
+
+            text:
+              "Indicadores típicos son «dentro de», «escondida», «contenida», «en» o «aparece en»."
+          },
+
+          {
+            title:"No cambies las letras.",
+
+            text:
+              "Una vez encontrada la secuencia correcta, no hay que reordenarla ni sustituirla."
+          }
+
+        ]
+      },
+
+
+      {
+        id:"initials",
+        icon:"ABC",
+        title:"Iniciales y finales",
+
+        slides:[
+
+          {
+            title:"A veces sólo necesitás mirar los bordes.",
+
+            text:
+              "Un indicador puede pedirte las primeras o últimas letras de varias palabras.",
+
+            example:{
+              clue:"Círculo: principios de aves que roban ocas. (3)",
+              answer:"ARO"
+            }
+          },
+
+          {
+            title:"Detectá la dirección.",
+
+            text:
+              "«Principios», «inicios» o «cabezas» suelen señalar primeras letras. «Finales» o «colas» pueden señalar las últimas."
+          },
+
+          {
+            title:"La definición completa la pista.",
+
+            text:
+              "Una vez extraídas las letras, comprobá que formen una palabra que encaje con la definición."
+          }
+
+        ]
+      }
+
+    ]
+  },
+
+
+  {
+    id:"wordplay",
+    number:"Curso 2",
+    title:"wordplay",
+    description:
+      "Reemplazá partes de la pista por sinónimos, símbolos o sonidos.",
+
+    lessons:[
+
+      {
+        id:"synonym",
+        icon:"≈",
+        title:"Sustituciones: sinónimos",
+
+        slides:[
+
+          {
+            title:"No siempre son las palabras exactas.",
+
+            text:
+              "Una pista puede pedirte que reemplaces una palabra por un sinónimo antes de construir la respuesta."
+          },
+
+          {
+            title:"Pensá en alternativas.",
+
+            text:
+              "Si una palabra parece demasiado específica para encajar, probá sinónimos cortos, abreviaciones habituales o equivalentes."
+          },
+
+          {
+            title:"La definición decide.",
+
+            text:
+              "No alcanza con encontrar un sinónimo posible: tiene que encajar con las demás letras y con la longitud indicada."
+          }
+
+        ]
+      },
+
+
+      {
+        id:"symbol",
+        icon:"∑",
+        title:"Sustituciones: símbolos",
+
+        slides:[
+
+          {
+            title:"Un símbolo también puede ser una palabra.",
+
+            text:
+              "Algunas pistas utilizan símbolos conocidos para representar letras o palabras: elementos químicos, notas musicales, unidades y otros sistemas convencionales."
+          },
+
+          {
+            title:"La clave es la convención.",
+
+            text:
+              "No inventes un símbolo. Preguntate si existe una representación reconocible y estándar."
+          },
+
+          {
+            title:"Combiná.",
+
+            text:
+              "Los símbolos suelen aparecer junto con otras técnicas para construir respuestas más largas."
+          }
+
+        ]
+      },
+
+
+      {
+        id:"container",
+        icon:"()",
+        title:"Contenedores",
+
+        slides:[
+
+          {
+            title:"Una palabra puede meterse dentro de otra.",
+
+            text:
+              "Los contenedores toman un conjunto de letras y las colocan dentro de otro conjunto."
+          },
+
+          {
+            title:"Buscá verbos de envoltura.",
+
+            text:
+              "Indicadores como «rodeando», «conteniendo», «abrazando» o «por fuera de» pueden señalar esta operación."
+          },
+
+          {
+            title:"Pensalo visualmente.",
+
+            text:
+              "Si A contiene B, imaginá literalmente B metido dentro de A."
+          }
+
+        ]
+      },
+
+
+      {
+        id:"deletion",
+        icon:"−",
+        title:"Eliminaciones",
+
+        slides:[
+
+          {
+            title:"Quitá lo que la pista te diga.",
+
+            text:
+              "La respuesta puede surgir de una palabra después de eliminar una o más letras.",
+
+            example:{
+              clue:"Animal: lobos sin su s final. (4)",
+              answer:"LOBO"
+            }
+          },
+
+          {
+            title:"Indicadores.",
+
+            text:
+              "Palabras como «sin», «sin el final», «sin cabeza», «sin corazón» o «perdiendo» pueden señalar qué parte eliminar."
+          },
+
+          {
+            title:"La posición importa.",
+
+            text:
+              "Cabeza = primera letra. Cola = última letra. Corazón = letras centrales, dependiendo del contexto."
+          }
+
+        ]
+      },
+
+
+      {
+        id:"homophone",
+        icon:"♫",
+        title:"Homófonos",
+
+        slides:[
+
+          {
+            title:"Escuchá, no mires.",
+
+            text:
+              "Una palabra puede estar indicada por otra que suena igual o muy parecido.",
+
+            example:{
+              clue:"Bonito, según suena «vello». (5)",
+              answer:"BELLO"
+            }
+          },
+
+          {
+            title:"Indicadores de sonido.",
+
+            text:
+              "Buscá expresiones como «se oye», «según suena», «al escucharlo» o «dicho en voz alta»."
+          },
+
+          {
+            title:"Depende del idioma.",
+
+            text:
+              "Los homófonos funcionan cuando la pronunciación permite confundir dos palabras."
+          }
+
+        ]
+      }
+
+    ]
+  },
+
+
+  {
+    id:"weirdplay",
+    number:"Curso 3",
+    title:"weirdplay",
+
+    description:
+      "Acá las cosas se ponen raras: idiomas, formas, definiciones y la propia respuesta.",
+
+    lessons:[
+
+      {
+        id:"translation",
+        icon:"文",
+        title:"Traducciones",
+
+        slides:[
+
+          {
+            title:"Otra lengua puede esconder la respuesta.",
+
+            text:
+              "La pista puede pedir una traducción de una palabra o expresión."
+          },
+
+          {
+            title:"Primero detectá el idioma.",
+
+            text:
+              "Nombres de países, expresiones extranjeras o indicadores como «en francés», «en inglés» o «en italiano» pueden darte la señal."
+          },
+
+          {
+            title:"Después volvé a la definición.",
+
+            text:
+              "La traducción tiene que encajar tanto en longitud como en significado."
+          }
+
+        ]
+      },
+
+
+      {
+        id:"homoglyph",
+        icon:"Aa",
+        title:"Homoglifos",
+
+        slides:[
+
+          {
+            title:"Parecen iguales, pero no lo son.",
+
+            text:
+              "Un homoglifo es un carácter visualmente parecido a otro. Las pistas pueden jugar con esa semejanza."
+          },
+
+          {
+            title:"Pensá con los ojos.",
+
+            text:
+              "No todo tiene que ser sonido o significado. A veces la forma de una letra es la pista."
+          },
+
+          {
+            title:"Son especialmente útiles.",
+
+            text:
+              "Este mecanismo permite crear pistas muy visuales y poco convencionales."
+          }
+
+        ]
+      },
+
+
+      {
+        id:"double",
+        icon:"↔",
+        title:"Doble definición",
+
+        slides:[
+
+          {
+            title:"Una palabra. Dos sentidos.",
+
+            text:
+              "La pista da dos definiciones diferentes para la misma respuesta.",
+
+            example:{
+              clue:"Vaso / parte alta de un árbol. (4)",
+              answer:"COPA"
+            }
+          },
+
+          {
+            title:"No busques un mecanismo escondido.",
+
+            text:
+              "Muchas veces no hay anagrama, eliminación ni indicador. Las dos definiciones son el mecanismo."
+          },
+
+          {
+            title:"La ambigüedad es la gracia.",
+
+            text:
+              "Una buena doble definición hace que la misma palabra parezca pertenecer a dos mundos diferentes."
+          }
+
+        ]
+      },
+
+
+      {
+        id:"lit",
+        icon:"★",
+        title:"&lits",
+
+        slides:[
+
+          {
+            title:"La pista puede ser dos cosas a la vez.",
+
+            text:
+              "En un &lit, toda la pista funciona como definición y, al mismo tiempo, contiene el mecanismo que construye la respuesta."
+          },
+
+          {
+            title:"Leé la frase completa.",
+
+            text:
+              "En vez de separar rápidamente definición y juego de letras, preguntate si toda la oración describe la respuesta."
+          },
+
+          {
+            title:"Son pistas especialmente elegantes.",
+
+            text:
+              "Cuando la construcción y el significado encajan perfectamente aparece ese efecto de «ah, claro»."
+          }
+
+        ]
+      },
+
+
+      {
+        id:"rebus",
+        icon:"▣",
+        title:"Rebuses",
+
+        slides:[
+
+          {
+            title:"Pensá en imágenes y formas.",
+
+            text:
+              "Un rebus representa palabras o sonidos mediante letras, símbolos, posiciones o pequeños dibujos."
+          },
+
+          {
+            title:"La disposición importa.",
+
+            text:
+              "Una letra dentro de otra, una palabra repetida o una secuencia colocada de cierta manera puede tener significado."
+          },
+
+          {
+            title:"No leas solamente las palabras.",
+
+            text:
+              "Preguntate también dónde están, cuántas veces aparecen y cómo se relacionan visualmente."
+          }
+
+        ]
+      }
+
+    ]
+  }
+
+];
+
+
+/* ============================================================
+   ESTADO
+============================================================ */
+
+let state = JSON.parse(
+  localStorage.getItem("crypticState") || "{}"
+);
+
+state.solved = state.solved || 0;
+state.streak = state.streak || 0;
+state.hints = state.hints || 0;
+state.lastSolved = state.lastSolved || null;
+state.dailySolved = state.dailySolved || null;
+state.courseProgress = state.courseProgress || {};
+
+let currentPuzzle = null;
+let currentAnswer = [];
+let revealed = [];
+let timerSeconds = 0;
+let timerInterval = null;
+let gameFinished = false;
+
+let usedHints = {
+  definition:false,
+  indicator:false,
+  fodder:false
+};
+
+let currentLesson = null;
+let currentSlide = 0;
+
+
+/* ============================================================
+   STORAGE
+============================================================ */
+
+function saveState(){
+
+  localStorage.setItem(
+    "crypticState",
+    JSON.stringify(state)
+  );
+
+}
+
+
+/* ============================================================
+   FECHA
+============================================================ */
+
+function getDateKey(){
+
+  const d = new Date();
+
+  return [
+    d.getFullYear(),
+    String(d.getMonth()+1).padStart(2,"0"),
+    String(d.getDate()).padStart(2,"0")
+  ].join("-");
+
+}
+
+
+/* ============================================================
+   PISTA DEL DÍA
+============================================================ */
+
+function getDailyPuzzle(){
+
+  const key = getDateKey();
+
+  let hash = 0;
+
+  for(let i=0;i<key.length;i++){
+
+    hash =
+      ((hash << 5) - hash) +
+      key.charCodeAt(i);
+
+    hash |= 0;
+
+  }
+
+  const index =
+    Math.abs(hash) % PUZZLES.length;
+
+  return PUZZLES[index];
+
+}
+
+
+/* ============================================================
+   ¿YA RESOLVIÓ LA DEL DÍA?
+============================================================ */
+
+function hasSolvedToday(){
+
+  return state.dailySolved === getDateKey();
+
+}
+
+
+/* ============================================================
+   HOME
+============================================================ */
+
+function renderHome(){
+
+  updateStats();
+
+  const button =
+    document.getElementById("dailyButton");
+
+  const status =
+    document.getElementById("dailyHome");
+
+  if(hasSolvedToday()){
+
+    button.textContent =
+      "Ya resolviste la pista de hoy ✓";
+
+    button.onclick = showDailyCompleted;
+
+    status.innerHTML = `
+      <div class="daily-done">
+        <h3>🎉 Pista de hoy resuelta</h3>
+        <p>
+          Tu racha sigue viva.
+          Volvé mañana para una nueva pista.
+        </p>
+      </div>
+    `;
+
+  }else{
+
+    button.textContent =
+      "Jugar la pista de hoy →";
+
+    button.onclick = startDaily;
+
+    status.innerHTML = "";
+
+  }
+
+}
+
+
+function showDailyCompleted(){
+
+  showToast(
+    "Ya resolviste la pista de hoy. Volvé mañana."
+  );
+
+}
+
+
+/* ============================================================
+   NAVEGACIÓN
+============================================================ */
+
+function showScreen(id){
+
+  document
+    .querySelectorAll(".screen")
+    .forEach(screen=>{
+      screen.classList.remove("active");
+    });
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  if(id==="home"){
+    renderHome();
+  }
+
+  if(id==="learn"){
+    renderCourses();
+  }
+
+}
+
+
+/* ============================================================
+   ESTADÍSTICAS
+============================================================ */
+
+function updateStats(){
+
+  document.getElementById("statSolved").textContent =
+    state.solved;
+
+  document.getElementById("statStreak").textContent =
+    state.streak;
+
+  document.getElementById("statHints").textContent =
+    state.hints;
+
+}
+
+
+/* ============================================================
+   JUGAR DIARIA
+============================================================ */
+
+function startDaily(){
+
+  if(hasSolvedToday()){
+
+    showDailyCompleted();
+
+    return;
+
+  }
+
+  startPuzzle(
+    getDailyPuzzle(),
+    "PISTA DEL DÍA"
+  );
+
+}
+
+
+/* ============================================================
+   JUGAR PISTA
+============================================================ */
+
+function startPuzzle(puzzle,label){
+
+  currentPuzzle = puzzle;
+
+  currentAnswer =
+    new Array(puzzle.answer.length)
+      .fill("");
+
+  revealed =
+    new Array(puzzle.answer.length)
+      .fill(false);
+
+  usedHints = {
+    definition:false,
+    indicator:false,
+    fodder:false
+  };
+
+  timerSeconds = 0;
+  gameFinished = false;
+
+  clearInterval(timerInterval);
+
+  timerInterval =
+    setInterval(()=>{
+
+      if(!gameFinished){
+
+        timerSeconds++;
+
+        renderTimer();
+
+      }
+
+    },1000);
+
+  document.getElementById("dailyLabel").textContent =
+    label;
+
+  renderPuzzle();
+
+  showScreen("game");
+
+}
+
+
+/* ============================================================
+   RENDER PISTA
+============================================================ */
+
+function renderPuzzle(){
+
+  const puzzle = currentPuzzle;
+
+  document.getElementById("mechanismBadges").innerHTML =
+    puzzle.mechanisms
+      .map(m =>
+        `<span class="badge">
+          ${MECHANISM_NAMES[m] || m}
+        </span>`
+      )
+      .join("");
+
+  document.getElementById("clue").innerHTML =
+    highlightClue(puzzle);
+
+  document.getElementById("enumeration").textContent =
+    `${puzzle.answer.length} letras`;
+
+  renderAnswerBoxes();
+
+  renderKeyboard();
+
+  renderHintButtons();
+
+  renderTimer();
+
+  document.getElementById("answerMessage").textContent =
+    "";
+
+  document.getElementById("answerMessage").className =
+    "answer-message";
+
+  document.getElementById("hintPanel").innerHTML =
+    "";
+
+  document.getElementById("hintMenu")
+    .classList.remove("show");
+
+  document.getElementById("result")
+    .classList.remove("show");
+
+}
+
+
+/* ============================================================
+   RESALTAR PARTES DE LA PISTA
+============================================================ */
+
+function highlightClue(puzzle){
+
+  let text =
+    escapeHTML(puzzle.clue);
+
+  if(
+    usedHints.definition &&
+    puzzle.definition
+  ){
+
+    text =
+      replaceSafe(
+        text,
+        puzzle.definition,
+        `<span class="definition">
+          ${escapeHTML(puzzle.definition)}
+        </span>`
+      );
+
+  }
+
+  if(
+    usedHints.indicator &&
+    puzzle.indicator
+  ){
+
+    text =
+      replaceSafe(
+        text,
+        puzzle.indicator,
+        `<span class="indicator">
+          ${escapeHTML(puzzle.indicator)}
+        </span>`
+      );
+
+  }
+
+  if(
+    usedHints.fodder &&
+    puzzle.fodder
+  ){
+
+    text =
+      replaceSafe(
+        text,
+        puzzle.fodder,
+        `<span class="fodder">
+          ${escapeHTML(puzzle.fodder)}
+        </span>`
+      );
+
+  }
+
+  return text;
+
+}
+
+
+function replaceSafe(text,original,replacement){
+
+  const regex =
+    new RegExp(
+      escapeRegex(original),
+      "i"
+    );
+
+  return text.replace(
+    regex,
+    replacement
+  );
+
+}
+
+
+/* ============================================================
+   CASILLEROS
+============================================================ */
+
+function renderAnswerBoxes(){
+
+  const container =
+    document.getElementById("answerBoxes");
+
+  container.innerHTML = "";
+
+  currentAnswer.forEach((letter,index)=>{
+
+    const box =
+      document.createElement("div");
+
+    box.className =
+      "letter-box";
+
+    if(letter){
+
+      box.textContent =
+        letter.toLowerCase();
+
+      box.classList.add("filled");
+
+    }
+
+    if(revealed[index]){
+
+      box.classList.add("revealed");
+
+    }
+
+    container.appendChild(box);
+
+  });
+
+}
+
+
+/* ============================================================
+   TECLADO
+============================================================ */
+
+function renderKeyboard(){
+
+  const rows = [
+    ["Q","W","E","R","T","Y","U","I","O","P"],
+    ["A","S","D","F","G","H","J","K","L","Ñ"],
+    ["⌫","Z","X","C","V","B","N","M","↵"]
+  ];
+
+  const keyboard =
+    document.getElementById("keyboard");
+
+  keyboard.innerHTML = "";
+
+  rows.forEach((row,rowIndex)=>{
+
+    const rowElement =
+      document.createElement("div");
+
+    rowElement.className =
+      "key-row";
+
+    row.forEach(letter=>{
+
+      const button =
+        document.createElement("button");
+
+      button.className = "key";
+
+      if(
+        letter==="⌫" ||
+        letter==="↵"
+      ){
+
+        button.classList.add("wide");
+
+      }
+
+      button.textContent =
+        letter;
+
+      if(letter==="⌫"){
+
+        button.onclick =
+          deleteLetter;
+
+      }else if(letter==="↵"){
+
+        button.onclick =
+          checkAnswer;
+
+      }else{
+
+        button.onclick =
+          ()=>{
+            enterLetter(letter);
+          };
+
+      }
+
+      rowElement.appendChild(button);
+
+    });
+
+    keyboard.appendChild(rowElement);
+
+  });
+
+}
+
+
+/* ============================================================
+   ESCRIBIR
+============================================================ */
+
+function enterLetter(letter){
+
+  if(gameFinished) return;
+
+  const index =
+    currentAnswer.findIndex(
+      (value,i)=>
+        !value && !revealed[i]
+    );
+
+  if(index===-1) return;
+
+  currentAnswer[index] =
+    letter.toUpperCase();
+
+  renderAnswerBoxes();
+
+}
+
+
+/* ============================================================
+   BORRAR
+============================================================ */
+
+function deleteLetter(){
+
+  if(gameFinished) return;
+
+  for(
+    let i=currentAnswer.length-1;
+    i>=0;
+    i--
+  ){
+
+    if(
+      currentAnswer[i] &&
+      !revealed[i]
+    ){
+
+      currentAnswer[i]="";
+
+      renderAnswerBoxes();
+
+      return;
+
+    }
+
+  }
+
+}
+
+
+/* ============================================================
+   COMPROBAR
+============================================================ */
+
+function checkAnswer(){
+
+  if(gameFinished) return;
+
+  const guess =
+    currentAnswer
+      .join("")
+      .toUpperCase();
+
+  if(
+    guess.length <
+    currentPuzzle.answer.length
+  ){
+
+    showToast("Todavía faltan letras.");
+
+    return;
+
+  }
+
+  if(
+    guess ===
+    currentPuzzle.answer
+  ){
+
+    finishPuzzle();
+
+  }else{
+
+    const message =
+      document.getElementById("answerMessage");
+
+    message.textContent =
+      "No coincide. Probá otra vez.";
+
+    message.className =
+      "answer-message error";
+
+  }
+
+}
+
+
+/* ============================================================
+   TERMINAR
+============================================================ */
+
+function finishPuzzle(){
+
+  gameFinished = true;
+
+  clearInterval(timerInterval);
+
+  state.solved++;
+
+  state.dailySolved =
+    getDateKey();
+
+  updateStreak();
+
+  saveState();
+
+  const message =
+    document.getElementById("answerMessage");
+
+  message.textContent =
+    "¡Correcto! ✓";
+
+  message.className =
+    "answer-message success";
+
+  document.getElementById("resultTitle").textContent =
+    "¡Muy bien!";
+
+  document.getElementById("resultExplanation").innerHTML =
+
+    `<strong>
+      ${escapeHTML(currentPuzzle.answer)}
+    </strong>
+
+    <br><br>
+
+    ${escapeHTML(currentPuzzle.explanation)}`;
+
+  document
+    .getElementById("result")
+    .classList.add("show");
+
+  updateStats();
+
+  showToast("Pista resuelta ✓");
+
+}
+
+
+/* ============================================================
+   RACHA
+============================================================ */
+
+function updateStreak(){
+
+  const today =
+    getDateKey();
+
+  if(state.lastSolved === today){
+    return;
+  }
+
+  const yesterdayDate =
+    new Date();
+
+  yesterdayDate.setDate(
+    yesterdayDate.getDate()-1
+  );
+
+  const yesterday = [
+
+    yesterdayDate.getFullYear(),
+
+    String(
+      yesterdayDate.getMonth()+1
+    ).padStart(2,"0"),
+
+    String(
+      yesterdayDate.getDate()
+    ).padStart(2,"0")
+
+  ].join("-");
+
+
+  if(
+    state.lastSolved === yesterday
+  ){
+
+    state.streak++;
+
+  }else{
+
+    state.streak=1;
+
+  }
+
+  state.lastSolved =
+    today;
+
+}
+
+
+/* ============================================================
+   PISTAS
+============================================================ */
+
+function useHint(){
+
+  if(gameFinished) return;
+
+  const menu =
+    document.getElementById("hintMenu");
+
+  menu.classList.toggle("show");
+
+}
+
+
+/* ============================================================
+   SELECCIONAR PISTA
+============================================================ */
+
+function showSelectedHint(type){
+
+  if(gameFinished) return;
+
+  const puzzle =
+    currentPuzzle;
+
+  let content = "";
+
+  if(type==="definition"){
+
+    if(!puzzle.definition){
+
+      showToast(
+        "Esta pista no tiene una definición separada."
+      );
+
+      return;
+
+    }
+
+    usedHints.definition = true;
+
+    content = `
+      <div class="hint">
+        <div class="hint-title">
+          Definición
+        </div>
+
+        <strong>
+          ${escapeHTML(puzzle.definition)}
+        </strong>
+      </div>
+    `;
+
+  }
+
+
+  if(type==="indicator"){
+
+    if(!puzzle.indicator){
+
+      showToast(
+        "Esta pista no usa un indicador."
+      );
+
+      return;
+
+    }
+
+    usedHints.indicator = true;
+
+    content = `
+      <div class="hint">
+        <div class="hint-title">
+          Indicador
+        </div>
+
+        <strong>
+          ${escapeHTML(puzzle.indicator)}
+        </strong>
+      </div>
+    `;
+
+  }
+
+
+  if(type==="fodder"){
+
+    if(!puzzle.fodder){
+
+      showToast(
+        "Esta pista no tiene fodder."
+      );
+
+      return;
+
+    }
+
+    usedHints.fodder = true;
+
+    content = `
+      <div class="hint">
+        <div class="hint-title">
+          Fodder
+        </div>
+
+        <strong>
+          ${escapeHTML(puzzle.fodder)}
+        </strong>
+      </div>
+    `;
+
+  }
+
+
+  document.getElementById("hintPanel").innerHTML =
+    content;
+
+  document.getElementById("hintMenu")
+    .classList.remove("show");
+
+  state.hints++;
+
+  saveState();
+
+  updateStats();
+
+  renderHintButtons();
+
+  document.getElementById("clue").innerHTML =
+    highlightClue(currentPuzzle);
+
+}
+
+
+/* ============================================================
+   BOTONES DE PISTA
+============================================================ */
+
+function renderHintButtons(){
+
+  const buttons =
+    document.querySelectorAll(
+      ".hint-option"
+    );
+
+  if(buttons.length<3) return;
+
+  buttons[0].classList.toggle(
+    "used",
+    usedHints.definition
+  );
+
+  buttons[1].classList.toggle(
+    "used",
+    usedHints.indicator
+  );
+
+  buttons[2].classList.toggle(
+    "used",
+    usedHints.fodder
+  );
+
+}
+
+
+/* ============================================================
+   REVELAR LETRA
+============================================================ */
+
+function revealLetter(){
+
+  if(gameFinished) return;
+
+  const answer =
+    currentPuzzle.answer;
+
+  let index=-1;
+
+
+  /*
+    Busca la primera letra que
+    todavía NO fue revelada.
+  */
+
+  for(
+    let i=0;
+    i<answer.length;
+    i++
+  ){
+
+    if(!revealed[i]){
+
+      index=i;
+
+      break;
+
+    }
+
+  }
+
+
+  if(index===-1){
+
+    showToast(
+      "Ya revelaste todas las letras."
+    );
+
+    return;
+
+  }
+
+
+  currentAnswer[index] =
+    answer[index];
+
+  revealed[index] =
+    true;
+
+  renderAnswerBoxes();
+
+  state.hints++;
+
+  saveState();
+
+  updateStats();
+
+}
+
+
+/* ============================================================
+   TIMER
+============================================================ */
+
+function renderTimer(){
+
+  const minutes =
+    Math.floor(timerSeconds/60)
+      .toString()
+      .padStart(2,"0");
+
+  const seconds =
+    (timerSeconds%60)
+      .toString()
+      .padStart(2,"0");
+
+  document.getElementById("timer").textContent =
+    `${minutes}:${seconds}`;
+
+}
+
+
+/* ============================================================
+   CURSOS
+============================================================ */
+
+function renderCourses(){
+
+  const container =
+    document.getElementById("courses");
+
+  container.innerHTML="";
+
+
+  COURSES.forEach(course=>{
+
+    const section =
+      document.createElement("div");
+
+    section.className =
+      "course";
+
+    section.innerHTML = `
+
+      <div class="course-title">
+
+        <h3>
+          ${course.number}: ${course.title}
+        </h3>
+
+        <span>
+          ${course.lessons.length} técnicas
+        </span>
+
+      </div>
+
+      <p class="course-desc">
+        ${course.description}
+      </p>
+
+    `;
+
+
+    course.lessons.forEach(lesson=>{
+
+      const key =
+        `${course.id}_${lesson.id}`;
+
+      const progress =
+        state.courseProgress[key] || 0;
+
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "lesson-card";
+
+
+      card.innerHTML = `
+
+        <div class="lesson-icon">
+          ${lesson.icon}
+        </div>
+
+        <div class="lesson-info">
+
+          <strong>
+            ${lesson.title}
+          </strong>
+
+          <small>
+            ${Math.min(progress,3)}/3 completados
+          </small>
+
+        </div>
+
+        <button class="lesson-open">
+          Aprender
+        </button>
+
+      `;
+
+
+      card
+        .querySelector(".lesson-open")
+        .onclick = ()=>{
+          openLesson(course,lesson);
+        };
+
+
+      section.appendChild(card);
+
+    });
+
+
+    container.appendChild(section);
+
+  });
+
+}
+
+
+/* ============================================================
+   ABRIR LECCIÓN
+============================================================ */
+
+function openLesson(course,lesson){
+
+  currentLesson = {
+    course,
+    lesson
+  };
+
+  currentSlide=0;
+
+  renderLesson();
+
+  document
+    .getElementById("lessonModal")
+    .classList.add("show");
+
+}
+
+
+/* ============================================================
+   CERRAR LECCIÓN
+============================================================ */
+
+function closeLesson(){
+
+  document
+    .getElementById("lessonModal")
+    .classList.remove("show");
+
+}
+
+
+/* ============================================================
+   RENDER LECCIÓN
+============================================================ */
+
+function renderLesson(){
+
+  const lesson =
+    currentLesson.lesson;
+
+  const slide =
+    lesson.slides[currentSlide];
+
+  const total =
+    lesson.slides.length;
+
+
+  const progress =
+    document.getElementById(
+      "lessonProgress"
+    );
+
+  progress.innerHTML="";
+
+
+  for(
+    let i=0;
+    i<total;
+    i++
+  ){
+
+    const dot =
+      document.createElement("div");
+
+    dot.className =
+      "progress-dot" +
+      (
+        i===currentSlide
+          ? " active"
+          : ""
+      );
+
+    progress.appendChild(dot);
+
+  }
+
+
+  let html = `
+
+    <div class="slide-number">
+      ${currentSlide+1} / ${total}
+    </div>
+
+    <h2>
+      ${slide.title}
+    </h2>
+
+    <p>
+      ${slide.text}
+    </p>
+
+  `;
+
+
+  if(slide.example){
+
+    html += `
+
+      <div class="big-example">
+
+        <div class="example-clue">
+          ${escapeHTML(
+            slide.example.clue
+          )}
+        </div>
+
+        <div class="example-answer">
+          → ${escapeHTML(
+            slide.example.answer
+          )}
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  if(slide.list){
+
+    html += `
+
+      <div class="indicator-list">
+
+        ${slide.list.map(item=>
+
+          `<div class="indicator-item">
+            ${escapeHTML(item)}
+          </div>`
+
+        ).join("")}
+
+      </div>
+
+    `;
+
+  }
+
+
+  if(slide.tip){
+
+    html += `
+
+      <div class="tip">
+        💡 ${escapeHTML(slide.tip)}
+      </div>
+
+    `;
+
+  }
+
+
+  document.getElementById(
+    "lessonContent"
+  ).innerHTML = html;
+
+
+  document.getElementById(
+    "lessonBack"
+  ).style.visibility =
+    currentSlide===0
+      ? "hidden"
+      : "visible";
+
+
+  document.getElementById(
+    "lessonNext"
+  ).textContent =
+    currentSlide===total-1
+      ? "Terminar ✓"
+      : "Siguiente →";
+
+}
+
+
+/* ============================================================
+   SIGUIENTE
+============================================================ */
+
+function nextSlide(){
+
+  const lesson =
+    currentLesson.lesson;
+
+
+  if(
+    currentSlide <
+    lesson.slides.length-1
+  ){
+
+    currentSlide++;
+
+    renderLesson();
+
+  }else{
+
+    completeLesson();
+
+    closeLesson();
+
+    showToast(
+      "Lección completada ✓"
+    );
+
+  }
+
+}
+
+
+/* ============================================================
+   ATRÁS
+============================================================ */
+
+function previousSlide(){
+
+  if(currentSlide>0){
+
+    currentSlide--;
+
+    renderLesson();
+
+  }
+
+}
+
+
+/* ============================================================
+   COMPLETAR LECCIÓN
+============================================================ */
+
+function completeLesson(){
+
+  const course =
+    currentLesson.course;
+
+  const lesson =
+    currentLesson.lesson;
+
+  if(!course.id) return;
+
+  const key =
+    `${course.id}_${lesson.id}`;
+
+  state.courseProgress[key]=3;
+
+  saveState();
+
+  renderCourses();
+
+}
+
+
+/* ============================================================
+   ABOUT
+============================================================ */
+
+function openAbout(){
+
+  currentLesson = {
+
+    course:{},
+
+    lesson:{
+
+      slides:[
+
+        {
+          title:"¿Cómo funciona?",
+
+          text:
+            "Las pistas crípticas combinan una definición con un pequeño juego de palabras. La clave es descubrir qué operación está escondida en la pista."
+        },
+
+        {
+          title:"Tres preguntas.",
+
+          text:
+            "1. ¿Dónde está la definición?<br><br>2. ¿Qué mecanismo se está usando?<br><br>3. ¿Qué palabra indica qué hacer?"
+        },
+
+        {
+          title:"No adivines. Construí.",
+
+          text:
+            "Una respuesta correcta no sólo tiene que sonar bien. Tiene que poder demostrarse letra por letra a partir de la pista."
+        }
+
+      ]
+
+    }
+
+  };
+
+
+  currentSlide=0;
+
+  renderLesson();
+
+  document
+    .getElementById("lessonModal")
+    .classList.add("show");
+
+}
+
+
+/* ============================================================
+   COMPARTIR
+============================================================ */
+
+async function shareResult(){
+
+  if(!currentPuzzle) return;
+
+
+  let text =
+
+`🧩 Minute Cryptic ES
+
+${gameFinished
+  ? "✓ Resolví la pista:"
+  : "Estoy intentando resolver:"}
+
+"${currentPuzzle.clue}"
+
+${gameFinished
+  ? "Respuesta: " + currentPuzzle.answer
+  : ""}`;
+
+
+  if(navigator.share){
+
+    try{
+
+      await navigator.share({
+
+        title:"Minute Cryptic ES",
+
+        text:text
+
+      });
+
+    }catch(e){}
+
+    return;
+
+  }
+
+
+  try{
+
+    await navigator.clipboard.writeText(
+      text
+    );
+
+    showToast(
+      "Resultado copiado."
+    );
+
+  }catch(e){
+
+    showToast(
+      "No se pudo copiar."
+    );
+
+  }
+
+}
+
+
+/* ============================================================
+   TECLADO FÍSICO
+============================================================ */
+
+document.addEventListener(
+  "keydown",
+  event=>{
+
+    if(
+      !document
+        .getElementById("game")
+        .classList
+        .contains("active")
+    ){
+
+      return;
+
+    }
+
+
+    if(
+      /^[a-zA-ZñÑ]$/.test(
+        event.key
+      )
+    ){
+
+      enterLetter(event.key);
+
+    }
+
+
+    if(
+      event.key==="Backspace"
+    ){
+
+      deleteLetter();
+
+    }
+
+
+    if(
+      event.key==="Enter"
+    ){
+
+      checkAnswer();
+
+    }
+
+  }
+);
+
+
+/* ============================================================
+   ESCAPE PARA CERRAR MODAL
+============================================================ */
+
+document.addEventListener(
+  "keydown",
+  event=>{
+
+    if(
+      event.key==="Escape"
+    ){
+
+      closeLesson();
+
+    }
+
+  }
+);
+
+
+/* ============================================================
+   UTILIDADES
+============================================================ */
+
+function escapeHTML(str){
+
+  return String(str)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+function escapeRegex(str){
+
+  return String(str)
+    .replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&"
+    );
+
+}
+
+
+let toastTimer;
+
+function showToast(message){
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  clearTimeout(
+    toastTimer
+  );
+
+  toastTimer =
+    setTimeout(()=>{
+
+      toast.classList.remove(
+        "show"
+      );
+
+    },2200);
+
+}
+
+
+/* ============================================================
+   INICIO
+============================================================ */
+
+renderHome();
+renderCourses();
+updateStats();
+
+</script>
+
+</body>
+</html>
