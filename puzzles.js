@@ -1,542 +1,2660 @@
-const PUZZLES = [
-
-  /* =====================================================
-     01 — ANAGRAMA
-  ===================================================== */
-
-  {
-    id: "d001",
-    difficulty: "medio",
-    clue: "El trato, revuelto, acabó convertido en postre. (5)",
-    answer: "TORTA",
-    mechanisms: ["anagram"],
-    definition: "postre",
-    fodder: "trato",
-    indicators: ["revuelto"],
-    explanation:
-      "«Postre» es la definición. «trato» es el fodder y «revuelto» indica que hay que reordenar sus letras: TRATO → TORTA."
-  },
-
-
-  /* =====================================================
-     02 — ANAGRAMA
-  ===================================================== */
-
-  {
-    id: "d002",
-    difficulty: "medio",
-    clue: "El saco, desordenado, terminó siendo un asunto. (4)",
-    answer: "CASO",
-    mechanisms: ["anagram"],
-    definition: "asunto",
-    fodder: "saco",
-    indicators: ["desordenado"],
-    explanation:
-      "«Asunto» define CASO. Las letras de «saco», al estar «desordenado», forman CASO."
-  },
-
-
-  /* =====================================================
-     03 — ANAGRAMA
-  ===================================================== */
-
-  {
-    id: "d003",
-    difficulty: "medio+",
-    clue: "El trapo, alterado, anuncia un nacimiento. (5)",
-    answer: "PARTO",
-    mechanisms: ["anagram"],
-    definition: "nacimiento",
-    fodder: "trapo",
-    indicators: ["alterado"],
-    explanation:
-      "«Nacimiento» es la definición. TRAPO alterado puede reorganizarse como PARTO."
-  },
-
-
-  /* =====================================================
-     04 — ANAGRAMA
-  ===================================================== */
-
-  {
-    id: "d004",
-    difficulty: "medio+",
-    clue: "Parte del calzado que sale de un canto revuelto. (5)",
-    answer: "TACON",
-    mechanisms: ["anagram"],
-    definition: "Parte del calzado",
-    fodder: "canto",
-    indicators: ["revuelto"],
-    explanation:
-      "La definición es «Parte del calzado». Las letras de CANTO, revueltas, forman TACON: CANTO → TACON."
-  },
-
-
-  /* =====================================================
-     05 — ANAGRAMA
-  ===================================================== */
-
-  {
-    id: "d005",
-    difficulty: "medio",
-    clue: "Comienza a existir cuando la cena se desordena. (4)",
-    answer: "NACE",
-    mechanisms: ["anagram"],
-    definition: "Comienza a existir",
-    fodder: "cena",
-    indicators: ["desordena"],
-    explanation:
-      "«Comienza a existir» define NACE. CENA desordenada produce NACE."
-  },
-
-
-  /* =====================================================
-     06 — ANAGRAMA
-  ===================================================== */
-
-  {
-    id: "d006",
-    difficulty: "medio+",
-    clue: "Adorno antiguo del cuello que nace de un lago revuelto. (4)",
-    answer: "GOLA",
-    mechanisms: ["anagram"],
-    definition: "Adorno antiguo del cuello",
-    fodder: "lago",
-    indicators: ["revuelto"],
-    explanation:
-      "GOLA es un adorno o pieza que se llevaba alrededor del cuello. Se obtiene reordenando LAGO."
-  },
-
-
-  /* =====================================================
-     07 — ANAGRAMA
-  ===================================================== */
-
-  {
-    id: "d007",
-    difficulty: "medio",
-    clue: "Cubierta que aparece cuando una pata se desordena. (4)",
-    answer: "TAPA",
-    mechanisms: ["anagram"],
-    definition: "Cubierta",
-    fodder: "pata",
-    indicators: ["desordena"],
-    explanation:
-      "«Cubierta» define TAPA. Las letras de PATA, desordenadas, forman TAPA."
-  },
-
-
-  /* =====================================================
-     08 — ANAGRAMA
-  ===================================================== */
-
-  {
-    id: "d008",
-    difficulty: "medio+",
-    clue: "Retira, si la casa se revuelve. (4)",
-    answer: "SACA",
-    mechanisms: ["anagram"],
-    definition: "Retira",
-    fodder: "casa",
-    indicators: ["revuelve"],
-    explanation:
-      "«Retira» es la definición verbal: SACA. CASA revuelta da SACA."
-  },
-
-
-  /* =====================================================
-     09 — REVERSAL
-  ===================================================== */
-
-  {
-    id: "d009",
-    difficulty: "medio+",
-    clue: "Ciudad del norte que aparece cuando el atlas vuelve sobre sus pasos. (5)",
-    answer: "SALTA",
-    mechanisms: ["reversal"],
-    definition: "Ciudad del norte",
-    fodder: "atlas",
-    indicators: ["vuelve"],
-    explanation:
-      "La definición es «Ciudad del norte». Al invertir ATLAS obtenemos SALTA."
-  },
-
-
-  /* =====================================================
-     10 — REVERSAL
-  ===================================================== */
-
-  {
-    id: "d010",
-    difficulty: "medio+",
-    clue: "Agarrar, si la risa vuelve sobre sí misma. (4)",
-    answer: "ASIR",
-    mechanisms: ["reversal"],
-    definition: "Agarrar",
-    fodder: "risa",
-    indicators: ["vuelve"],
-    explanation:
-      "ASIR significa agarrar. RISA leída al revés produce ASIR."
-  },
-
-
-  /* =====================================================
-     11 — REVERSAL
-  ===================================================== */
-
-  {
-    id: "d011",
-    difficulty: "medio+",
-    clue: "Animal de fama astuta, si el arroz vuelve sobre sus pasos. (5)",
-    answer: "ZORRA",
-    mechanisms: ["reversal"],
-    definition: "Animal de fama astuta",
-    fodder: "arroz",
-    indicators: ["vuelve"],
-    explanation:
-      "ARROZ leído de derecha a izquierda forma ZORRA. «Animal de fama astuta» es la definición."
-  },
-
-
-  /* =====================================================
-     12 — DELETION
-  ===================================================== */
-
-  {
-    id: "d012",
-    difficulty: "medio",
-    clue: "Metal precioso que queda si al loro le falta la cabeza. (3)",
-    answer: "ORO",
-    mechanisms: ["deletion"],
-    definition: "Metal precioso",
-    fodder: "loro",
-    indicators: ["falta la cabeza"],
-    explanation:
-      "Quitamos la primera letra de LORO: L + ORO → ORO. La definición es «Metal precioso»."
-  },
-
-
-  /* =====================================================
-     13 — DELETION
-  ===================================================== */
-
-  {
-    id: "d013",
-    difficulty: "medio+",
-    clue: "Instrumento que queda cuando el barco pierde la cabeza. (4)",
-    answer: "ARCO",
-    mechanisms: ["deletion"],
-    definition: "Instrumento",
-    fodder: "barco",
-    indicators: ["pierde la cabeza"],
-    explanation:
-      "BARCO sin su primera letra queda ARCO, que es un instrumento musical."
-  },
-
-
-  /* =====================================================
-     14 — DELETION
-  ===================================================== */
-
-  {
-    id: "d014",
-    difficulty: "medio",
-    clue: "Elevado, si a un salto le quitan el principio. (4)",
-    answer: "ALTO",
-    mechanisms: ["deletion"],
-    definition: "Elevado",
-    fodder: "salto",
-    indicators: ["quitan el principio"],
-    explanation:
-      "SALTO sin su primera letra, S, queda ALTO. «Elevado» funciona como definición."
-  },
-
-
-  /* =====================================================
-     15 — DELETION
-  ===================================================== */
-
-  {
-    id: "d015",
-    difficulty: "medio+",
-    clue: "Parte de un árbol que pierde la primera letra de un drama. (4)",
-    answer: "RAMA",
-    mechanisms: ["deletion"],
-    definition: "Parte de un árbol",
-    fodder: "drama",
-    indicators: ["pierde la primera letra"],
-    explanation:
-      "DRAMA sin su primera letra, D, queda RAMA. La definición es «Parte de un árbol»."
-  },
-
-
-  /* =====================================================
-     16 — DELETION
-  ===================================================== */
-
-  {
-    id: "d016",
-    difficulty: "medio+",
-    clue: "Momento breve que queda si un trato pierde su primera letra. (4)",
-    answer: "RATO",
-    mechanisms: ["deletion"],
-    definition: "Momento breve",
-    fodder: "trato",
-    indicators: ["pierde su primera letra"],
-    explanation:
-      "TRATO sin la T inicial produce RATO. «Momento breve» define RATO."
-  },
-
-
-  /* =====================================================
-     17 — HIDDEN
-  ===================================================== */
-
-  {
-    id: "d017",
-    difficulty: "medio+",
-    clue: "Madera apreciada que aparece dentro de la biblioteca. (4)",
-    answer: "TECA",
-    mechanisms: ["hidden"],
-    definition: "Madera apreciada",
-    fodder: "biblioteca",
-    indicators: ["dentro de"],
-    explanation:
-      "TECA está escondida dentro de biblioTECA. «Madera apreciada» es la definición."
-  },
-
-
-  /* =====================================================
-     18 — HIDDEN
-  ===================================================== */
-
-  {
-    id: "d018",
-    difficulty: "medio+",
-    clue: "Comida nocturna que el director dejó escondida en el escenario. (4)",
-    answer: "CENA",
-    mechanisms: ["hidden"],
-    definition: "Comida nocturna",
-    fodder: "escenario",
-    indicators: ["escondida en"],
-    explanation:
-      "CENA aparece consecutivamente dentro de ES CENA RIO. La palabra está escondida en «escenario»."
-  },
-
-
-  /* =====================================================
-     19 — HIDDEN
-  ===================================================== */
-
-  {
-    id: "d019",
-    difficulty: "medio+",
-    clue: "Fuente de luz que una novela guarda en silencio. (4)",
-    answer: "VELA",
-    mechanisms: ["hidden"],
-    definition: "Fuente de luz",
-    fodder: "novela",
-    indicators: ["guarda"],
-    explanation:
-      "VELA está escondida dentro de noVELA. Puede ser una fuente de luz."
-  },
-
-
-  /* =====================================================
-     20 — HIDDEN
-  ===================================================== */
-
-  {
-    id: "d020",
-    difficulty: "medio+",
-    clue: "Curso de agua que el periodista dejó oculto en el escenario. (3)",
-    answer: "RIO",
-    mechanisms: ["hidden"],
-    definition: "Curso de agua",
-    fodder: "escenario",
-    indicators: ["oculto en"],
-    explanation:
-      "RIO aparece al final de esCENARIO. «Curso de agua» es la definición."
-  },
-
-
-  /* =====================================================
-     21 — CONTAINER
-  ===================================================== */
-
-  {
-    id: "d021",
-    difficulty: "medio+",
-    clue: "Metal que hace sitio a una L dentro de una pata. (5)",
-    answer: "PLATA",
-    mechanisms: ["container"],
-    definition: "Metal",
-    fodder: "pata",
-    indicators: ["dentro"],
-    explanation:
-      "PATA contiene una L: P + L + ATA = PLATA. «Metal» es la definición."
-  },
-
-
-  /* =====================================================
-     22 — CONTAINER
-  ===================================================== */
-
-  {
-    id: "d022",
-    difficulty: "medio+",
-    clue: "Utensilio que recibe una L dentro de un pato. (5)",
-    answer: "PLATO",
-    mechanisms: ["container"],
-    definition: "Utensilio",
-    fodder: "pato",
-    indicators: ["dentro"],
-    explanation:
-      "Introduciendo L en PATO obtenemos PLATO. «Utensilio» es la definición."
-  },
-
-
-  /* =====================================================
-     23 — CONTAINER
-  ===================================================== */
-
-  {
-    id: "d023",
-    difficulty: "medio+",
-    clue: "Viento suave que deja entrar una B en la risa. (5)",
-    answer: "BRISA",
-    mechanisms: ["container"],
-    definition: "Viento suave",
-    fodder: "risa",
-    indicators: ["deja entrar"],
-    explanation:
-      "RISA recibe una B al principio: B + RISA = BRISA. «Viento suave» es la definición."
-  },
-
-
-  /* =====================================================
-     24 — CONTAINER
-  ===================================================== */
-
-  {
-    id: "d024",
-    difficulty: "medio+",
-    clue: "Apuro que aparece cuando una P entra en la risa. (5)",
-    answer: "PRISA",
-    mechanisms: ["container"],
-    definition: "Apuro",
-    fodder: "risa",
-    indicators: ["entra"],
-    explanation:
-      "RISA recibe una P al principio y forma PRISA. «Apuro» es la definición."
-  },
-
-
-  /* =====================================================
-     25 — HOMÓFONO
-  ===================================================== */
-
-  {
-    id: "d025",
-    difficulty: "medio+",
-    clue: "Bonito, según suena aquello que cubre la piel. (5)",
-    answer: "BELLO",
-    mechanisms: ["homophone"],
-    definition: "Bonito",
-    fodder: "vello",
-    indicators: ["según suena"],
-    explanation:
-      "«Bonito» define BELLO. La palabra «vello», aquello que cubre la piel, suena como BELLO."
-  },
-
-
-  /* =====================================================
-     26 — HOMÓFONO
-  ===================================================== */
-
-  {
-    id: "d026",
-    difficulty: "medio+",
-    clue: "Se vino abajo, al oído, como si alguien hubiera guardado silencio. (4)",
-    answer: "CAYO",
-    mechanisms: ["homophone"],
-    definition: "Se vino abajo",
-    fodder: "calló",
-    indicators: ["al oído"],
-    explanation:
-      "CAYÓ significa «se vino abajo». Suena igual que CALLÓ, que significa que alguien guardó silencio."
-  },
-
-
-  /* =====================================================
-     27 — DOBLE DEFINICIÓN
-  ===================================================== */
-
-  {
-    id: "d027",
-    difficulty: "medio+",
-    clue: "Puede servir para sentarse o para guardar dinero. (5)",
-    answer: "BANCO",
-    mechanisms: ["double-definition"],
-    definition: "Puede servir para sentarse",
-    fodder: "",
-    indicators: [],
-    explanation:
-      "BANCO tiene dos definiciones: puede ser un asiento y también una institución donde se guarda o administra dinero."
-  },
-
-
-  /* =====================================================
-     28 — DOBLE DEFINICIÓN
-  ===================================================== */
-
-  {
-    id: "d028",
-    difficulty: "medio+",
-    clue: "Puede cortar un tronco o atravesar una cordillera. (6)",
-    answer: "SIERRA",
-    mechanisms: ["double-definition"],
-    definition: "Puede cortar un tronco",
-    fodder: "",
-    indicators: [],
-    explanation:
-      "SIERRA tiene dos sentidos: es una herramienta para cortar y también una formación montañosa o cordillera."
-  },
-
-
-  /* =====================================================
-     29 — DOBLE DEFINICIÓN
-  ===================================================== */
-
-  {
-    id: "d029",
-    difficulty: "medio+",
-    clue: "Se abre con una mano y también puede resolver un misterio. (5)",
-    answer: "LLAVE",
-    mechanisms: ["double-definition"],
-    definition: "Se abre con una mano",
-    fodder: "",
-    indicators: [],
-    explanation:
-      "LLAVE puede ser el objeto con el que abrimos una cerradura y también aquello que proporciona la solución o clave para resolver algo."
-  },
-
-
-  /* =====================================================
-     30 — DOBLE DEFINICIÓN
-  ===================================================== */
-
-  {
-    id: "d030",
-    difficulty: "medio+",
-    clue: "Vive en una maceta y también puede ocupar un edificio. (6)",
-    answer: "PLANTA",
-    mechanisms: ["double-definition"],
-    definition: "Vive en una maceta",
-    fodder: "",
-    indicators: [],
-    explanation:
-      "PLANTA tiene dos sentidos: un vegetal que puede vivir en una maceta y cada uno de los niveles de un edificio."
+/* =========================================================
+   CRÍPTICO DIARIO — APP
+========================================================= */
+
+(() => {
+  "use strict";
+
+
+  /* =======================================================
+     CONFIGURACIÓN
+  ======================================================= */
+
+  const STORAGE_KEY = "criptico_diario_v2";
+
+
+  const mechanismNames = {
+    anagram: "Anagrama",
+    hidden: "Hidden",
+    reversal: "Reversal",
+    deletion: "Deletion",
+    initials: "Iniciales",
+    finals: "Finales",
+    synonym: "Sinónimo",
+    container: "Container",
+    homophone: "Homófono",
+    "double-definition": "Doble definición",
+    translation: "Traducción",
+    rebus: "Rebus"
+  };
+
+
+  /* =======================================================
+     ESTADO
+  ======================================================= */
+
+  let state = {
+
+    currentPuzzleId: null,
+    currentDate: null,
+
+    answer: [],
+    revealed: [],
+
+    started: false,
+    finished: false,
+
+    startTime: null,
+    elapsed: 0,
+
+    hintsUsed: {
+      fodder: false,
+      indicator: false,
+      definition: false
+    },
+
+    solved: 0,
+    streak: 0,
+    bestStreak: 0,
+
+    times: [],
+
+    completedDates: []
+
+  };
+
+
+  let timerInterval = null;
+
+
+  /* =======================================================
+     SELECTORES
+  ======================================================= */
+
+  const $ = selector =>
+    document.querySelector(selector);
+
+  const $$ = selector =>
+    [...document.querySelectorAll(selector)];
+
+
+  const homeScreen =
+    $("#homeScreen");
+
+  const gameScreen =
+    $("#gameScreen");
+
+  const learnScreen =
+    $("#learnScreen");
+
+
+  const playBtn =
+    $("#playBtn");
+
+  const backBtn =
+    $("#backBtn");
+
+  const learnBtn =
+    $("#learnBtn");
+
+  const learnBackBtn =
+    $("#learnBackBtn");
+
+
+  const clueText =
+    $("#clueText");
+
+  const answerContainer =
+    $("#answerContainer");
+
+  const timer =
+    $("#timer");
+
+
+  const hintBtn =
+    $("#hintBtn");
+
+  const revealBtn =
+    $("#revealBtn");
+
+  const checkBtn =
+    $("#checkBtn");
+
+
+  const hintModal =
+    $("#hintModal");
+
+  const resultModal =
+    $("#resultModal");
+
+  const lessonModal =
+    $("#lessonModal");
+
+  const statsModal =
+    $("#statsModal");
+
+
+  const resultAnswer =
+    $("#resultAnswer");
+
+  const resultExplanation =
+    $("#resultExplanation");
+
+  const resultTime =
+    $("#resultTime");
+
+  const resultStreak =
+    $("#resultStreak");
+
+
+  const statsBtn =
+    $("#statsBtn");
+
+  const shareBtn =
+    $("#shareBtn");
+
+  const resultCloseBtn =
+    $("#resultCloseBtn");
+
+
+  const difficultyBadge =
+    $("#difficultyBadge");
+
+  const mechanismBadge =
+    $("#mechanismBadge");
+
+
+  const alreadySolved =
+    $("#alreadySolved");
+
+
+  /* =======================================================
+     STORAGE
+  ======================================================= */
+
+  function loadState() {
+
+    try {
+
+      const saved =
+        localStorage.getItem(STORAGE_KEY);
+
+      if (!saved) {
+        return;
+      }
+
+      const parsed =
+        JSON.parse(saved);
+
+
+      state = {
+
+        ...state,
+
+        ...parsed,
+
+        hintsUsed: {
+          ...state.hintsUsed,
+          ...(parsed.hintsUsed || {})
+        },
+
+        answer:
+          Array.isArray(parsed.answer)
+            ? parsed.answer
+            : [],
+
+        revealed:
+          Array.isArray(parsed.revealed)
+            ? parsed.revealed
+            : [],
+
+        completedDates:
+          Array.isArray(parsed.completedDates)
+            ? parsed.completedDates
+            : [],
+
+        times:
+          Array.isArray(parsed.times)
+            ? parsed.times
+            : []
+
+      };
+
+    } catch (error) {
+
+      console.warn(
+        "No se pudo cargar el progreso:",
+        error
+      );
+
+    }
+
   }
 
-];
+
+  function saveState() {
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(state)
+    );
+
+  }
+
+
+  /* =======================================================
+     FECHA
+  ======================================================= */
+
+  function getDateKey(
+    date = new Date()
+  ) {
+
+    const year =
+      date.getFullYear();
+
+    const month =
+      String(
+        date.getMonth() + 1
+      ).padStart(2, "0");
+
+    const day =
+      String(
+        date.getDate()
+      ).padStart(2, "0");
+
+
+    return `${year}-${month}-${day}`;
+
+  }
+
+
+  function getDayNumber(
+    date = new Date()
+  ) {
+
+    const start =
+      new Date(
+        date.getFullYear(),
+        0,
+        0
+      );
+
+
+    const diff =
+      date -
+      start +
+      (
+        (
+          start.getTimezoneOffset() -
+          date.getTimezoneOffset()
+        ) *
+        60 *
+        1000
+      );
+
+
+    return Math.floor(
+      diff / 86400000
+    );
+
+  }
+
+
+  /* =======================================================
+     PUZZLE DEL DÍA
+  ======================================================= */
+
+  function getPuzzleOfTheDay() {
+
+    if (
+      !Array.isArray(PUZZLES) ||
+      PUZZLES.length === 0
+    ) {
+
+      console.error(
+        "No hay puzzles disponibles."
+      );
+
+      return null;
+
+    }
+
+
+    const dayNumber =
+      getDayNumber();
+
+
+    const index =
+      (dayNumber - 1) %
+      PUZZLES.length;
+
+
+    return PUZZLES[index];
+
+  }
+
+
+  function getCurrentPuzzle() {
+
+    return (
+      PUZZLES.find(
+        puzzle =>
+          puzzle.id ===
+          state.currentPuzzleId
+      )
+      ||
+      getPuzzleOfTheDay()
+    );
+
+  }
+
+
+  /* =======================================================
+     INICIALIZACIÓN
+  ======================================================= */
+
+  function init() {
+
+    loadState();
+
+
+    const today =
+      getDateKey();
+
+
+    const puzzle =
+      getPuzzleOfTheDay();
+
+
+    if (!puzzle) {
+      return;
+    }
+
+
+    /*
+      Si estamos ante un nuevo día,
+      reiniciamos el puzzle.
+    */
+
+    if (
+      state.currentDate !== today
+    ) {
+
+      state.currentDate =
+        today;
+
+      state.currentPuzzleId =
+        puzzle.id;
+
+
+      state.answer = [];
+
+      state.revealed = [];
+
+
+      state.started = false;
+
+      state.finished = false;
+
+
+      state.startTime =
+        null;
+
+      state.elapsed =
+        0;
+
+
+      state.hintsUsed = {
+
+        fodder: false,
+
+        indicator: false,
+
+        definition: false
+
+      };
+
+
+      saveState();
+
+    }
+
+
+    updateHome();
+
+    bindEvents();
+
+  }
+
+
+  /* =======================================================
+     NAVEGACIÓN
+  ======================================================= */
+
+  function showScreen(screen) {
+
+    [
+      homeScreen,
+      gameScreen,
+      learnScreen
+    ]
+      .forEach(element => {
+
+        element.classList.remove(
+          "active"
+        );
+
+      });
+
+
+    screen.classList.add(
+      "active"
+    );
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "instant"
+    });
+
+  }
+
+
+  function openGame() {
+
+    const puzzle =
+      getPuzzleOfTheDay();
+
+
+    if (!puzzle) {
+      return;
+    }
+
+
+    state.currentPuzzleId =
+      puzzle.id;
+
+
+    renderPuzzle(
+      puzzle
+    );
+
+
+    if (state.finished) {
+
+      stopTimer();
+
+    } else if (state.started) {
+
+      startTimer();
+
+    }
+
+
+    showScreen(
+      gameScreen
+    );
+
+  }
+
+
+  function goHome() {
+
+    stopTimer();
+
+    updateHome();
+
+    showScreen(
+      homeScreen
+    );
+
+  }
+
+
+  /* =======================================================
+     HOME
+  ======================================================= */
+
+  function updateHome() {
+
+    const today =
+      getDateKey();
+
+
+    const solvedToday =
+      state.completedDates.includes(
+        today
+      );
+
+
+    if (
+      solvedToday ||
+      state.finished
+    ) {
+
+      playBtn.classList.add(
+        "hidden"
+      );
+
+      alreadySolved.classList.remove(
+        "hidden"
+      );
+
+    } else {
+
+      playBtn.classList.remove(
+        "hidden"
+      );
+
+      alreadySolved.classList.add(
+        "hidden"
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     RENDER PUZZLE
+  ======================================================= */
+
+  function renderPuzzle(
+    puzzle
+  ) {
+
+    renderClue(
+      puzzle
+    );
+
+
+    difficultyBadge.textContent =
+      String(
+        puzzle.difficulty ||
+        "medium"
+      ).toUpperCase();
+
+
+    const mechanisms =
+      puzzle.mechanisms ||
+      [];
+
+
+    if (
+      mechanisms.length === 1
+    ) {
+
+      mechanismBadge.textContent =
+        mechanismNames[
+          mechanisms[0]
+        ] ||
+        mechanisms[0];
+
+    } else {
+
+      mechanismBadge.textContent =
+        `${mechanisms.length} mecanismos`;
+
+    }
+
+
+    renderAnswer();
+
+    renderKeyboard();
+
+    updateTimerDisplay();
+
+  }
+
+
+  /* =======================================================
+     RENDER DE LA PISTA
+  ======================================================= */
+
+  function renderClue(
+    puzzle
+  ) {
+
+    if (!puzzle) {
+      return;
+    }
+
+
+    /*
+      Si no hay pistas utilizadas,
+      mostramos el texto normal.
+    */
+
+    const activeHints =
+      Object.keys(
+        state.hintsUsed
+      )
+      .filter(
+        type =>
+          state.hintsUsed[type]
+      );
+
+
+    if (
+      activeHints.length === 0
+    ) {
+
+      clueText.textContent =
+        puzzle.clue;
+
+      return;
+
+    }
+
+
+    /*
+      Creamos segmentos de la frase
+      para poder tener varios subrayados
+      simultáneamente.
+    */
+
+    const text =
+      String(puzzle.clue);
+
+
+    const ranges = [];
+
+
+    activeHints.forEach(
+      type => {
+
+        let target = "";
+
+
+        if (
+          type === "fodder"
+        ) {
+
+          target =
+            puzzle.fodder ||
+            "";
+
+        }
+
+
+        if (
+          type === "indicator"
+        ) {
+
+          if (
+            Array.isArray(
+              puzzle.indicators
+            )
+          ) {
+
+            target =
+              puzzle.indicators[0] ||
+              "";
+
+          } else {
+
+            target =
+              puzzle.indicators ||
+              "";
+
+          }
+
+        }
+
+
+        if (
+          type === "definition"
+        ) {
+
+          target =
+            puzzle.definition ||
+            "";
+
+        }
+
+
+        if (!target) {
+          return;
+        }
+
+
+        const index =
+          text.toLocaleLowerCase()
+            .indexOf(
+              String(target)
+                .toLocaleLowerCase()
+            );
+
+
+        if (
+          index === -1
+        ) {
+
+          console.warn(
+            `No se encontró "${target}" dentro de la pista.`
+          );
+
+          return;
+
+        }
+
+
+        ranges.push({
+
+          start: index,
+
+          end:
+            index +
+            String(target).length,
+
+          type
+
+        });
+
+      }
+    );
+
+
+    /*
+      Ordenamos los fragmentos.
+    */
+
+    ranges.sort(
+      (a, b) =>
+        a.start - b.start
+    );
+
+
+    /*
+      Evitamos problemas si dos ayudas
+      apuntan exactamente al mismo texto.
+    */
+
+    const finalRanges = [];
+
+
+    ranges.forEach(
+      range => {
+
+        const overlaps =
+          finalRanges.some(
+            existing =>
+              range.start <
+                existing.end &&
+              range.end >
+                existing.start
+          );
+
+
+        if (!overlaps) {
+
+          finalRanges.push(
+            range
+          );
+
+        }
+
+      }
+    );
+
+
+    /*
+      Construimos HTML seguro.
+    */
+
+    let html = "";
+
+    let cursor = 0;
+
+
+    finalRanges.forEach(
+      range => {
+
+        html +=
+          escapeHTML(
+            text.slice(
+              cursor,
+              range.start
+            )
+          );
+
+
+        html +=
+          `<span class="clue-highlight ${range.type}">` +
+          escapeHTML(
+            text.slice(
+              range.start,
+              range.end
+            )
+          ) +
+          `</span>`;
+
+
+        cursor =
+          range.end;
+
+      }
+    );
+
+
+    html +=
+      escapeHTML(
+        text.slice(cursor)
+      );
+
+
+    clueText.innerHTML =
+      html;
+
+  }
+
+
+  /* =======================================================
+     RESPUESTA
+  ======================================================= */
+
+  function normalizeAnswer(
+    value
+  ) {
+
+    return String(value || "")
+      .normalize("NFD")
+      .replace(
+        /[\u0300-\u036f]/g,
+        ""
+      )
+      .toUpperCase()
+      .replace(
+        /[^A-ZÑ]/g,
+        ""
+      );
+
+  }
+
+
+  function renderAnswer() {
+
+    const puzzle =
+      getCurrentPuzzle();
+
+
+    if (!puzzle) {
+      return;
+    }
+
+
+    const answer =
+      normalizeAnswer(
+        puzzle.answer
+      );
+
+
+    answerContainer.innerHTML =
+      "";
+
+
+    for (
+      let i = 0;
+      i < answer.length;
+      i++
+    ) {
+
+      const box =
+        document.createElement(
+          "div"
+        );
+
+
+      box.className =
+        "answer-letter";
+
+
+      const value =
+        state.answer[i] ||
+        "";
+
+
+      const isRevealed =
+        state.revealed.includes(
+          i
+        );
+
+
+      if (isRevealed) {
+
+        box.classList.add(
+          "revealed"
+        );
+
+        box.textContent =
+          answer[i];
+
+      } else {
+
+        box.textContent =
+          value;
+
+      }
+
+
+      if (
+        !state.finished &&
+        i ===
+          getNextInputPosition()
+      ) {
+
+        box.classList.add(
+          "active"
+        );
+
+      }
+
+
+      answerContainer.appendChild(
+        box
+      );
+
+    }
+
+  }
+
+
+  function getNextInputPosition() {
+
+    const puzzle =
+      getCurrentPuzzle();
+
+
+    if (!puzzle) {
+      return 0;
+    }
+
+
+    const answer =
+      normalizeAnswer(
+        puzzle.answer
+      );
+
+
+    /*
+      Primero buscamos un hueco vacío.
+    */
+
+    for (
+      let i = 0;
+      i < answer.length;
+      i++
+    ) {
+
+      if (
+        !state.revealed.includes(i) &&
+        !state.answer[i]
+      ) {
+
+        return i;
+
+      }
+
+    }
+
+
+    /*
+      Si no hay huecos vacíos,
+      buscamos el primer casillero
+      que todavía pueda editarse.
+    */
+
+    for (
+      let i = 0;
+      i < answer.length;
+      i++
+    ) {
+
+      if (
+        !state.revealed.includes(i)
+      ) {
+
+        return i;
+
+      }
+
+    }
+
+
+    return answer.length - 1;
+
+  }
+
+
+  function addLetter(
+    letter
+  ) {
+
+    if (state.finished) {
+      return;
+    }
+
+
+    const puzzle =
+      getCurrentPuzzle();
+
+
+    if (!puzzle) {
+      return;
+    }
+
+
+    const answer =
+      normalizeAnswer(
+        puzzle.answer
+      );
+
+
+    if (!state.started) {
+      startGame();
+    }
+
+
+    let position =
+      getNextInputPosition();
+
+
+    while (
+      position < answer.length &&
+      state.revealed.includes(
+        position
+      )
+    ) {
+
+      position++;
+
+    }
+
+
+    if (
+      position >=
+      answer.length
+    ) {
+
+      return;
+
+    }
+
+
+    state.answer[position] =
+      normalizeAnswer(
+        letter
+      ).slice(0, 1);
+
+
+    renderAnswer();
+
+    renderKeyboard();
+
+    saveState();
+
+  }
+
+
+  function removeLetter() {
+
+    if (state.finished) {
+      return;
+    }
+
+
+    for (
+      let i =
+        state.answer.length - 1;
+      i >= 0;
+      i--
+    ) {
+
+      if (
+        state.answer[i] &&
+        !state.revealed.includes(
+          i
+        )
+      ) {
+
+        state.answer[i] =
+          "";
+
+
+        renderAnswer();
+
+        renderKeyboard();
+
+        saveState();
+
+
+        return;
+
+      }
+
+    }
+
+  }
+
+
+  /* =======================================================
+     MOSTRAR LETRA
+  ======================================================= */
+
+  function revealNextLetter() {
+
+    if (state.finished) {
+      return;
+    }
+
+
+    const puzzle =
+      getCurrentPuzzle();
+
+
+    if (!puzzle) {
+      return;
+    }
+
+
+    const answer =
+      normalizeAnswer(
+        puzzle.answer
+      );
+
+
+    if (!state.started) {
+      startGame();
+    }
+
+
+    let position = -1;
+
+
+    /*
+      Siempre revela la primera letra
+      que todavía no fue revelada.
+    */
+
+    for (
+      let i = 0;
+      i < answer.length;
+      i++
+    ) {
+
+      if (
+        !state.revealed.includes(i)
+      ) {
+
+        position = i;
+
+        break;
+
+      }
+
+    }
+
+
+    if (position === -1) {
+      return;
+    }
+
+
+    state.answer[position] =
+      answer[position];
+
+
+    state.revealed.push(
+      position
+    );
+
+
+    state.revealed.sort(
+      (a, b) => a - b
+    );
+
+
+    renderAnswer();
+
+    renderKeyboard();
+
+    saveState();
+
+
+    /*
+      Si todas las letras fueron reveladas,
+      comprobamos automáticamente.
+    */
+
+    if (
+      state.revealed.length ===
+      answer.length
+    ) {
+
+      setTimeout(
+        () => checkAnswer(),
+        300
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     COMPROBAR
+  ======================================================= */
+
+  function checkAnswer() {
+
+    if (state.finished) {
+      return;
+    }
+
+
+    const puzzle =
+      getCurrentPuzzle();
+
+
+    if (!puzzle) {
+      return;
+    }
+
+
+    const correct =
+      normalizeAnswer(
+        puzzle.answer
+      );
+
+
+    const userAnswer =
+      state.answer
+        .map(
+          letter =>
+            letter || ""
+        )
+        .join("");
+
+
+    if (
+      userAnswer.length !==
+      correct.length
+    ) {
+
+      shakeCard();
+
+      return;
+
+    }
+
+
+    if (
+      userAnswer === correct
+    ) {
+
+      solvePuzzle();
+
+    } else {
+
+      shakeCard();
+
+      answerContainer.classList.add(
+        "wrong"
+      );
+
+
+      setTimeout(
+        () => {
+
+          answerContainer.classList.remove(
+            "wrong"
+          );
+
+        },
+        450
+      );
+
+    }
+
+  }
+
+
+  function shakeCard() {
+
+    const card =
+      document.querySelector(
+        ".game-card"
+      );
+
+
+    if (!card) {
+      return;
+    }
+
+
+    card.animate(
+      [
+        {
+          transform:
+            "translateX(0)"
+        },
+        {
+          transform:
+            "translateX(-7px)"
+        },
+        {
+          transform:
+            "translateX(7px)"
+        },
+        {
+          transform:
+            "translateX(-5px)"
+        },
+        {
+          transform:
+            "translateX(5px)"
+        },
+        {
+          transform:
+            "translateX(0)"
+        }
+      ],
+      {
+        duration: 300
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     RESOLVER
+  ======================================================= */
+
+  function solvePuzzle() {
+
+    state.finished =
+      true;
+
+
+    stopTimer();
+
+
+    const puzzle =
+      getCurrentPuzzle();
+
+
+    if (!puzzle) {
+      return;
+    }
+
+
+    if (state.startTime) {
+
+      state.elapsed =
+        Math.floor(
+          (
+            Date.now() -
+            state.startTime
+          ) / 1000
+        );
+
+    }
+
+
+    state.solved++;
+
+
+    state.times.push(
+      state.elapsed
+    );
+
+
+    const today =
+      getDateKey();
+
+
+    if (
+      !state.completedDates.includes(
+        today
+      )
+    ) {
+
+      state.completedDates.push(
+        today
+      );
+
+    }
+
+
+    updateStreak();
+
+
+    saveState();
+
+
+    const answer =
+      normalizeAnswer(
+        puzzle.answer
+      );
+
+
+    state.answer =
+      answer.split("");
+
+
+    renderAnswer();
+
+    renderKeyboard();
+
+
+    setTimeout(
+      () => showResult(),
+      350
+    );
+
+  }
+
+
+  /* =======================================================
+     RACHA
+  ======================================================= */
+
+  function updateStreak() {
+
+    const today =
+      new Date();
+
+
+    const todayKey =
+      getDateKey(
+        today
+      );
+
+
+    const yesterday =
+      new Date(
+        today
+      );
+
+
+    yesterday.setDate(
+      yesterday.getDate() - 1
+    );
+
+
+    const yesterdayKey =
+      getDateKey(
+        yesterday
+      );
+
+
+    if (
+      state.completedDates.includes(
+        yesterdayKey
+      ) &&
+      state.completedDates.includes(
+        todayKey
+      )
+    ) {
+
+      /*
+        Si ya había una racha activa,
+        la aumentamos solamente una vez.
+      */
+
+      if (
+        state.streak < 1
+      ) {
+
+        state.streak = 2;
+
+      } else {
+
+        state.streak++;
+
+      }
+
+    } else if (
+      state.completedDates.includes(
+        todayKey
+      )
+    ) {
+
+      state.streak = 1;
+
+    }
+
+
+    state.bestStreak =
+      Math.max(
+        state.bestStreak,
+        state.streak
+      );
+
+  }
+
+
+  /* =======================================================
+     TIMER
+  ======================================================= */
+
+  function startGame() {
+
+    if (state.started) {
+      return;
+    }
+
+
+    state.started =
+      true;
+
+
+    state.startTime =
+      Date.now() -
+      state.elapsed * 1000;
+
+
+    saveState();
+
+    startTimer();
+
+  }
+
+
+  function startTimer() {
+
+    stopTimer();
+
+
+    if (
+      state.finished ||
+      !state.started
+    ) {
+
+      return;
+
+    }
+
+
+    timerInterval =
+      setInterval(
+        () => {
+
+          state.elapsed =
+            Math.floor(
+              (
+                Date.now() -
+                state.startTime
+              ) / 1000
+            );
+
+
+          updateTimerDisplay();
+
+        },
+        1000
+      );
+
+  }
+
+
+  function stopTimer() {
+
+    if (
+      timerInterval
+    ) {
+
+      clearInterval(
+        timerInterval
+      );
+
+      timerInterval =
+        null;
+
+    }
+
+  }
+
+
+  function updateTimerDisplay() {
+
+    timer.textContent =
+      formatTime(
+        state.elapsed
+      );
+
+  }
+
+
+  function formatTime(
+    seconds
+  ) {
+
+    seconds =
+      Math.max(
+        0,
+        Number(seconds) || 0
+      );
+
+
+    const minutes =
+      Math.floor(
+        seconds / 60
+      );
+
+
+    const secs =
+      seconds % 60;
+
+
+    return (
+      String(minutes)
+        .padStart(2, "0") +
+      ":" +
+      String(secs)
+        .padStart(2, "0")
+    );
+
+  }
+
+
+  /* =======================================================
+     TECLADO
+  ======================================================= */
+
+  function renderKeyboard() {
+
+    $$(".key").forEach(
+      key => {
+
+        key.classList.remove(
+          "used"
+        );
+
+      }
+    );
+
+
+    state.answer.forEach(
+      letter => {
+
+        if (!letter) {
+          return;
+        }
+
+
+        $$(".key").forEach(
+          key => {
+
+            if (
+              key.textContent.trim() ===
+              letter
+            ) {
+
+              key.classList.add(
+                "used"
+              );
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+  }
+
+
+  function handleKeyboardKey(
+    key
+  ) {
+
+    if (
+      key.dataset.action ===
+      "backspace"
+    ) {
+
+      removeLetter();
+
+      return;
+
+    }
+
+
+    if (
+      key.dataset.action ===
+      "enter"
+    ) {
+
+      checkAnswer();
+
+      return;
+
+    }
+
+
+    const letter =
+      key.textContent.trim();
+
+
+    if (
+      letter.length === 1
+    ) {
+
+      addLetter(
+        letter
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     MENÚ DE PISTAS
+  ======================================================= */
+
+  function openHintMenu() {
+
+    if (state.finished) {
+      return;
+    }
+
+
+    $$(".hint-option")
+      .forEach(
+        button => {
+
+          const type =
+            button.dataset.hint;
+
+
+          if (
+            state.hintsUsed[type]
+          ) {
+
+            button.disabled =
+              true;
+
+            button.style.opacity =
+              ".45";
+
+          } else {
+
+            button.disabled =
+              false;
+
+            button.style.opacity =
+              "1";
+
+          }
+
+        }
+      );
+
+
+    openModal(
+      hintModal
+    );
+
+  }
+
+
+  function useHint(
+    type
+  ) {
+
+    const puzzle =
+      getCurrentPuzzle();
+
+
+    if (!puzzle) {
+      return;
+    }
+
+
+    if (
+      state.hintsUsed[type]
+    ) {
+
+      return;
+
+    }
+
+
+    state.hintsUsed[type] =
+      true;
+
+
+    saveState();
+
+
+    closeModal(
+      hintModal
+    );
+
+
+    /*
+      En lugar de abrir otro cartel,
+      simplemente marcamos la parte
+      correspondiente de la pista.
+    */
+
+    renderClue(
+      puzzle
+    );
+
+  }
+
+
+  /* =======================================================
+     RESULTADO
+  ======================================================= */
+
+  function showResult() {
+
+    const puzzle =
+      getCurrentPuzzle();
+
+
+    if (!puzzle) {
+      return;
+    }
+
+
+    resultAnswer.textContent =
+      normalizeAnswer(
+        puzzle.answer
+      );
+
+
+    resultExplanation.textContent =
+      puzzle.explanation ||
+      "Pista resuelta correctamente.";
+
+
+    resultTime.textContent =
+      formatTime(
+        state.elapsed
+      );
+
+
+    resultStreak.textContent =
+      state.streak;
+
+
+    openModal(
+      resultModal
+    );
+
+  }
+
+
+  /* =======================================================
+     COMPARTIR
+  ======================================================= */
+
+  async function shareResult() {
+
+    const text =
+      `🧩 Críptico Diario\n` +
+      `✓ Resuelto\n` +
+      `⏱️ ${formatTime(state.elapsed)}\n` +
+      `🔥 Racha: ${state.streak}\n\n` +
+      `¿Podés resolverlo vos?`;
+
+
+    try {
+
+      if (
+        navigator.share
+      ) {
+
+        await navigator.share({
+          title:
+            "Críptico Diario",
+          text
+        });
+
+        return;
+
+      }
+
+
+      await navigator.clipboard.writeText(
+        text
+      );
+
+
+      shareBtn.textContent =
+        "¡Copiado!";
+
+
+      setTimeout(
+        () => {
+
+          shareBtn.textContent =
+            "Compartir resultado";
+
+        },
+        1500
+      );
+
+
+    } catch (error) {
+
+      console.warn(
+        "No se pudo compartir:",
+        error
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     ESTADÍSTICAS
+  ======================================================= */
+
+  function showStats() {
+
+    $("#statSolved").textContent =
+      state.solved;
+
+
+    $("#statStreak").textContent =
+      state.streak;
+
+
+    $("#statBest").textContent =
+      state.bestStreak;
+
+
+    if (
+      state.times.length
+    ) {
+
+      const average =
+        state.times.reduce(
+          (
+            sum,
+            value
+          ) =>
+            sum + value,
+          0
+        ) /
+        state.times.length;
+
+
+      $("#statAverage").textContent =
+        formatTime(
+          Math.round(
+            average
+          )
+        );
+
+    } else {
+
+      $("#statAverage").textContent =
+        "—";
+
+    }
+
+
+    openModal(
+      statsModal
+    );
+
+  }
+
+
+  /* =======================================================
+     LECCIONES
+  ======================================================= */
+
+  const LESSONS = {
+
+    anagram: {
+
+      title:
+        "Anagramas",
+
+      content: `
+        <p>
+          En un anagrama, las letras de una palabra
+          o grupo de palabras se reorganizan para
+          formar la respuesta.
+        </p>
+
+        <div class="lesson-example">
+          <strong>Indicadores</strong>
+          desordenado · alterado · roto · mezclado ·
+          revuelto
+        </div>
+
+        <p>
+          La clave es detectar qué palabra aporta
+          las letras y qué palabra indica que debemos
+          mezclarlas.
+        </p>
+      `
+
+    },
+
+
+    hidden: {
+
+      title:
+        "Hiddens",
+
+      content: `
+        <p>
+          La respuesta está escondida dentro de otras
+          palabras, incluso atravesando los límites
+          entre ellas.
+        </p>
+
+        <div class="lesson-example">
+          <strong>Indicadores</strong>
+          escondido · dentro de · oculto · en
+        </div>
+      `
+
+    },
+
+
+    reversal: {
+
+      title:
+        "Reversals",
+
+      content: `
+        <p>
+          Un reversal toma unas letras y las lee
+          al revés.
+        </p>
+
+        <div class="lesson-example">
+          <strong>Indicadores</strong>
+          atrás · devuelto · invertido · de vuelta ·
+          al revés
+        </div>
+
+        <p>
+          Los reversals suelen combinarse con otros
+          mecanismos.
+        </p>
+      `
+
+    },
+
+
+    deletion: {
+
+      title:
+        "Deletions",
+
+      content: `
+        <p>
+          En una deletion eliminamos una o más letras
+          de una palabra.
+        </p>
+
+        <div class="lesson-example">
+          <strong>Indicadores</strong>
+          sin cabeza · sin final · perdiendo ·
+          quitando
+        </div>
+      `
+
+    },
+
+
+    synonym: {
+
+      title:
+        "Sinónimos",
+
+      content: `
+        <p>
+          Una palabra de la pista puede sustituirse
+          por un sinónimo.
+        </p>
+
+        <div class="lesson-example">
+          <strong>Clave</strong>
+          La definición puede pedir una palabra
+          equivalente sin decirla directamente.
+        </div>
+      `
+
+    },
+
+
+    container: {
+
+      title:
+        "Containers",
+
+      content: `
+        <p>
+          Una palabra o conjunto de letras se mete
+          dentro de otra.
+        </p>
+
+        <div class="lesson-example">
+          <strong>Indicadores</strong>
+          dentro de · rodeando · abrazando ·
+          conteniendo
+        </div>
+      `
+
+    },
+
+
+    homophone: {
+
+      title:
+        "Homófonos",
+
+      content: `
+        <p>
+          La respuesta suena igual o muy parecido
+          a otra palabra.
+        </p>
+
+        <div class="lesson-example">
+          <strong>Indicadores</strong>
+          según suena · al oído · dicen ·
+          escuchado
+        </div>
+      `
+
+    },
+
+
+    translation: {
+
+      title:
+        "Traducciones",
+
+      content: `
+        <p>
+          Una palabra puede aparecer en otro idioma
+          y formar parte de la respuesta.
+        </p>
+
+        <div class="lesson-example">
+          <strong>La trampa</strong>
+          La pista puede parecer una definición
+          normal hasta que aparece la indicación
+          del idioma.
+        </div>
+      `
+
+    },
+
+
+    double: {
+
+      title:
+        "Doble definición",
+
+      content: `
+        <p>
+          Una misma respuesta tiene dos significados
+          distintos, ambos definidos por la pista.
+        </p>
+
+        <div class="lesson-example">
+          <strong>Clave</strong>
+          Si no encontrás wordplay, probá preguntarte:
+          ¿podría haber dos definiciones?
+        </div>
+      `
+
+    },
+
+
+    rebus: {
+
+      title:
+        "Rebuses",
+
+      content: `
+        <p>
+          Los rebuses juegan con símbolos, letras,
+          posiciones o representaciones visuales.
+        </p>
+
+        <div class="lesson-example">
+          <strong>Más raro = más atención</strong>
+          Acá la pista puede estar hablando de
+          cómo se presenta una palabra.
+        </div>
+      `
+
+    }
+
+  };
+
+
+  function openLesson(
+    id
+  ) {
+
+    const lesson =
+      LESSONS[id];
+
+
+    if (!lesson) {
+      return;
+    }
+
+
+    $("#lessonEyebrow")
+      .textContent =
+      "LECCIÓN";
+
+
+    $("#lessonTitle")
+      .textContent =
+      lesson.title;
+
+
+    $("#lessonContent")
+      .innerHTML =
+      lesson.content;
+
+
+    $("#lessonCloseBtn")
+      .textContent =
+      "Entendido";
+
+
+    openModal(
+      lessonModal
+    );
+
+  }
+
+
+  /* =======================================================
+     MODALES
+  ======================================================= */
+
+  function openModal(
+    modal
+  ) {
+
+    modal.classList.remove(
+      "hidden"
+    );
+
+  }
+
+
+  function closeModal(
+    modal
+  ) {
+
+    modal.classList.add(
+      "hidden"
+    );
+
+  }
+
+
+  function bindModalCloseButtons() {
+
+    $$("[data-close]")
+      .forEach(
+        button => {
+
+          button.addEventListener(
+            "click",
+            () => {
+
+              const id =
+                button.dataset.close;
+
+
+              const modal =
+                document.getElementById(
+                  id
+                );
+
+
+              if (modal) {
+
+                closeModal(
+                  modal
+                );
+
+              }
+
+            }
+          );
+
+        }
+      );
+
+
+    $$(".modal")
+      .forEach(
+        modal => {
+
+          modal.addEventListener(
+            "click",
+            event => {
+
+              if (
+                event.target ===
+                modal
+              ) {
+
+                closeModal(
+                  modal
+                );
+
+              }
+
+            }
+          );
+
+        }
+      );
+
+  }
+
+
+  /* =======================================================
+     EVENTOS
+  ======================================================= */
+
+  function bindEvents() {
+
+    playBtn.addEventListener(
+      "click",
+      openGame
+    );
+
+
+    backBtn.addEventListener(
+      "click",
+      goHome
+    );
+
+
+    learnBtn.addEventListener(
+      "click",
+      () =>
+        showScreen(
+          learnScreen
+        )
+    );
+
+
+    learnBackBtn.addEventListener(
+      "click",
+      goHome
+    );
+
+
+    hintBtn.addEventListener(
+      "click",
+      openHintMenu
+    );
+
+
+    revealBtn.addEventListener(
+      "click",
+      revealNextLetter
+    );
+
+
+    checkBtn.addEventListener(
+      "click",
+      checkAnswer
+    );
+
+
+    shareBtn.addEventListener(
+      "click",
+      shareResult
+    );
+
+
+    resultCloseBtn.addEventListener(
+      "click",
+      () => {
+
+        closeModal(
+          resultModal
+        );
+
+        goHome();
+
+      }
+    );
+
+
+    statsBtn.addEventListener(
+      "click",
+      showStats
+    );
+
+
+    $("#lessonCloseBtn")
+      .addEventListener(
+        "click",
+        () =>
+          closeModal(
+            lessonModal
+          )
+      );
+
+
+    $$(".key")
+      .forEach(
+        key => {
+
+          key.addEventListener(
+            "click",
+            () =>
+              handleKeyboardKey(
+                key
+              )
+          );
+
+        }
+      );
+
+
+    $$(".hint-option")
+      .forEach(
+        button => {
+
+          button.addEventListener(
+            "click",
+            () =>
+              useHint(
+                button.dataset.hint
+              )
+          );
+
+        }
+      );
+
+
+    $$(".lesson-btn")
+      .forEach(
+        button => {
+
+          button.addEventListener(
+            "click",
+            () =>
+              openLesson(
+                button.dataset.lesson
+              )
+          );
+
+        }
+      );
+
+
+    bindModalCloseButtons();
+
+
+    /*
+      TECLADO FÍSICO
+    */
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          state.finished
+        ) {
+
+          return;
+
+        }
+
+
+        const key =
+          event.key.toUpperCase();
+
+
+        if (
+          /^[A-ZÑ]$/.test(key)
+        ) {
+
+          event.preventDefault();
+
+          addLetter(
+            key
+          );
+
+          return;
+
+        }
+
+
+        if (
+          event.key ===
+          "Backspace"
+        ) {
+
+          event.preventDefault();
+
+          removeLetter();
+
+          return;
+
+        }
+
+
+        if (
+          event.key ===
+          "Enter"
+        ) {
+
+          event.preventDefault();
+
+          checkAnswer();
+
+        }
+
+      }
+    );
+
+
+    /*
+      ESC PARA CERRAR MODALES
+    */
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key !==
+          "Escape"
+        ) {
+
+          return;
+
+        }
+
+
+        $$(".modal")
+          .forEach(
+            modal => {
+
+              if (
+                !modal.classList.contains(
+                  "hidden"
+                )
+              ) {
+
+                closeModal(
+                  modal
+                );
+
+              }
+
+            }
+          );
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     SEGURIDAD
+  ======================================================= */
+
+  function escapeHTML(
+    value
+  ) {
+
+    return String(value)
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
+
+  }
+
+
+  /* =======================================================
+     ARRANQUE
+  ======================================================= */
+
+  init();
+
+})();
