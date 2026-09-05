@@ -951,6 +951,46 @@ function createTestModeUI() {
      RENDER DE LA PISTA
   ======================================================= */
 
+  function addHintInfo(container, type, value) {
+
+    if (!value) {
+      return;
+    }
+
+    const labels = {
+      fodder: "Fodder",
+      indicator: "Indicador",
+      definition: "Definición"
+    };
+
+    const colors = {
+      fodder: "#f4c542",
+      indicator: "#f58ab0",
+      definition: "#8ecae6"
+    };
+
+    const item = document.createElement("div");
+    item.style.padding = "10px 14px";
+    item.style.border = "2px solid #111";
+    item.style.borderRadius = "12px";
+    item.style.background = "#fff";
+    item.style.fontSize = "15px";
+    item.style.lineHeight = "1.35";
+
+    const label = document.createElement("strong");
+    label.textContent = labels[type] || type;
+    label.style.marginRight = "8px";
+    label.style.textDecoration = "underline";
+    label.style.textDecorationColor = colors[type] || "#111";
+    label.style.textDecorationThickness = "3px";
+
+    const valueNode = document.createElement("span");
+    valueNode.textContent = String(value);
+
+    item.append(label, valueNode);
+    container.appendChild(item);
+  }
+
   function renderClue(
     puzzle
   ) {
@@ -959,32 +999,43 @@ function createTestModeUI() {
       return;
     }
 
+    // Contenedor de ayuda: se crea dinámicamente para no depender
+    // de cambios en index.html. Si una pista no aparece literalmente
+    // dentro del clue, mostramos igualmente el dato solicitado aquí.
+    let hintInfo = document.getElementById("hintInfo");
 
-    /*
-      Si no hay pistas utilizadas,
-      mostramos el texto normal.
-    */
+    if (!hintInfo) {
+      hintInfo = document.createElement("div");
+      hintInfo.id = "hintInfo";
+      hintInfo.style.marginTop = "18px";
+      hintInfo.style.display = "flex";
+      hintInfo.style.flexDirection = "column";
+      hintInfo.style.gap = "8px";
+      hintInfo.style.fontFamily = "inherit";
+      clueText.insertAdjacentElement("afterend", hintInfo);
+    }
+
+    hintInfo.innerHTML = "";
 
     const activeHints =
       Object.keys(
-        state.hintsUsed
+        state.hintsUsed || {}
       )
       .filter(
         type =>
           state.hintsUsed[type]
       );
 
+    const text =
+      String(puzzle.clue).replace(/[«»“”]/g, "");
 
-    if (
-      activeHints.length === 0
-    ) {
-
-      clueText.textContent =
-        String(puzzle.clue).replace(/[«»“”]/g, "");
-
+    if (activeHints.length === 0) {
+      clueText.textContent = text;
+      hintInfo.style.display = "none";
       return;
-
     }
+
+    hintInfo.style.display = "flex";
 
 
     /*
@@ -992,10 +1043,6 @@ function createTestModeUI() {
       para poder tener varios subrayados
       simultáneamente.
     */
-
-    const text =
-      String(puzzle.clue).replace(/[«»“”]/g, "");
-
 
     const ranges = [];
 
@@ -1070,14 +1117,16 @@ function createTestModeUI() {
           index === -1
         ) {
 
-          console.warn(
-            `No se encontró "${target}" dentro de la pista.`
-          );
-
+          // Algunos puzzles usan una definición, fodder o indicador
+          // conceptual que no aparece literalmente en la superficie.
+          // La pista debe seguir funcionando: mostramos el dato pedido
+          // debajo del clue en vez de fallar silenciosamente.
+          addHintInfo(hintInfo, type, target);
           return;
 
         }
 
+        addHintInfo(hintInfo, type, target);
 
         ranges.push({
 
