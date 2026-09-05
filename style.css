@@ -9,6 +9,7 @@
   --blue: #8dd8eb;
   --green: #9ee493;
   --gray: #6d6d6d;
+
   --border: 4px;
   --radius: 24px;
 }
@@ -40,14 +41,18 @@ button:active {
   transform: translateY(2px);
 }
 
+button:disabled {
+  cursor: default;
+}
+
 .hidden {
   display: none !important;
 }
 
 
-/* =========================
+/* =========================================================
    APP
-========================= */
+========================================================= */
 
 .app {
   width: 100%;
@@ -67,9 +72,9 @@ button:active {
 }
 
 
-/* =========================
+/* =========================================================
    HEADER
-========================= */
+========================================================= */
 
 .topbar,
 .game-header {
@@ -128,9 +133,9 @@ button:active {
 }
 
 
-/* =========================
+/* =========================================================
    HOME
-========================= */
+========================================================= */
 
 .home-content {
   width: min(650px, calc(100% - 36px));
@@ -215,9 +220,9 @@ button:active {
 }
 
 
-/* =========================
+/* =========================================================
    NAV
-========================= */
+========================================================= */
 
 .bottom-nav {
   width: min(650px, calc(100% - 36px));
@@ -251,9 +256,9 @@ button:active {
 }
 
 
-/* =========================
+/* =========================================================
    GAME
-========================= */
+========================================================= */
 
 .game-card {
   width: min(700px, calc(100% - 28px));
@@ -270,6 +275,7 @@ button:active {
 
   display: flex;
   flex-direction: column;
+
   min-width: 0;
 }
 
@@ -321,15 +327,51 @@ button:active {
   font-family: "DM Serif Display", serif;
 
   font-size: clamp(28px, 6vw, 42px);
-  line-height: 1.12;
+  line-height: 1.18;
 
   font-weight: 400;
 }
 
 
-/* =========================
+/* =========================================================
+   SUBRAYADO DE PISTAS
+========================================================= */
+
+.clue-highlight {
+  text-decoration-line: underline;
+  text-decoration-thickness: 5px;
+  text-underline-offset: 7px;
+  text-decoration-skip-ink: none;
+
+  animation: hintHighlight .35s ease-out;
+}
+
+.clue-highlight.fodder {
+  text-decoration-color: var(--yellow);
+}
+
+.clue-highlight.indicator {
+  text-decoration-color: var(--pink);
+}
+
+.clue-highlight.definition {
+  text-decoration-color: var(--blue);
+}
+
+@keyframes hintHighlight {
+  0% {
+    text-decoration-color: transparent;
+  }
+
+  100% {
+    text-decoration-color: currentColor;
+  }
+}
+
+
+/* =========================================================
    ANSWER
-========================= */
+========================================================= */
 
 .answer-container {
   width: 100%;
@@ -370,10 +412,33 @@ button:active {
   border-width: 4px;
 }
 
+.answer-container.wrong .answer-letter {
+  animation: shake .35s ease;
+}
 
-/* =========================
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  50% {
+    transform: translateX(5px);
+  }
+
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+
+/* =========================================================
    ACTIONS
-========================= */
+========================================================= */
 
 .actions {
   display: grid;
@@ -401,9 +466,9 @@ button:active {
 }
 
 
-/* =========================
+/* =========================================================
    KEYBOARD
-========================= */
+========================================================= */
 
 .keyboard {
   width: 100%;
@@ -418,8 +483,11 @@ button:active {
 
 .key-row {
   width: 100%;
+
   display: flex;
+
   gap: 5px;
+
   min-width: 0;
 }
 
@@ -442,10 +510,18 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  transition:
+    background .15s ease,
+    transform .1s ease;
 }
 
 .key:hover {
   background: var(--yellow);
+}
+
+.key.used {
+  background: #e4e2dc;
 }
 
 .key.wide {
@@ -468,10 +544,14 @@ button:active {
   font-weight: 900;
 }
 
+.check-btn:hover {
+  opacity: .9;
+}
 
-/* =========================
+
+/* =========================================================
    LEARN
-========================= */
+========================================================= */
 
 .learn-content {
   width: min(700px, calc(100% - 36px));
@@ -542,9 +622,9 @@ button:active {
 }
 
 
-/* =========================
+/* =========================================================
    MODALS
-========================= */
+========================================================= */
 
 .modal {
   position: fixed;
@@ -611,9 +691,9 @@ button:active {
 }
 
 
-/* =========================
+/* =========================================================
    HINTS
-========================= */
+========================================================= */
 
 .hint-options {
   margin-top: 22px;
@@ -660,9 +740,9 @@ button:active {
 }
 
 
-/* =========================
+/* =========================================================
    RESULT
-========================= */
+========================================================= */
 
 .result-box {
   text-align: center;
@@ -728,9 +808,9 @@ button:active {
 }
 
 
-/* =========================
+/* =========================================================
    LESSON
-========================= */
+========================================================= */
 
 .lesson-box {
   line-height: 1.6;
@@ -753,9 +833,9 @@ button:active {
 }
 
 
-/* =========================
+/* =========================================================
    STATS
-========================= */
+========================================================= */
 
 .stats-grid {
   margin-top: 25px;
@@ -789,9 +869,9 @@ button:active {
 }
 
 
-/* =========================
+/* =========================================================
    RESPONSIVE
-========================= */
+========================================================= */
 
 @media (max-width: 500px) {
 
@@ -825,6 +905,11 @@ button:active {
 
   .home-content h1 {
     letter-spacing: -3px;
+  }
+
+  .clue-highlight {
+    text-decoration-thickness: 4px;
+    text-underline-offset: 5px;
   }
 }
 
