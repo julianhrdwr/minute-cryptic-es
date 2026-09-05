@@ -979,9 +979,78 @@ function createTestModeUI() {
       return;
     }
 
-    // Durante la partida la pista siempre se muestra limpia.
-    // Las ayudas aparecen únicamente en su propio cartelito.
-    clueText.textContent = String(puzzle.clue).replace(/[«»“”]/g, "");
+    // La pista se muestra siempre dentro de la frase original.
+    // Cuando el jugador pide una ayuda, subrayamos directamente
+    // la parte correspondiente: nunca mostramos el dato en otro cartel.
+    const text = String(puzzle.clue || "").replace(/[«»“”]/g, "");
+
+    const activeHints = Object.keys(state.hintsUsed || {})
+      .filter(type => state.hintsUsed[type]);
+
+    if (activeHints.length === 0) {
+      clueText.textContent = text;
+      return;
+    }
+
+    const ranges = [];
+
+    activeHints.forEach(type => {
+      let target = "";
+
+      if (type === "fodder") {
+        target = String(puzzle.fodder || "");
+      } else if (type === "indicator") {
+        target = Array.isArray(puzzle.indicators)
+          ? String(puzzle.indicators[0] || "")
+          : String(puzzle.indicators || "");
+      } else if (type === "definition") {
+        target = String(puzzle.definition || "");
+      }
+
+      if (!target) return;
+
+      const index = text.toLocaleLowerCase().indexOf(target.toLocaleLowerCase());
+
+      if (index === -1) {
+        console.warn(`No se encontró "${target}" dentro de la pista.`);
+        return;
+      }
+
+      ranges.push({
+        start: index,
+        end: index + target.length,
+        type
+      });
+    });
+
+    ranges.sort((a, b) => a.start - b.start);
+
+    const finalRanges = [];
+    ranges.forEach(range => {
+      const overlaps = finalRanges.some(existing =>
+        range.start < existing.end && range.end > existing.start
+      );
+      if (!overlaps) finalRanges.push(range);
+    });
+
+    if (finalRanges.length === 0) {
+      clueText.textContent = text;
+      return;
+    }
+
+    let html = "";
+    let cursor = 0;
+
+    finalRanges.forEach(range => {
+      html += escapeHTML(text.slice(cursor, range.start));
+      html += `<span class="clue-highlight ${range.type}">${escapeHTML(
+        text.slice(range.start, range.end)
+      )}</span>`;
+      cursor = range.end;
+    });
+
+    html += escapeHTML(text.slice(cursor));
+    clueText.innerHTML = html;
   }
 
   function showHintResult(puzzle, type) {
@@ -2018,10 +2087,10 @@ function createTestModeUI() {
 
     closeModal(hintModal);
 
-    // Cada elección abre SU propio cartelito.
-    // No se agregan cajas debajo de la pista ni se muestran
-    // simultáneamente las tres ayudas.
-    showHintResult(puzzle, type);
+    // La ayuda se marca directamente dentro de la pista.
+    // No abrimos un segundo cartel: el jugador ve exactamente
+    // qué parte de la frase corresponde a la ayuda elegida.
+    renderClue(puzzle);
   }
 
 
