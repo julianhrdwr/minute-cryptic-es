@@ -15,10 +15,15 @@ const MECHANISM_INDICATORS = {
     "entre líneas"
   ],
   "deletion": [
-    "queda sin",
-    "pierde",
-    "deja atrás",
-    "se desprende de"
+    "sin la cola",
+    "perdió la cabeza",
+    "sin su final",
+    "perdió la última",
+    "sin las dos últimas",
+    "perdió la ele",
+    "dejó fuera la cola",
+    "se quedó sin la última"
+
   ],
   "reversal": [
     "vuelve sobre sus pasos",
@@ -145,18 +150,18 @@ const PUZZLES = [
   },
   {
     "id": "d006",
-    "difficulty": "muy-dificil",
-    "clue": "Pequeño roedor; RATONES queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Pequeño visitante de la cocina; los ratones perdieron la cola. (5)",
     "answer": "RATON",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Pequeño roedor",
-    "fodder": "RATONES",
+    "definition": "Pequeño visitante de la cocina",
+    "fodder": "ratones",
     "indicators": [
-      "queda sin"
+      "perdieron la cola"
     ],
-    "explanation": "Se elimina la última letra de RATONES para obtener RATON.",
+    "explanation": "Eliminar la última letra de RATONES = RATON.",
     "_def": "Pequeño roedor"
   },
   {
@@ -177,34 +182,34 @@ const PUZZLES = [
   },
   {
     "id": "d008",
-    "difficulty": "dificil",
-    "clue": "Parte de un recorrido; TRAMOS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Parte del recorrido; tramos se quedó sin su última letra. (5)",
     "answer": "TRAMO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Parte de un recorrido",
-    "fodder": "TRAMOS",
+    "definition": "Parte del recorrido",
+    "fodder": "tramos",
     "indicators": [
-      "queda sin"
+      "se quedó sin su última letra"
     ],
-    "explanation": "Se elimina la última letra de TRAMOS para obtener TRAMO.",
+    "explanation": "Eliminar la última letra de TRAMOS = TRAMO.",
     "_def": "Parte de un recorrido"
   },
   {
     "id": "d009",
-    "difficulty": "experto",
-    "clue": "Prenda de vestir; FALDAS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Prenda que gira al bailar, aunque las faldas pierdan su última letra. (5)",
     "answer": "FALDA",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Prenda de vestir",
-    "fodder": "FALDAS",
+    "definition": "Prenda que gira al bailar",
+    "fodder": "faldas",
     "indicators": [
-      "queda sin"
+      "pierdan su última letra"
     ],
-    "explanation": "Se elimina la última letra de FALDAS para obtener FALDA.",
+    "explanation": "Eliminar la última letra de FALDAS = FALDA.",
     "_def": "Prenda que cuelga desde la cintura"
   },
   {
@@ -257,18 +262,18 @@ const PUZZLES = [
   },
   {
     "id": "d013",
-    "difficulty": "experto",
-    "clue": "Importa en la balanza; PESOS queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Lo que marca la balanza cuando los pesos pierden la cola. (4)",
     "answer": "PESO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Importa en la balanza",
-    "fodder": "PESOS",
+    "definition": "Lo que marca la balanza",
+    "fodder": "pesos",
     "indicators": [
-      "queda sin"
+      "pierden la cola"
     ],
-    "explanation": "Se elimina la última letra de PESOS para obtener PESO.",
+    "explanation": "Eliminar la última letra de PESOS = PESO.",
     "_def": "Medida de gravedad"
   },
   {
@@ -321,18 +326,18 @@ const PUZZLES = [
   },
   {
     "id": "d017",
-    "difficulty": "muy-dificil",
-    "clue": "Peso transportado; CARGAS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Lo que lleva un camión; las cargas llegaron sin su final. (5)",
     "answer": "CARGA",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Peso transportado",
-    "fodder": "CARGAS",
+    "definition": "Lo que lleva un camión",
+    "fodder": "cargas",
     "indicators": [
-      "queda sin"
+      "llegaron sin su final"
     ],
-    "explanation": "Se elimina la última letra de CARGAS para obtener CARGA.",
+    "explanation": "Eliminar la última letra de CARGAS = CARGA.",
     "_def": "Peso que se transporta"
   },
   {
@@ -385,18 +390,18 @@ const PUZZLES = [
   },
   {
     "id": "d021",
-    "difficulty": "dificil",
-    "clue": "Color de la sangre; ROJOS queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Color intenso cuando los rojos se quedan sin la última. (4)",
     "answer": "ROJO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Color de la sangre",
-    "fodder": "ROJOS",
+    "definition": "Color intenso",
+    "fodder": "rojos",
     "indicators": [
-      "queda sin"
+      "se quedan sin la última"
     ],
-    "explanation": "Se elimina la última letra de ROJOS para obtener ROJO.",
+    "explanation": "Eliminar la última letra de ROJOS = ROJO.",
     "_def": "Color de señal de peligro"
   },
   {
@@ -417,18 +422,18 @@ const PUZZLES = [
   },
   {
     "id": "d023",
-    "difficulty": "experto",
-    "clue": "Información concreta; DATOS queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Información concreta que dejan los datos sin su final. (4)",
     "answer": "DATO",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Información concreta",
-    "fodder": "DATOS",
+    "fodder": "datos",
     "indicators": [
-      "queda sin"
+      "dejan los datos sin su final"
     ],
-    "explanation": "Se elimina la última letra de DATOS para obtener DATO.",
+    "explanation": "Eliminar la última letra de DATOS = DATO.",
     "_def": "Información concreta"
   },
   {
@@ -497,18 +502,18 @@ const PUZZLES = [
   },
   {
     "id": "d028",
-    "difficulty": "dificil",
-    "clue": "Magnitud que ordena los sucesos; tiempos queda sin s antes de seguir. (6)",
+    "difficulty": "difícil",
+    "clue": "Lo que pasa sin pedir permiso; los tiempos perdieron la cola. (6)",
     "answer": "TIEMPO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Magnitud que ordena los sucesos",
+    "definition": "Lo que pasa sin pedir permiso",
     "fodder": "tiempos",
     "indicators": [
-      "queda sin"
+      "perdieron la cola"
     ],
-    "explanation": "Se elimina la última letra de TIEMPOS para obtener TIEMPO.",
+    "explanation": "Eliminar la última letra de TIEMPOS = TIEMPO.",
     "_def": "Tiempo"
   },
   {
@@ -705,18 +710,18 @@ const PUZZLES = [
   },
   {
     "id": "d041",
-    "difficulty": "muy-dificil",
-    "clue": "Pieza del juego de bolos; bolos queda sin s antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Uno que cae en la bolera cuando los bolos pierden la cola. (4)",
     "answer": "BOLO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Pieza del juego de bolos",
+    "definition": "Uno que cae en la bolera",
     "fodder": "bolos",
     "indicators": [
-      "queda sin"
+      "pierden la cola"
     ],
-    "explanation": "Se elimina la última letra de BOLOS para obtener BOLO.",
+    "explanation": "Eliminar la última letra de BOLOS = BOLO.",
     "_def": "Pieza que se derriba jugando"
   },
   {
@@ -737,18 +742,18 @@ const PUZZLES = [
   },
   {
     "id": "d043",
-    "difficulty": "experto",
-    "clue": "Ave acuática; PLATO queda sin O antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Ave que podría salir del plato si pierde la ele. (4)",
     "answer": "PATO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Ave acuática",
-    "fodder": "PLATO",
+    "definition": "Ave",
+    "fodder": "plato",
     "indicators": [
-      "queda sin"
+      "si pierde la ele"
     ],
-    "explanation": "Se elimina la última letra de PLATO para obtener PATO.",
+    "explanation": "Eliminar L de PLATO = PATO.",
     "_def": "Ave acuática"
   },
   {
@@ -785,34 +790,34 @@ const PUZZLES = [
   },
   {
     "id": "d046",
-    "difficulty": "dificil",
-    "clue": "Lo que queda; RESTOS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Lo que queda después; restos, sin la cola, siguen siendo suficientes. (5)",
     "answer": "RESTO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Lo que queda",
-    "fodder": "RESTOS",
+    "definition": "Lo que queda después",
+    "fodder": "restos",
     "indicators": [
-      "queda sin"
+      "sin la cola"
     ],
-    "explanation": "Se elimina la última letra de RESTOS para obtener RESTO.",
+    "explanation": "Eliminar la última letra de RESTOS = RESTO.",
     "_def": "Lo que queda"
   },
   {
     "id": "d047",
-    "difficulty": "experto",
-    "clue": "Abre una puerta; LLAVES queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Abre una puerta cuando las llaves pierden la última. (5)",
     "answer": "LLAVE",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Abre una puerta",
-    "fodder": "LLAVES",
+    "fodder": "llaves",
     "indicators": [
-      "queda sin"
+      "pierden la última"
     ],
-    "explanation": "Se elimina la última letra de LLAVES para obtener LLAVE.",
+    "explanation": "Eliminar la última letra de LLAVES = LLAVE.",
     "_def": "Instrumento para abrir"
   },
   {
@@ -849,34 +854,34 @@ const PUZZLES = [
   },
   {
     "id": "d050",
-    "difficulty": "muy-dificil",
-    "clue": "Espacio abierto dentro de una vivienda; PATIOS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Espacio abierto que queda cuando patios pierde la cola. (5)",
     "answer": "PATIO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Espacio abierto dentro de una vivienda",
-    "fodder": "PATIOS",
+    "definition": "Espacio abierto",
+    "fodder": "patios",
     "indicators": [
-      "queda sin"
+      "pierde la cola"
     ],
-    "explanation": "Se elimina la última letra de PATIOS para obtener PATIO.",
+    "explanation": "Eliminar la última letra de PATIOS = PATIO.",
     "_def": "Espacio abierto de una casa"
   },
   {
     "id": "d051",
-    "difficulty": "dificil",
-    "clue": "Parte de la mano; PALMAS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "La mano, vista de frente, cuando palmas pierde la última. (5)",
     "answer": "PALMA",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Parte de la mano",
-    "fodder": "PALMAS",
+    "definition": "La mano, vista de frente",
+    "fodder": "palmas",
     "indicators": [
-      "queda sin"
+      "pierde la última"
     ],
-    "explanation": "Se elimina la última letra de PALMAS para obtener PALMA.",
+    "explanation": "Eliminar la última letra de PALMAS = PALMA.",
     "_def": "Parte de la mano"
   },
   {
@@ -913,18 +918,18 @@ const PUZZLES = [
   },
   {
     "id": "d054",
-    "difficulty": "experto",
-    "clue": "Herramienta abrasiva; CLIMA queda sin A antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Herramienta abrasiva; el clima perdió la cabeza. (4)",
     "answer": "LIMA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Herramienta abrasiva",
-    "fodder": "CLIMA",
+    "fodder": "clima",
     "indicators": [
-      "queda sin"
+      "perdió la cabeza"
     ],
-    "explanation": "Se elimina la última letra de CLIMA para obtener LIMA.",
+    "explanation": "Eliminar la primera letra de CLIMA = LIMA.",
     "_def": "Fruta cítrica o herramienta"
   },
   {
@@ -1009,34 +1014,34 @@ const PUZZLES = [
   },
   {
     "id": "d060",
-    "difficulty": "experto",
-    "clue": "Pieza circular que gira; ruedas queda sin s antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Gira con el coche cuando ruedas se queda sin cola. (5)",
     "answer": "RUEDA",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Pieza circular que gira",
+    "definition": "Gira con el coche",
     "fodder": "ruedas",
     "indicators": [
-      "queda sin"
+      "se queda sin cola"
     ],
-    "explanation": "Se elimina la última letra de RUEDAS para obtener RUEDA.",
+    "explanation": "Eliminar la última letra de RUEDAS = RUEDA.",
     "_def": "Pieza circular que gira"
   },
   {
     "id": "d061",
-    "difficulty": "experto",
-    "clue": "Sensación producida por una temperatura alta; CALORES queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Sensación que aprieta cuando calores se queda sin sus dos últimas. (5)",
     "answer": "CALOR",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Sensación producida por una temperatura alta",
-    "fodder": "CALORES",
+    "definition": "Sensación que aprieta",
+    "fodder": "calores",
     "indicators": [
-      "queda sin"
+      "se queda sin sus dos últimas"
     ],
-    "explanation": "Se elimina la última letra de CALORES para obtener CALOR.",
+    "explanation": "Eliminar ES de CALORES = CALOR.",
     "_def": "Energía térmica"
   },
   {
@@ -1121,18 +1126,18 @@ const PUZZLES = [
   },
   {
     "id": "d067",
-    "difficulty": "experto",
-    "clue": "Parte lateral; LADOS queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Parte lateral; lados perdió su última. (4)",
     "answer": "LADO",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Parte lateral",
-    "fodder": "LADOS",
+    "fodder": "lados",
     "indicators": [
-      "queda sin"
+      "perdió su última"
     ],
-    "explanation": "Se elimina la última letra de LADOS para obtener LADO.",
+    "explanation": "Eliminar S de LADOS = LADO.",
     "_def": "Parte lateral"
   },
   {
@@ -1377,18 +1382,18 @@ const PUZZLES = [
   },
   {
     "id": "d083",
-    "difficulty": "dificil",
-    "clue": "Vaso con pie; COPAS queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Trofeo que parece un vaso cuando copas pierde la cola. (4)",
     "answer": "COPA",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Vaso con pie",
-    "fodder": "COPAS",
+    "definition": "Trofeo que parece un vaso",
+    "fodder": "copas",
     "indicators": [
-      "queda sin"
+      "pierde la cola"
     ],
-    "explanation": "Se elimina la última letra de COPAS para obtener COPA.",
+    "explanation": "Eliminar la última letra de COPAS = COPA.",
     "_def": "Vaso con pie"
   },
   {
@@ -1409,18 +1414,18 @@ const PUZZLES = [
   },
   {
     "id": "d085",
-    "difficulty": "experto",
-    "clue": "Material elástico; GOMAS queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Borra lo escrito cuando gomas se queda sin la última. (4)",
     "answer": "GOMA",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Material elástico",
-    "fodder": "GOMAS",
+    "definition": "Borra lo escrito",
+    "fodder": "gomas",
     "indicators": [
-      "queda sin"
+      "se queda sin la última"
     ],
-    "explanation": "Se elimina la última letra de GOMAS para obtener GOMA.",
+    "explanation": "Eliminar la última letra de GOMAS = GOMA.",
     "_def": "Material elástico"
   },
   {
@@ -1441,18 +1446,18 @@ const PUZZLES = [
   },
   {
     "id": "d087",
-    "difficulty": "muy-dificil",
-    "clue": "Parte por donde se agarra una herramienta; MANGOS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Parte de la herramienta; mangos salió sin cola. (5)",
     "answer": "MANGO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Parte por donde se agarra una herramienta",
-    "fodder": "MANGOS",
+    "definition": "Parte de la herramienta",
+    "fodder": "mangos",
     "indicators": [
-      "queda sin"
+      "salió sin cola"
     ],
-    "explanation": "Se elimina la última letra de MANGOS para obtener MANGO.",
+    "explanation": "Eliminar la última letra de MANGOS = MANGO.",
     "_def": "Parte por donde se agarra"
   },
   {
@@ -1569,18 +1574,18 @@ const PUZZLES = [
   },
   {
     "id": "d095",
-    "difficulty": "dificil",
-    "clue": "Sujetar; atars queda sin s antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Sujetar, si el altar pierde la ele. (4)",
     "answer": "ATAR",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Sujetar",
-    "fodder": "atars",
+    "fodder": "altar",
     "indicators": [
-      "queda sin"
+      "pierde la ele"
     ],
-    "explanation": "Se elimina la última letra de ATARS para obtener ATAR.",
+    "explanation": "Eliminar L de ALTAR = ATAR.",
     "_def": "Atar"
   },
   {
@@ -1601,18 +1606,18 @@ const PUZZLES = [
   },
   {
     "id": "d097",
-    "difficulty": "experto",
-    "clue": "Articulación del brazo; CODOS queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Articulación del brazo; codos perdió la cola. (4)",
     "answer": "CODO",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Articulación del brazo",
-    "fodder": "CODOS",
+    "fodder": "codos",
     "indicators": [
-      "queda sin"
+      "perdió la cola"
     ],
-    "explanation": "Se elimina la última letra de CODOS para obtener CODO.",
+    "explanation": "Eliminar la última letra de CODOS = CODO.",
     "_def": "Articulación del brazo"
   },
   {
@@ -1649,18 +1654,18 @@ const PUZZLES = [
   },
   {
     "id": "d100",
-    "difficulty": "dificil",
-    "clue": "Caminata; PASEOS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Caminata que queda al final cuando paseos pierde la cola. (5)",
     "answer": "PASEO",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Caminata",
-    "fodder": "PASEOS",
+    "fodder": "paseos",
     "indicators": [
-      "queda sin"
+      "pierde la cola"
     ],
-    "explanation": "Se elimina la última letra de PASEOS para obtener PASEO.",
+    "explanation": "Eliminar la última letra de PASEOS = PASEO.",
     "_def": "Caminata"
   },
   {
@@ -1697,18 +1702,18 @@ const PUZZLES = [
   },
   {
     "id": "d103",
-    "difficulty": "dificil",
-    "clue": "Mueble para dormir; CAMAS queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Mueble para dormir, con camas sin su última letra. (4)",
     "answer": "CAMA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Mueble para dormir",
-    "fodder": "CAMAS",
+    "fodder": "camas",
     "indicators": [
-      "queda sin"
+      "sin su última letra"
     ],
-    "explanation": "Se elimina la última letra de CAMAS para obtener CAMA.",
+    "explanation": "Eliminar la última letra de CAMAS = CAMA.",
     "_def": "Mueble para dormir"
   },
   {
@@ -1809,8 +1814,8 @@ const PUZZLES = [
   },
   {
     "id": "d110",
-    "difficulty": "experto",
-    "clue": "Porción de un todo; partes queda sin s antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Porción de un todo; partes dejó fuera su cola. (5)",
     "answer": "PARTE",
     "mechanisms": [
       "deletion"
@@ -1818,9 +1823,9 @@ const PUZZLES = [
     "definition": "Porción de un todo",
     "fodder": "partes",
     "indicators": [
-      "queda sin"
+      "dejó fuera su cola"
     ],
-    "explanation": "Se elimina la última letra de PARTES para obtener PARTE.",
+    "explanation": "Eliminar la última letra de PARTES = PARTE.",
     "_def": "Porción o informe"
   },
   {
@@ -1841,18 +1846,18 @@ const PUZZLES = [
   },
   {
     "id": "d112",
-    "difficulty": "muy-dificil",
-    "clue": "Acuerdo entre personas; TRATOS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Acuerdo entre dos; tratos terminó sin la última. (5)",
     "answer": "TRATO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Acuerdo entre personas",
-    "fodder": "TRATOS",
+    "definition": "Acuerdo entre dos",
+    "fodder": "tratos",
     "indicators": [
-      "queda sin"
+      "terminó sin la última"
     ],
-    "explanation": "Se elimina la última letra de TRATOS para obtener TRATO.",
+    "explanation": "Eliminar la última letra de TRATOS = TRATO.",
     "_def": "Modo de relacionarse"
   },
   {
@@ -2001,18 +2006,18 @@ const PUZZLES = [
   },
   {
     "id": "d122",
-    "difficulty": "muy-dificil",
-    "clue": "No cede; firmes queda sin s antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Que no cede; firmes perdió la última. (5)",
     "answer": "FIRME",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "No cede",
+    "definition": "Que no cede",
     "fodder": "firmes",
     "indicators": [
-      "queda sin"
+      "perdió la última"
     ],
-    "explanation": "Se elimina la última letra de FIRMES para obtener FIRME.",
+    "explanation": "Eliminar la última letra de FIRMES = FIRME.",
     "_def": "Que no cede"
   },
   {
@@ -2049,18 +2054,18 @@ const PUZZLES = [
   },
   {
     "id": "d125",
-    "difficulty": "dificil",
-    "clue": "Fruto seco; PASTA queda sin A antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Fruto seco que sale cuando pasta pierde la te. (4)",
     "answer": "PASA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Fruto seco",
-    "fodder": "PASTA",
+    "fodder": "pasta",
     "indicators": [
-      "queda sin"
+      "pierde la te"
     ],
-    "explanation": "Se elimina la última letra de PASTA para obtener PASA.",
+    "explanation": "Eliminar T de PASTA = PASA.",
     "_def": "Fruta arrugada o verbo"
   },
   {
@@ -2097,8 +2102,8 @@ const PUZZLES = [
   },
   {
     "id": "d128",
-    "difficulty": "muy-dificil",
-    "clue": "Pieza maciza; bloques queda sin s antes de seguir. (6)",
+    "difficulty": "difícil",
+    "clue": "Pieza maciza; bloques llega sin su final. (6)",
     "answer": "BLOQUE",
     "mechanisms": [
       "deletion"
@@ -2106,9 +2111,9 @@ const PUZZLES = [
     "definition": "Pieza maciza",
     "fodder": "bloques",
     "indicators": [
-      "queda sin"
+      "llega sin su final"
     ],
-    "explanation": "Se elimina la última letra de BLOQUES para obtener BLOQUE.",
+    "explanation": "Eliminar la última letra de BLOQUES = BLOQUE.",
     "_def": "Pieza sólida de material"
   },
   {
@@ -2177,18 +2182,18 @@ const PUZZLES = [
   },
   {
     "id": "d133",
-    "difficulty": "experto",
-    "clue": "Estructura que cubre a un ave; PLUMAS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "De ave o de tinta; plumas pierde la cola. (5)",
     "answer": "PLUMA",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Estructura que cubre a un ave",
-    "fodder": "PLUMAS",
+    "definition": "De ave o de tinta",
+    "fodder": "plumas",
     "indicators": [
-      "queda sin"
+      "pierde la cola"
     ],
-    "explanation": "Se elimina la última letra de PLUMAS para obtener PLUMA.",
+    "explanation": "Eliminar la última letra de PLUMAS = PLUMA.",
     "_def": "Estructura que recubre a las aves"
   },
   {
@@ -2289,8 +2294,8 @@ const PUZZLES = [
   },
   {
     "id": "d140",
-    "difficulty": "experto",
-    "clue": "Pieza elástica; resortes queda sin s antes de seguir. (7)",
+    "difficulty": "difícil",
+    "clue": "Pieza elástica que queda cuando resortes pierde su final. (7)",
     "answer": "RESORTE",
     "mechanisms": [
       "deletion"
@@ -2298,9 +2303,9 @@ const PUZZLES = [
     "definition": "Pieza elástica",
     "fodder": "resortes",
     "indicators": [
-      "queda sin"
+      "pierde su final"
     ],
-    "explanation": "Se elimina la última letra de RESORTES para obtener RESORTE.",
+    "explanation": "Eliminar la última letra de RESORTES = RESORTE.",
     "_def": "Pieza elástica"
   },
   {
@@ -2449,18 +2454,18 @@ const PUZZLES = [
   },
   {
     "id": "d150",
-    "difficulty": "experto",
-    "clue": "Tabique vertical; pareds queda sin s antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Límite vertical; paredes se queda sin sus dos últimas. (5)",
     "answer": "PARED",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Tabique vertical",
-    "fodder": "pareds",
+    "definition": "Límite vertical",
+    "fodder": "paredes",
     "indicators": [
-      "queda sin"
+      "se queda sin sus dos últimas"
     ],
-    "explanation": "Se elimina la última letra de PAREDS para obtener PARED.",
+    "explanation": "Eliminar ES de PAREDES = PARED.",
     "_def": "Construcción vertical"
   },
   {
@@ -2481,18 +2486,18 @@ const PUZZLES = [
   },
   {
     "id": "d152",
-    "difficulty": "dificil",
-    "clue": "Motocicleta; MOTOS queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Va en dos ruedas cuando motos pierde la última. (4)",
     "answer": "MOTO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Motocicleta",
-    "fodder": "MOTOS",
+    "definition": "Va en dos ruedas",
+    "fodder": "motos",
     "indicators": [
-      "queda sin"
+      "pierde la última"
     ],
-    "explanation": "Se elimina la última letra de MOTOS para obtener MOTO.",
+    "explanation": "Eliminar la última letra de MOTOS = MOTO.",
     "_def": "Vehículo de dos ruedas"
   },
   {
@@ -2545,18 +2550,18 @@ const PUZZLES = [
   },
   {
     "id": "d156",
-    "difficulty": "muy-dificil",
-    "clue": "Modo de funcionar; MARCHAS queda sin S antes de seguir. (6)",
+    "difficulty": "difícil",
+    "clue": "Modo de funcionar; marchas dejó atrás su cola. (6)",
     "answer": "MARCHA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Modo de funcionar",
-    "fodder": "MARCHAS",
+    "fodder": "marchas",
     "indicators": [
-      "queda sin"
+      "dejó atrás su cola"
     ],
-    "explanation": "Se elimina la última letra de MARCHAS para obtener MARCHA.",
+    "explanation": "Eliminar la última letra de MARCHAS = MARCHA.",
     "_def": "Forma de caminar o funcionamiento"
   },
   {
@@ -2609,18 +2614,18 @@ const PUZZLES = [
   },
   {
     "id": "d160",
-    "difficulty": "experto",
-    "clue": "Pieza para ejercitarse; PESAS queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Se usa para entrenar cuando pesas queda sin la última. (4)",
     "answer": "PESA",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Pieza para ejercitarse",
-    "fodder": "PESAS",
+    "definition": "Se usa para entrenar",
+    "fodder": "pesas",
     "indicators": [
-      "queda sin"
+      "queda sin la última"
     ],
-    "explanation": "Se elimina la última letra de PESAS para obtener PESA.",
+    "explanation": "Eliminar la última letra de PESAS = PESA.",
     "_def": "Objeto usado para medir masa"
   },
   {
@@ -2785,8 +2790,8 @@ const PUZZLES = [
   },
   {
     "id": "d171",
-    "difficulty": "muy-dificil",
-    "clue": "Fuerza para mover algo; empujes queda sin s antes de seguir. (6)",
+    "difficulty": "difícil",
+    "clue": "Fuerza para mover algo; empujes pierde la cola. (6)",
     "answer": "EMPUJE",
     "mechanisms": [
       "deletion"
@@ -2794,9 +2799,9 @@ const PUZZLES = [
     "definition": "Fuerza para mover algo",
     "fodder": "empujes",
     "indicators": [
-      "queda sin"
+      "pierde la cola"
     ],
-    "explanation": "Se elimina la última letra de EMPUJES para obtener EMPUJE.",
+    "explanation": "Eliminar la última letra de EMPUJES = EMPUJE.",
     "_def": "Fuerza que hace avanzar"
   },
   {
@@ -2817,18 +2822,18 @@ const PUZZLES = [
   },
   {
     "id": "d173",
-    "difficulty": "muy-dificil",
-    "clue": "Conjunto de acciones organizadas; campañas queda sin s antes de seguir. (7)",
+    "difficulty": "difícil",
+    "clue": "Conjunto de acciones coordinadas; campañas pierde su última. (7)",
     "answer": "CAMPAÑA",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Conjunto de acciones organizadas",
+    "definition": "Conjunto de acciones coordinadas",
     "fodder": "campañas",
     "indicators": [
-      "queda sin"
+      "pierde su última"
     ],
-    "explanation": "Se elimina la última letra de CAMPAÑAS para obtener CAMPAÑA.",
+    "explanation": "Eliminar la última letra de CAMPAÑAS = CAMPAÑA.",
     "_def": "Conjunto organizado de acciones"
   },
   {
@@ -3025,18 +3030,18 @@ const PUZZLES = [
   },
   {
     "id": "d186",
-    "difficulty": "experto",
-    "clue": "Rúbrica personal; FIRMAS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Rúbrica personal; firmas salió sin la última. (5)",
     "answer": "FIRMA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Rúbrica personal",
-    "fodder": "FIRMAS",
+    "fodder": "firmas",
     "indicators": [
-      "queda sin"
+      "salió sin la última"
     ],
-    "explanation": "Se elimina la última letra de FIRMAS para obtener FIRMA.",
+    "explanation": "Eliminar la última letra de FIRMAS = FIRMA.",
     "_def": "Rasgo escrito que identifica"
   },
   {
@@ -3201,18 +3206,18 @@ const PUZZLES = [
   },
   {
     "id": "d197",
-    "difficulty": "dificil",
-    "clue": "Marca dejada al pisar; huellas queda sin s antes de seguir. (6)",
+    "difficulty": "difícil",
+    "clue": "Marca que queda al pisar; huellas perdió su cola. (6)",
     "answer": "HUELLA",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Marca dejada al pisar",
+    "definition": "Marca que queda al pisar",
     "fodder": "huellas",
     "indicators": [
-      "queda sin"
+      "perdió su cola"
     ],
-    "explanation": "Se elimina la última letra de HUELLAS para obtener HUELLA.",
+    "explanation": "Eliminar la última letra de HUELLAS = HUELLA.",
     "_def": "Rastro dejado al pasar"
   },
   {
@@ -3281,34 +3286,34 @@ const PUZZLES = [
   },
   {
     "id": "d202",
-    "difficulty": "muy-dificil",
-    "clue": "Parte posterior; COLAS queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Parte posterior; colas perdió la última. (4)",
     "answer": "COLA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Parte posterior",
-    "fodder": "COLAS",
+    "fodder": "colas",
     "indicators": [
-      "queda sin"
+      "perdió la última"
     ],
-    "explanation": "Se elimina la última letra de COLAS para obtener COLA.",
+    "explanation": "Eliminar la última letra de COLAS = COLA.",
     "_def": "Parte posterior"
   },
   {
     "id": "d203",
-    "difficulty": "experto",
-    "clue": "Protección para la cabeza; CASCOS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Protege la cabeza; cascos dejó fuera la cola. (5)",
     "answer": "CASCO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Protección para la cabeza",
-    "fodder": "CASCOS",
+    "definition": "Protege la cabeza",
+    "fodder": "cascos",
     "indicators": [
-      "queda sin"
+      "dejó fuera la cola"
     ],
-    "explanation": "Se elimina la última letra de CASCOS para obtener CASCO.",
+    "explanation": "Eliminar la última letra de CASCOS = CASCO.",
     "_def": "Protección para la cabeza"
   },
   {
@@ -3377,18 +3382,18 @@ const PUZZLES = [
   },
   {
     "id": "d208",
-    "difficulty": "muy-dificil",
-    "clue": "Embarcación; BARCOS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Embarcación cuando barcos pierde su última. (5)",
     "answer": "BARCO",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Embarcación",
-    "fodder": "BARCOS",
+    "fodder": "barcos",
     "indicators": [
-      "queda sin"
+      "pierde su última"
     ],
-    "explanation": "Se elimina la última letra de BARCOS para obtener BARCO.",
+    "explanation": "Eliminar la última letra de BARCOS = BARCO.",
     "_def": "Embarcación"
   },
   {
@@ -3425,18 +3430,18 @@ const PUZZLES = [
   },
   {
     "id": "d211",
-    "difficulty": "muy-dificil",
-    "clue": "Línea que no es recta; CURVAS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Línea que se aparta de lo recto; curvas perdió la cola. (5)",
     "answer": "CURVA",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Línea que no es recta",
-    "fodder": "CURVAS",
+    "definition": "Línea que se aparta de lo recto",
+    "fodder": "curvas",
     "indicators": [
-      "queda sin"
+      "perdió la cola"
     ],
-    "explanation": "Se elimina la última letra de CURVAS para obtener CURVA.",
+    "explanation": "Eliminar la última letra de CURVAS = CURVA.",
     "_def": "Línea que no es recta"
   },
   {
@@ -3569,18 +3574,18 @@ const PUZZLES = [
   },
   {
     "id": "d220",
-    "difficulty": "muy-dificil",
-    "clue": "Descarga eléctrica atmosférica; rayos queda sin s antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Descarga que cruza el cielo cuando rayos se queda sin la última. (4)",
     "answer": "RAYO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Descarga eléctrica atmosférica",
+    "definition": "Descarga que cruza el cielo",
     "fodder": "rayos",
     "indicators": [
-      "queda sin"
+      "se queda sin la última"
     ],
-    "explanation": "Se elimina la última letra de RAYOS para obtener RAYO.",
+    "explanation": "Eliminar la última letra de RAYOS = RAYO.",
     "_def": "Descarga luminosa"
   },
   {
@@ -3665,18 +3670,18 @@ const PUZZLES = [
   },
   {
     "id": "d226",
-    "difficulty": "experto",
-    "clue": "Masa de agua interior; LARGO queda sin O antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Agua entre tierra si largo pierde la erre. (4)",
     "answer": "LAGO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Masa de agua interior",
-    "fodder": "LARGO",
+    "definition": "Agua entre tierra",
+    "fodder": "largo",
     "indicators": [
-      "queda sin"
+      "pierde la erre"
     ],
-    "explanation": "Se elimina la última letra de LARGO para obtener LAGO.",
+    "explanation": "Eliminar R de LARGO = LAGO.",
     "_def": "Masa de agua interior"
   },
   {
@@ -3745,18 +3750,18 @@ const PUZZLES = [
   },
   {
     "id": "d231",
-    "difficulty": "experto",
-    "clue": "Espacio sobre nuestras cabezas; CIELOS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Está sobre nuestras cabezas cuando cielos pierde la cola. (5)",
     "answer": "CIELO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Espacio sobre nuestras cabezas",
-    "fodder": "CIELOS",
+    "definition": "Está sobre nuestras cabezas",
+    "fodder": "cielos",
     "indicators": [
-      "queda sin"
+      "pierde la cola"
     ],
-    "explanation": "Se elimina la última letra de CIELOS para obtener CIELO.",
+    "explanation": "Eliminar la última letra de CIELOS = CIELO.",
     "_def": "Espacio sobre nuestras cabezas"
   },
   {
@@ -4081,18 +4086,18 @@ const PUZZLES = [
   },
   {
     "id": "d252",
-    "difficulty": "muy-dificil",
-    "clue": "Disminución de un dolor; alivios queda sin s antes de seguir. (6)",
+    "difficulty": "difícil",
+    "clue": "Lo que llega con la mejoría; alivios perdió su cola. (6)",
     "answer": "ALIVIO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Disminución de un dolor",
+    "definition": "Lo que llega con la mejoría",
     "fodder": "alivios",
     "indicators": [
-      "queda sin"
+      "perdió su cola"
     ],
-    "explanation": "Se elimina la última letra de ALIVIOS para obtener ALIVIO.",
+    "explanation": "Eliminar la última letra de ALIVIOS = ALIVIO.",
     "_def": "Sensación de descanso"
   },
   {
@@ -4129,18 +4134,18 @@ const PUZZLES = [
   },
   {
     "id": "d255",
-    "difficulty": "dificil",
-    "clue": "Acción de elevarse del suelo; SALTOS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Acción de elevarse; saltos se quedó sin la última. (5)",
     "answer": "SALTO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Acción de elevarse del suelo",
-    "fodder": "SALTOS",
+    "definition": "Acción de elevarse",
+    "fodder": "saltos",
     "indicators": [
-      "queda sin"
+      "se quedó sin la última"
     ],
-    "explanation": "Se elimina la última letra de SALTOS para obtener SALTO.",
+    "explanation": "Eliminar la última letra de SALTOS = SALTO.",
     "_def": "Brinco"
   },
   {
@@ -4289,24 +4294,24 @@ const PUZZLES = [
   },
   {
     "id": "d265",
-    "difficulty": "muy-dificil",
-    "clue": "Motivo de algo; CAUSAS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Motivo de algo; causas salió sin cola. (5)",
     "answer": "CAUSA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Motivo de algo",
-    "fodder": "CAUSAS",
+    "fodder": "causas",
     "indicators": [
-      "queda sin"
+      "salió sin cola"
     ],
-    "explanation": "Se elimina la última letra de CAUSAS para obtener CAUSA.",
+    "explanation": "Eliminar la última letra de CAUSAS = CAUSA.",
     "_def": "Motivo de un hecho"
   },
   {
     "id": "d266",
-    "difficulty": "muy-dificil",
-    "clue": "Acción de disparar; disparos queda sin s antes de seguir. (7)",
+    "difficulty": "difícil",
+    "clue": "Acción de disparar; disparos perdió la última. (7)",
     "answer": "DISPARO",
     "mechanisms": [
       "deletion"
@@ -4314,9 +4319,9 @@ const PUZZLES = [
     "definition": "Acción de disparar",
     "fodder": "disparos",
     "indicators": [
-      "queda sin"
+      "perdió la última"
     ],
-    "explanation": "Se elimina la última letra de DISPAROS para obtener DISPARO.",
+    "explanation": "Eliminar la última letra de DISPAROS = DISPARO.",
     "_def": "Acción de lanzar un proyectil"
   },
   {
@@ -4401,18 +4406,18 @@ const PUZZLES = [
   },
   {
     "id": "d272",
-    "difficulty": "muy-dificil",
-    "clue": "Parte de una prenda; MANGAS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Parte de una prenda; mangas se quedó sin la cola. (5)",
     "answer": "MANGA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Parte de una prenda",
-    "fodder": "MANGAS",
+    "fodder": "mangas",
     "indicators": [
-      "queda sin"
+      "se quedó sin la cola"
     ],
-    "explanation": "Se elimina la última letra de MANGAS para obtener MANGA.",
+    "explanation": "Eliminar la última letra de MANGAS = MANGA.",
     "_def": "Parte de una prenda"
   },
   {
@@ -4561,18 +4566,18 @@ const PUZZLES = [
   },
   {
     "id": "d282",
-    "difficulty": "experto",
-    "clue": "Tira estrecha de material; CINTAS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Tira estrecha; cintas acabó perdiendo la última. (5)",
     "answer": "CINTA",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Tira estrecha de material",
-    "fodder": "CINTAS",
+    "definition": "Tira estrecha",
+    "fodder": "cintas",
     "indicators": [
-      "queda sin"
+      "acabó perdiendo la última"
     ],
-    "explanation": "Se elimina la última letra de CINTAS para obtener CINTA.",
+    "explanation": "Eliminar la última letra de CINTAS = CINTA.",
     "_def": "Tira estrecha"
   },
   {
@@ -4593,18 +4598,18 @@ const PUZZLES = [
   },
   {
     "id": "d284",
-    "difficulty": "muy-dificil",
-    "clue": "Proyectil; BALAS queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Proyectil pequeño; balas perdió la cola. (4)",
     "answer": "BALA",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Proyectil",
-    "fodder": "BALAS",
+    "definition": "Proyectil pequeño",
+    "fodder": "balas",
     "indicators": [
-      "queda sin"
+      "perdió la cola"
     ],
-    "explanation": "Se elimina la última letra de BALAS para obtener BALA.",
+    "explanation": "Eliminar la última letra de BALAS = BALA.",
     "_def": "Proyectil pequeño"
   },
   {
@@ -4657,8 +4662,8 @@ const PUZZLES = [
   },
   {
     "id": "d288",
-    "difficulty": "experto",
-    "clue": "Parte posterior; dorsos queda sin s antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Parte posterior; dorsos se quedó sin su cola. (5)",
     "answer": "DORSO",
     "mechanisms": [
       "deletion"
@@ -4666,9 +4671,9 @@ const PUZZLES = [
     "definition": "Parte posterior",
     "fodder": "dorsos",
     "indicators": [
-      "queda sin"
+      "se quedó sin su cola"
     ],
-    "explanation": "Se elimina la última letra de DORSOS para obtener DORSO.",
+    "explanation": "Eliminar la última letra de DORSOS = DORSO.",
     "_def": "Parte posterior"
   },
   {
@@ -4785,24 +4790,24 @@ const PUZZLES = [
   },
   {
     "id": "d296",
-    "difficulty": "muy-dificil",
-    "clue": "Parte principal de un árbol; TRONCOS queda sin S antes de seguir. (6)",
+    "difficulty": "difícil",
+    "clue": "Parte principal del árbol; troncos perdió la última. (6)",
     "answer": "TRONCO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Parte principal de un árbol",
-    "fodder": "TRONCOS",
+    "definition": "Parte principal del árbol",
+    "fodder": "troncos",
     "indicators": [
-      "queda sin"
+      "perdió la última"
     ],
-    "explanation": "Se elimina la última letra de TRONCOS para obtener TRONCO.",
+    "explanation": "Eliminar la última letra de TRONCOS = TRONCO.",
     "_def": "Parte principal de un árbol"
   },
   {
     "id": "d297",
-    "difficulty": "dificil",
-    "clue": "Utensilio para trasvasar líquidos; embudos queda sin s antes de seguir. (6)",
+    "difficulty": "difícil",
+    "clue": "Utensilio para trasvasar líquidos; embudos perdió su final. (6)",
     "answer": "EMBUDO",
     "mechanisms": [
       "deletion"
@@ -4810,9 +4815,9 @@ const PUZZLES = [
     "definition": "Utensilio para trasvasar líquidos",
     "fodder": "embudos",
     "indicators": [
-      "queda sin"
+      "perdió su final"
     ],
-    "explanation": "Se elimina la última letra de EMBUDOS para obtener EMBUDO.",
+    "explanation": "Eliminar la última letra de EMBUDOS = EMBUDO.",
     "_def": "Utensilio para trasvasar líquidos"
   },
   {
@@ -4881,18 +4886,18 @@ const PUZZLES = [
   },
   {
     "id": "d302",
-    "difficulty": "muy-dificil",
-    "clue": "Masa visible de vapor de agua; NUBES queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Masa blanca en el cielo; nubes quedó sin la última. (4)",
     "answer": "NUBE",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Masa visible de vapor de agua",
-    "fodder": "NUBES",
+    "definition": "Masa blanca en el cielo",
+    "fodder": "nubes",
     "indicators": [
-      "queda sin"
+      "quedó sin la última"
     ],
-    "explanation": "Se elimina la última letra de NUBES para obtener NUBE.",
+    "explanation": "Eliminar la última letra de NUBES = NUBE.",
     "_def": "Masa visible de gotas"
   },
   {
@@ -4913,18 +4918,18 @@ const PUZZLES = [
   },
   {
     "id": "d304",
-    "difficulty": "muy-dificil",
-    "clue": "Viento suave; BRISAS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Viento suave; brisas terminó sin la cola. (5)",
     "answer": "BRISA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Viento suave",
-    "fodder": "BRISAS",
+    "fodder": "brisas",
     "indicators": [
-      "queda sin"
+      "terminó sin la cola"
     ],
-    "explanation": "Se elimina la última letra de BRISAS para obtener BRISA.",
+    "explanation": "Eliminar la última letra de BRISAS = BRISA.",
     "_def": "Viento suave"
   },
   {
@@ -5249,18 +5254,18 @@ const PUZZLES = [
   },
   {
     "id": "d325",
-    "difficulty": "muy-dificil",
-    "clue": "Máquina que produce movimiento; MOTORES queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Máquina que produce movimiento; motores perdió las dos últimas. (5)",
     "answer": "MOTOR",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Máquina que produce movimiento",
-    "fodder": "MOTORES",
+    "fodder": "motores",
     "indicators": [
-      "queda sin"
+      "perdió las dos últimas"
     ],
-    "explanation": "Se elimina la última letra de MOTORES para obtener MOTOR.",
+    "explanation": "Eliminar ES de MOTORES = MOTOR.",
     "_def": "Máquina que genera movimiento"
   },
   {
@@ -5281,8 +5286,8 @@ const PUZZLES = [
   },
   {
     "id": "d327",
-    "difficulty": "experto",
-    "clue": "Fila de asientos; gradas queda sin s antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Fila de asientos; gradas quedó sin su última. (5)",
     "answer": "GRADA",
     "mechanisms": [
       "deletion"
@@ -5290,9 +5295,9 @@ const PUZZLES = [
     "definition": "Fila de asientos",
     "fodder": "gradas",
     "indicators": [
-      "queda sin"
+      "quedó sin su última"
     ],
-    "explanation": "Se elimina la última letra de GRADAS para obtener GRADA.",
+    "explanation": "Eliminar la última letra de GRADAS = GRADA.",
     "_def": "Peldaño amplio"
   },
   {
@@ -5409,18 +5414,18 @@ const PUZZLES = [
   },
   {
     "id": "d335",
-    "difficulty": "experto",
-    "clue": "Camino previsto; FRUTA queda sin A antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Camino previsto, aunque fruta perdió la cabeza. (4)",
     "answer": "RUTA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Camino previsto",
-    "fodder": "FRUTA",
+    "fodder": "fruta",
     "indicators": [
-      "queda sin"
+      "perdió la cabeza"
     ],
-    "explanation": "Se elimina la última letra de FRUTA para obtener RUTA.",
+    "explanation": "Eliminar la primera letra de FRUTA = RUTA.",
     "_def": "Itinerario"
   },
   {
@@ -5457,18 +5462,18 @@ const PUZZLES = [
   },
   {
     "id": "d338",
-    "difficulty": "experto",
-    "clue": "Tiempo vivido; edads queda sin s antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Tiempo vivido; edades perdió sus dos últimas. (4)",
     "answer": "EDAD",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Tiempo vivido",
-    "fodder": "edads",
+    "fodder": "edades",
     "indicators": [
-      "queda sin"
+      "perdió sus dos últimas"
     ],
-    "explanation": "Se elimina la última letra de EDADS para obtener EDAD.",
+    "explanation": "Eliminar ES de EDADES = EDAD.",
     "_def": "Tiempo vivido"
   },
   {
@@ -5505,18 +5510,18 @@ const PUZZLES = [
   },
   {
     "id": "d341",
-    "difficulty": "muy-dificil",
-    "clue": "Borde que rodea una imagen; MARCOS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Borde de una imagen; marcos llegó sin la última. (5)",
     "answer": "MARCO",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Borde que rodea una imagen",
-    "fodder": "MARCOS",
+    "definition": "Borde de una imagen",
+    "fodder": "marcos",
     "indicators": [
-      "queda sin"
+      "llegó sin la última"
     ],
-    "explanation": "Se elimina la última letra de MARCOS para obtener MARCO.",
+    "explanation": "Eliminar la última letra de MARCOS = MARCO.",
     "_def": "Borde que rodea"
   },
   {
@@ -5601,50 +5606,50 @@ const PUZZLES = [
   },
   {
     "id": "d347",
-    "difficulty": "muy-dificil",
-    "clue": "Pieza que se pulsa; TECLAS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Pieza que se pulsa; teclas pierde su final. (5)",
     "answer": "TECLA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Pieza que se pulsa",
-    "fodder": "TECLAS",
+    "fodder": "teclas",
     "indicators": [
-      "queda sin"
+      "pierde su final"
     ],
-    "explanation": "Se elimina la última letra de TECLAS para obtener TECLA.",
+    "explanation": "Eliminar la última letra de TECLAS = TECLA.",
     "_def": "Botón que se pulsa"
   },
   {
     "id": "d348",
-    "difficulty": "experto",
-    "clue": "Herramienta para cavar; PALAS queda sin S antes de seguir. (4)",
+    "difficulty": "difícil",
+    "clue": "Herramienta para cavar; palas perdió la cola. (4)",
     "answer": "PALA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Herramienta para cavar",
-    "fodder": "PALAS",
+    "fodder": "palas",
     "indicators": [
-      "queda sin"
+      "perdió la cola"
     ],
-    "explanation": "Se elimina la última letra de PALAS para obtener PALA.",
+    "explanation": "Eliminar la última letra de PALAS = PALA.",
     "_def": "Herramienta para cavar"
   },
   {
     "id": "d349",
-    "difficulty": "muy-dificil",
-    "clue": "Asiento con respaldo; SILLAS queda sin S antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Asiento con respaldo; sillas se quedó sin la última. (5)",
     "answer": "SILLA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Asiento con respaldo",
-    "fodder": "SILLAS",
+    "fodder": "sillas",
     "indicators": [
-      "queda sin"
+      "se quedó sin la última"
     ],
-    "explanation": "Se elimina la última letra de SILLAS para obtener SILLA.",
+    "explanation": "Eliminar la última letra de SILLAS = SILLA.",
     "_def": "Asiento con respaldo"
   },
   {
@@ -5665,18 +5670,18 @@ const PUZZLES = [
   },
   {
     "id": "d351",
-    "difficulty": "dificil",
-    "clue": "Orilla del mar; ACOSTA queda sin A antes de seguir. (5)",
+    "difficulty": "difícil",
+    "clue": "Orilla del mar, después de que acosta perdió la cabeza. (5)",
     "answer": "COSTA",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Orilla del mar",
-    "fodder": "ACOSTA",
+    "fodder": "acosta",
     "indicators": [
-      "queda sin"
+      "perdió la cabeza"
     ],
-    "explanation": "Se elimina la última letra de ACOSTA para obtener COSTA.",
+    "explanation": "Eliminar la primera letra de ACOSTA = COSTA.",
     "_def": "Orilla del mar"
   },
   {
@@ -5729,8 +5734,8 @@ const PUZZLES = [
   },
   {
     "id": "d355",
-    "difficulty": "experto",
-    "clue": "Parte anterior; frentes queda sin s antes de seguir. (6)",
+    "difficulty": "difícil",
+    "clue": "Parte anterior; frentes terminó sin su cola. (6)",
     "answer": "FRENTE",
     "mechanisms": [
       "deletion"
@@ -5738,25 +5743,25 @@ const PUZZLES = [
     "definition": "Parte anterior",
     "fodder": "frentes",
     "indicators": [
-      "queda sin"
+      "terminó sin su cola"
     ],
-    "explanation": "Se elimina la última letra de FRENTES para obtener FRENTE.",
+    "explanation": "Eliminar la última letra de FRENTES = FRENTE.",
     "_def": "Parte delantera"
   },
   {
     "id": "d356",
-    "difficulty": "experto",
-    "clue": "Fragmento de un texto; PASAJES queda sin S antes de seguir. (6)",
+    "difficulty": "difícil",
+    "clue": "Fragmento de un texto; pasajes pierde la última. (6)",
     "answer": "PASAJE",
     "mechanisms": [
       "deletion"
     ],
     "definition": "Fragmento de un texto",
-    "fodder": "PASAJES",
+    "fodder": "pasajes",
     "indicators": [
-      "queda sin"
+      "pierde la última"
     ],
-    "explanation": "Se elimina la última letra de PASAJES para obtener PASAJE.",
+    "explanation": "Eliminar la última letra de PASAJES = PASAJE.",
     "_def": "Lugar de paso o billete"
   }
 ];
