@@ -355,7 +355,8 @@ function createTestModeUI() {
     "double-definition": "Doble definición",
     translation: "Traducción",
     rebus: "Rebus",
-    charade: "Charade"
+    charade: "Charade",
+    substitution: "Sustitución"
   };
 
 
@@ -2282,6 +2283,55 @@ function createTestModeUI() {
 
   const LESSONS = {
 
+    basics: {
+
+      title:
+        "Cómo se construye una pista",
+
+      content: `
+        <p>
+          Una pista críptica suele tener dos trabajos distintos:
+          <strong>una definición</strong> y <strong>un juego de letras</strong>.
+          A veces aparecen en los extremos de la frase; la superficie está hecha para que parezca una oración normal.
+        </p>
+
+        <div class="lesson-example">
+          <strong>Definición</strong>
+          Es la parte que apunta al significado de la respuesta.
+          No suele decirte cómo formar las letras.
+        </div>
+
+        <div class="lesson-example">
+          <strong>Fodder</strong>
+          Son las letras o palabras que vamos a manipular.
+          En un anagrama se mezclan; en una deletion se les quita algo; en un hidden la respuesta puede aparecer dentro de ellas.
+        </div>
+
+        <div class="lesson-example">
+          <strong>Indicador</strong>
+          Es la palabra o expresión que te dice qué operación hacer: por ejemplo, algo puede indicar mezcla, inversión, ocultamiento o eliminación.
+        </div>
+
+        <div class="lesson-example">
+          <strong>Enumeración</strong>
+          (5) significa una palabra de cinco letras.
+          (2, 1, 4) significa <strong>tres palabras</strong>, de dos, una y cuatro letras.
+          Los números describen la respuesta, no el mecanismo.
+        </div>
+
+        <div class="lesson-example">
+          <strong>La lectura superficial</strong>
+          La frase debe sonar natural. La trampa está en que, al analizarla, algunas palabras cumplen una función criptográfica distinta de la que aparentan.
+        </div>
+
+        <p>
+          Cuando una pista te atasca, preguntate primero: <strong>¿dónde está la definición?</strong> Después buscá una palabra que pueda estar indicando una operación y una fuente plausible de letras.
+        </p>
+      `
+
+    },
+
+
     anagram: {
 
       title:
@@ -2364,15 +2414,28 @@ function createTestModeUI() {
 
       content: `
         <p>
-          En una deletion eliminamos una o más letras
-          de una palabra.
+          En una <strong>deletion</strong>, partimos de una palabra y quitamos una o más letras para llegar a la respuesta.
         </p>
 
         <div class="lesson-example">
-          <strong>Indicadores</strong>
-          sin cabeza · sin final · perdiendo ·
-          quitando
+          <strong>Qué puede desaparecer</strong>
+          La cabeza (primera letra), la cola (última), el corazón (parte central), varias letras finales o una letra indicada por un selector.
         </div>
+
+        <div class="lesson-example">
+          <strong>La clave de las pistas buenas</strong>
+          “Sin norte”, por ejemplo, puede significar <strong>sin N</strong>; “perdió la cabeza” puede quitar la primera letra. El indicador debe encajar en la frase, no parecer una instrucción técnica.
+        </div>
+
+        <div class="lesson-example">
+          <strong>Ejemplo</strong>
+          <em>Herramienta abrasiva; el clima perdió la cabeza. (4)</em><br>
+          CLIMA sin su primera letra = LIMA.
+        </div>
+
+        <p>
+          En una pista más difícil, la palabra que aporta las letras puede estar mucho más disimulada y el selector puede aparecer con un sentido indirecto.
+        </p>
       `
 
     },
