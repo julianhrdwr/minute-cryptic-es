@@ -1,5285 +1,120 @@
-// Banco revisado: 356 pistas con superficies naturales y mecanismos mezclados.
+// Banco de 356 pistas — revisión criptográfica v5.
 const MECHANISM_INDICATORS = {
-  anagram: ["revuelto", "mezclado", "desordenado", "fuera de orden", "cambia de sitio", "pierde el orden"],
-  hidden: ["perdida dentro de", "oculta en", "escondida en", "camuflada entre"],
-  deletion: ["pierde una pieza", "pierde el final", "pierde su remate", "sin su comienzo"],
-  reversal: ["regresa", "mirando hacia atrás", "vuelve sobre sus pasos", "al revés"],
-  container: ["abraza una intrusa", "encierra", "envuelve", "lleva dentro"],
-  homophone: ["en voz alta", "al oído", "si lo dices"],
-  "double-definition": ["o", "y también", "pero también"]
+  "anagram": [
+    "perdió el rumbo",
+    "cambió de lugar",
+    "se mezcló",
+    "salió desordenado",
+    "mudó de sitio"
+  ],
+  "hidden": [
+    "sin llamar la atención",
+    "sin hacerse notar",
+    "a escondidas",
+    "perdido en",
+    "entre líneas"
+  ],
+  "deletion": [
+    "queda sin",
+    "pierde",
+    "deja atrás",
+    "se desprende de"
+  ],
+  "reversal": [
+    "vuelve sobre sus pasos",
+    "se da vuelta",
+    "al volver",
+    "mira al revés"
+  ],
+  "charade": [
+    "junto a",
+    "al lado de",
+    "después de",
+    "pegado a"
+  ],
+  "container": [
+    "abraza",
+    "encierra",
+    "lleva dentro",
+    "rodea"
+  ],
+  "initials": [
+    "de entrada",
+    "al principio",
+    "por sus inicios",
+    "en sus comienzos"
+  ],
+  "finals": [
+    "por el final",
+    "en los remates",
+    "por sus finales"
+  ],
+  "homophone": [
+    "al oído",
+    "por cómo suena",
+    "dicho en voz alta"
+  ],
+  "substitution": [
+    "cambia una letra",
+    "reemplaza una letra",
+    "corrige una letra"
+  ]
 };
 const ANAGRAM_INDICATORS = MECHANISM_INDICATORS.anagram;
 
 const PUZZLES = [
   {
     "id": "d001",
-    "difficulty": "dificil",
-    "clue": "Habitación amplia, perdida dentro de salones. (5)",
-    "answer": "SALON",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Habitación amplia",
-    "fodder": "salones",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "SALON aparece de forma continua dentro de «salones». La definición es «Habitación amplia»."
-  },
-  {
-    "id": "d002",
-    "difficulty": "dificil",
-    "clue": "Vegetal que queda cuando planeta pierde una pieza. (6)",
-    "answer": "PLANTA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Vegetal",
-    "fodder": "planeta",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "PLANTA se obtiene de planeta al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d003",
-    "difficulty": "dificil",
-    "clue": "Pieza circular que queda cuando ruedas pierde su final. (5)",
-    "answer": "RUEDA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Pieza circular que gira",
-    "fodder": "ruedas",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "RUEDA se obtiene de ruedas al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d004",
-    "difficulty": "dificil",
-    "clue": "Comida mexicana que queda cuando tacón pierde su última pieza. (4)",
-    "answer": "TACO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Comida mexicana",
-    "fodder": "tacon",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "TACO se obtiene de tacon al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d005",
-    "difficulty": "dificil",
-    "clue": "Órgano de la visión que queda cuando rojo pierde una pieza. (3)",
-    "answer": "OJO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Órgano de la visión",
-    "fodder": "rojo",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "OJO se obtiene de rojo al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d006",
-    "difficulty": "dificil",
-    "clue": "Centro de enseñanza o corriente o estilo de pensamiento. (7)",
-    "answer": "ESCUELA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Centro de enseñanza",
-    "fodder": "corriente o estilo de pensamiento",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a ESCUELA: «Centro de enseñanza» y «corriente o estilo de pensamiento»."
-  },
-  {
-    "id": "d007",
-    "difficulty": "dificil",
-    "clue": "Marca que deja el paso o rastro de algo. (6)",
-    "answer": "HUELLA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Marca dejada al pisar",
-    "fodder": "rastro",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a HUELLA: «Marca dejada al pisar» y «rastro»."
-  },
-  {
-    "id": "d008",
-    "difficulty": "dificil",
-    "clue": "Pieza de la dentadura que queda cuando dientes pierde su final. (6)",
-    "answer": "DIENTE",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Pieza de la dentadura",
-    "fodder": "dientes",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "DIENTE se obtiene de dientes al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d009",
-    "difficulty": "dificil",
-    "clue": "Torre que guía a los barcos cuando cae la noche. (4)",
-    "answer": "FARO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Torre que guía a los barcos",
-    "fodder": "faroS",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "FARO se obtiene de faroS al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d010",
-    "difficulty": "dificil",
-    "clue": "Entre persona que trabaja en un barco y propio del mar, la palabra no cambia. (8)",
-    "answer": "MARINERO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Persona que trabaja en un barco",
-    "fodder": "propio del mar",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a MARINERO: «Persona que trabaja en un barco» y «propio del mar»."
-  },
-  {
-    "id": "d011",
-    "difficulty": "medio-dificil",
-    "clue": "Puede abrir una cerradura o hacer que entiendas el acertijo. (5)",
-    "answer": "CLAVE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Puede abrir una cerradura",
-    "fodder": "",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "CLAVE es código/llave y dato esencial."
-  },
-  {
-    "id": "d012",
-    "difficulty": "dificil",
-    "clue": "Entre pieza maciza y grupo compacto, la palabra no cambia. (6)",
-    "answer": "BLOQUE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Pieza maciza",
-    "fodder": "grupo compacto",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a BLOQUE: «Pieza maciza» y «grupo compacto»."
-  },
-  {
-    "id": "d013",
-    "difficulty": "medio-dificil",
-    "clue": "No cede en una discusión ni bajo los pies. (5)",
-    "answer": "FIRME",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "No cede",
-    "fodder": "",
-    "indicators": [
-      "ni"
-    ],
-    "explanation": "FIRME funciona como cualidad de carácter y de una superficie."
-  },
-  {
-    "id": "d014",
-    "difficulty": "dificil",
-    "clue": "Puede ser espacio abierto dentro de una vivienda o zona interior de un edificio. (5)",
-    "answer": "PATIO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Espacio abierto dentro de una vivienda",
-    "fodder": "zona interior de un edificio",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a PATIO: «Espacio abierto dentro de una vivienda» y «zona interior de un edificio»."
-  },
-  {
-    "id": "d015",
-    "difficulty": "dificil",
-    "clue": "Sirve para mueble para apoyar cosas y también para grupo que debate un asunto. (4)",
-    "answer": "MESA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Mueble para apoyar cosas",
-    "fodder": "grupo que debate un asunto",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a MESA: «Mueble para apoyar cosas» y «grupo que debate un asunto»."
-  },
-  {
-    "id": "d016",
-    "difficulty": "dificil",
-    "clue": "Embarcación que queda cuando barcos pierde una pieza. (5)",
-    "answer": "BARCO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Embarcación",
-    "fodder": "barcos",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "BARCO se obtiene de barcos al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d017",
-    "difficulty": "medio-dificil",
-    "clue": "Puede ocultar al protagonista o mostrarlo a todos. (8)",
-    "answer": "PANTALLA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Puede ocultar al protagonista",
-    "fodder": "",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "PANTALLA es superficie de imagen y protección que oculta."
-  },
-  {
-    "id": "d018",
-    "difficulty": "dificil",
-    "clue": "Sirve para unidad de medida y también para nivel o categoría. (5)",
-    "answer": "GRADO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Unidad de medida",
-    "fodder": "nivel o categoría",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a GRADO: «Unidad de medida» y «nivel o categoría»."
-  },
-  {
-    "id": "d019",
-    "difficulty": "dificil",
-    "clue": "Sirve para fragmento de un texto y también para billete para viajar. (6)",
-    "answer": "PASAJE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Fragmento de un texto",
-    "fodder": "billete para viajar",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a PASAJE: «Fragmento de un texto» y «billete para viajar»."
-  },
-  {
-    "id": "d020",
-    "difficulty": "dificil",
-    "clue": "Cavidad profunda que sale de misa cuando todo queda revuelto. (4)",
-    "answer": "SIMA",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Cavidad profunda",
-    "fodder": "misa",
-    "indicators": [
-      "todo queda revuelto"
-    ],
-    "explanation": "Las letras de misa se reordenan para formar SIMA."
-  },
-  {
-    "id": "d021",
-    "difficulty": "dificil",
-    "clue": "Asiento de un monarca que queda cuando tronco pierde una pieza. (5)",
-    "answer": "TRONO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Asiento de un monarca",
-    "fodder": "tronco",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "TRONO se obtiene de tronco al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d022",
-    "difficulty": "dificil",
-    "clue": "Puede ser asiento con respaldo o cargo o puesto. (5)",
-    "answer": "SILLA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Asiento con respaldo",
-    "fodder": "cargo o puesto",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a SILLA: «Asiento con respaldo» y «cargo o puesto»."
-  },
-  {
-    "id": "d023",
-    "difficulty": "dificil",
-    "clue": "Sirve para voz emitida con fuerza y también para clamor colectivo. (5)",
-    "answer": "GRITO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Voz emitida con fuerza",
-    "fodder": "clamor colectivo",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a GRITO: «Voz emitida con fuerza» y «clamor colectivo»."
-  },
-  {
-    "id": "d024",
-    "difficulty": "dificil",
-    "clue": "Repetición de un sonido que queda cuando seco pierde una pieza. (3)",
-    "answer": "ECO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Repetición de un sonido",
-    "fodder": "seco",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "ECO se obtiene de seco al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d025",
-    "difficulty": "dificil",
-    "clue": "Puede ser acción de montar o conjunto de piezas ensambladas. (7)",
-    "answer": "MONTAJE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Acción de montar",
-    "fodder": "conjunto de piezas ensambladas",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a MONTAJE: «Acción de montar» y «conjunto de piezas ensambladas»."
-  },
-  {
-    "id": "d026",
-    "difficulty": "dificil",
-    "clue": "Sacerdote que queda cuando curva pierde una pieza. (4)",
-    "answer": "CURA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Sacerdote",
-    "fodder": "curva",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "CURA se obtiene de curva al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d027",
-    "difficulty": "dificil",
-    "clue": "Sirve para acción de disparar y también para salida brusca de un líquido. (7)",
-    "answer": "DISPARO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Acción de disparar",
-    "fodder": "salida brusca de un líquido",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a DISPARO: «Acción de disparar» y «salida brusca de un líquido»."
-  },
-  {
-    "id": "d028",
-    "difficulty": "dificil",
-    "clue": "Sirve para vía urbana y también para espacio entre dos filas. (5)",
-    "answer": "CALLE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Vía urbana",
-    "fodder": "espacio entre dos filas",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a CALLE: «Vía urbana» y «espacio entre dos filas»."
-  },
-  {
-    "id": "d029",
-    "difficulty": "dificil",
-    "clue": "Máquina que produce movimiento cuando moto abraza una intrusa. (5)",
-    "answer": "MOTOR",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Máquina que produce movimiento",
-    "fodder": "moto",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "MOTOR se forma al introducir una letra en moto."
-  },
-  {
-    "id": "d030",
-    "difficulty": "dificil",
-    "clue": "Entre aparato que recibe emisiones y segmento desde el centro de un círculo, la palabra no cambia. (5)",
-    "answer": "RADIO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Aparato que recibe emisiones",
-    "fodder": "segmento desde el centro de un círculo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a RADIO: «Aparato que recibe emisiones» y «segmento desde el centro de un círculo»."
-  },
-  {
-    "id": "d031",
-    "difficulty": "dificil",
-    "clue": "Puede ser parte puntiaguda o cantidad máxima. (4)",
-    "answer": "PICO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte puntiaguda",
-    "fodder": "cantidad máxima",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a PICO: «Parte puntiaguda» y «cantidad máxima»."
-  },
-  {
-    "id": "d032",
-    "difficulty": "dificil",
-    "clue": "Puede ser obra pictórica o marco o conjunto. (6)",
-    "answer": "CUADRO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Obra pictórica",
-    "fodder": "marco o conjunto",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CUADRO: «Obra pictórica» y «marco o conjunto»."
-  },
-  {
-    "id": "d033",
-    "difficulty": "dificil",
-    "clue": "Grada para espectadores que queda cuando tribunal pierde una pieza. (7)",
-    "answer": "TRIBUNA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Grada para espectadores",
-    "fodder": "tribunal",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "TRIBUNA se obtiene de tribunal al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d034",
-    "difficulty": "dificil",
-    "clue": "Puede ser establecimiento abierto al público o relativo a un lugar. (5)",
-    "answer": "LOCAL",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Establecimiento abierto al público",
-    "fodder": "relativo a un lugar",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a LOCAL: «Establecimiento abierto al público» y «relativo a un lugar»."
-  },
-  {
-    "id": "d035",
-    "difficulty": "dificil",
-    "clue": "Abertura que aparece si el cabo cambia de posición. (4)",
+    "difficulty": "muy-dificil",
+    "clue": "Abertura: cabo perdió el orden antes de la escena. (4)",
     "answer": "BOCA",
     "mechanisms": [
       "anagram"
     ],
     "definition": "Abertura",
-    "fodder": "cabo",
+    "fodder": "CABO",
     "indicators": [
-      "cambia de posición"
+      "perdió el orden"
     ],
-    "explanation": "Las letras de cabo se reordenan para formar BOCA."
+    "explanation": "Anagrama de CABO = BOCA.",
+    "_def": "Abertura para comer o hablar"
   },
   {
-    "id": "d036",
-    "difficulty": "dificil",
-    "clue": "Sirve para tejido muscular animal y también para pulpa comestible. (5)",
-    "answer": "CARNE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Tejido muscular animal",
-    "fodder": "pulpa comestible",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a CARNE: «Tejido muscular animal» y «pulpa comestible»."
-  },
-  {
-    "id": "d037",
-    "difficulty": "dificil",
-    "clue": "Sirve para objeto para guardar documentos y también para directorio informático. (7)",
-    "answer": "CARPETA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Objeto para guardar documentos",
-    "fodder": "directorio informático",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a CARPETA: «Objeto para guardar documentos» y «directorio informático»."
-  },
-  {
-    "id": "d038",
-    "difficulty": "dificil",
-    "clue": "Satélite natural de la tierra cuando una abraza una intrusa. (4)",
-    "answer": "LUNA",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Satélite natural de la Tierra",
-    "fodder": "una",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "LUNA se forma al introducir una letra en una."
-  },
-  {
-    "id": "d039",
-    "difficulty": "dificil",
-    "clue": "Puede ser serie que se repite o periodo completo. (5)",
-    "answer": "CICLO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Serie que se repite",
-    "fodder": "periodo completo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CICLO: «Serie que se repite» y «periodo completo»."
-  },
-  {
-    "id": "d040",
-    "difficulty": "dificil",
-    "clue": "Entre punto que no se debe superar y frontera, la palabra no cambia. (6)",
-    "answer": "LIMITE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Punto que no se debe superar",
-    "fodder": "frontera",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a LIMITE: «Punto que no se debe superar» y «frontera»."
-  },
-  {
-    "id": "d041",
-    "difficulty": "dificil",
-    "clue": "Entre alimento usado para atraer animales y engaño para atraer a alguien, la palabra no cambia. (4)",
-    "answer": "CEBO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Alimento usado para atraer animales",
-    "fodder": "engaño para atraer a alguien",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CEBO: «Alimento usado para atraer animales» y «engaño para atraer a alguien»."
-  },
-  {
-    "id": "d042",
-    "difficulty": "dificil",
-    "clue": "Sirve para borde de un río o mar y también para límite de una superficie. (6)",
-    "answer": "ORILLA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Borde de un río o mar",
-    "fodder": "límite de una superficie",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a ORILLA: «Borde de un río o mar» y «límite de una superficie»."
-  },
-  {
-    "id": "d043",
-    "difficulty": "dificil",
-    "clue": "Entre dulce de azúcar y algo muy atractivo, la palabra no cambia. (8)",
-    "answer": "CARAMELO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Dulce de azúcar",
-    "fodder": "algo muy atractivo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CARAMELO: «Dulce de azúcar» y «algo muy atractivo»."
-  },
-  {
-    "id": "d044",
-    "difficulty": "dificil",
-    "clue": "Capital italiana que regresa desde el amor. (4)",
-    "answer": "ROMA",
-    "mechanisms": [
-      "reversal"
-    ],
-    "definition": "Capital italiana",
-    "fodder": "amor",
-    "indicators": [
-      "regresa"
-    ],
-    "explanation": "ROMA aparece al leer amor al revés."
-  },
-  {
-    "id": "d045",
-    "difficulty": "dificil",
-    "clue": "Entre ciudad sede de un gobierno y dinero invertido, la palabra no cambia. (7)",
-    "answer": "CAPITAL",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Ciudad sede de un gobierno",
-    "fodder": "dinero invertido",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CAPITAL: «Ciudad sede de un gobierno» y «dinero invertido»."
-  },
-  {
-    "id": "d046",
-    "difficulty": "dificil",
-    "clue": "Sirve para lugar por donde se sale y también para solución a una dificultad. (6)",
-    "answer": "SALIDA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Lugar por donde se sale",
-    "fodder": "solución a una dificultad",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a SALIDA: «Lugar por donde se sale» y «solución a una dificultad»."
-  },
-  {
-    "id": "d047",
-    "difficulty": "dificil",
-    "clue": "Sirve para malla de hilos y también para sistema conectado. (3)",
-    "answer": "RED",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Malla de hilos",
-    "fodder": "sistema conectado",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a RED: «Malla de hilos» y «sistema conectado»."
-  },
-  {
-    "id": "d048",
-    "difficulty": "dificil",
-    "clue": "Puede ser parte de la mano o índice o señal. (4)",
-    "answer": "DEDO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte de la mano",
-    "fodder": "índice o señal",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a DEDO: «Parte de la mano» y «índice o señal»."
-  },
-  {
-    "id": "d049",
-    "difficulty": "dificil",
-    "clue": "Configuración externa, perdida dentro de formal. (5)",
-    "answer": "FORMA",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Configuración externa",
-    "fodder": "formal",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "FORMA aparece de forma continua dentro de «formal». La definición es «Configuración externa»."
-  },
-  {
-    "id": "d050",
-    "difficulty": "dificil",
-    "clue": "Porción de tierra rodeada de agua que sale de lisa cuando todo queda revuelto. (4)",
-    "answer": "ISLA",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Porción de tierra rodeada de agua",
-    "fodder": "lisa",
-    "indicators": [
-      "todo queda revuelto"
-    ],
-    "explanation": "Las letras de lisa se reordenan para formar ISLA."
-  },
-  {
-    "id": "d051",
-    "difficulty": "dificil",
-    "clue": "Entre motocicleta y movimiento de un objeto, en ciertas expresiones, la palabra no cambia. (4)",
-    "answer": "MOTO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Motocicleta",
-    "fodder": "movimiento de un objeto, en ciertas expresiones",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a MOTO: «Motocicleta» y «movimiento de un objeto, en ciertas expresiones»."
-  },
-  {
-    "id": "d052",
-    "difficulty": "dificil",
-    "clue": "Comida de la noche que aparece cuando nace pierde el orden. (4)",
-    "answer": "CENA",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Comida de la noche",
-    "fodder": "nace",
-    "indicators": [
-      "pierde el orden"
-    ],
-    "explanation": "Las letras de nace se reordenan para formar CENA."
-  },
-  {
-    "id": "d053",
-    "difficulty": "dificil",
-    "clue": "Entre parte lateral de una embarcación y color rojo oscuro, la palabra no cambia. (5)",
-    "answer": "BORDO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte lateral de una embarcación",
-    "fodder": "color rojo oscuro",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a BORDO: «Parte lateral de una embarcación» y «color rojo oscuro»."
-  },
-  {
-    "id": "d054",
-    "difficulty": "dificil",
-    "clue": "Puede llevar compras o mover millones sin salir de una pantalla. (5)",
-    "answer": "BOLSA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Puede llevar compras",
-    "fodder": "",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "BOLSA es recipiente y mercado financiero."
-  },
-  {
-    "id": "d055",
-    "difficulty": "dificil",
-    "clue": "Sirve para elemento que sostiene y también para ayuda o respaldo. (7)",
-    "answer": "SOPORTE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Elemento que sostiene",
-    "fodder": "ayuda o respaldo",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a SOPORTE: «Elemento que sostiene» y «ayuda o respaldo»."
-  },
-  {
-    "id": "d056",
-    "difficulty": "dificil",
-    "clue": "Puede ser sonido producido al hablar o opinión expresada. (3)",
-    "answer": "VOZ",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Sonido producido al hablar",
-    "fodder": "opinión expresada",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a VOZ: «Sonido producido al hablar» y «opinión expresada»."
-  },
-  {
-    "id": "d057",
-    "difficulty": "dificil",
-    "clue": "Entre tiempo vivido y época histórica, la palabra no cambia. (4)",
-    "answer": "EDAD",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Tiempo vivido",
-    "fodder": "época histórica",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a EDAD: «Tiempo vivido» y «época histórica»."
-  },
-  {
-    "id": "d058",
-    "difficulty": "dificil",
-    "clue": "Conducto de agua que aparece cuando ancla pierde el orden. (5)",
-    "answer": "CANAL",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Conducto de agua",
-    "fodder": "ancla",
-    "indicators": [
-      "pierde el orden"
-    ],
-    "explanation": "Las letras de ancla se reordenan para formar CANAL."
-  },
-  {
-    "id": "d059",
-    "difficulty": "dificil",
-    "clue": "Sirve para material elástico y también para borrador. (4)",
-    "answer": "GOMA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Material elástico",
-    "fodder": "borrador",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a GOMA: «Material elástico» y «borrador»."
-  },
-  {
-    "id": "d060",
-    "difficulty": "dificil",
-    "clue": "Motivo de algo cuando casa abraza una intrusa. (5)",
-    "answer": "CAUSA",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Motivo de algo",
-    "fodder": "casa",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "CAUSA se forma al introducir una letra en casa."
-  },
-  {
-    "id": "d061",
-    "difficulty": "dificil",
-    "clue": "Sirve para figura de dos líneas que se cortan y también para señal de sufrimiento. (4)",
-    "answer": "CRUZ",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Figura de dos líneas que se cortan",
-    "fodder": "señal de sufrimiento",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a CRUZ: «Figura de dos líneas que se cortan» y «señal de sufrimiento»."
-  },
-  {
-    "id": "d062",
-    "difficulty": "dificil",
-    "clue": "Puede ser línea que no es recta o tramo de una carretera que gira. (5)",
-    "answer": "CURVA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Línea que no es recta",
-    "fodder": "tramo de una carretera que gira",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CURVA: «Línea que no es recta» y «tramo de una carretera que gira»."
-  },
-  {
-    "id": "d063",
-    "difficulty": "dificil",
-    "clue": "Masa gaseosa luminosa de un fuego que queda cuando llamas pierde una pieza. (5)",
-    "answer": "LLAMA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Masa gaseosa luminosa de un fuego",
-    "fodder": "llamas",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "LLAMA se obtiene de llamas al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d064",
-    "difficulty": "dificil",
-    "clue": "Calzado que cubre el pie y parte de la pierna, si lo dices en voz alta. (4)",
-    "answer": "BOTA",
-    "mechanisms": [
-      "homophone"
-    ],
-    "definition": "Calzado que cubre el pie y parte de la pierna",
-    "fodder": "vota",
-    "indicators": [
-      "en voz alta"
-    ],
-    "explanation": "BOTA suena como «vota»; la definición es «Calzado que cubre el pie y parte de la pierna»."
-  },
-  {
-    "id": "d065",
-    "difficulty": "dificil",
-    "clue": "Entre señal distintiva y empresa o producto, la palabra no cambia. (5)",
-    "answer": "MARCA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Señal distintiva",
-    "fodder": "empresa o producto",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a MARCA: «Señal distintiva» y «empresa o producto»."
-  },
-  {
-    "id": "d066",
-    "difficulty": "dificil",
-    "clue": "Condimento que queda cuando una sala pierde su remate. (3)",
-    "answer": "SAL",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Condimento",
-    "fodder": "sala",
-    "indicators": [
-      "pierde su remate"
-    ],
-    "explanation": "SAL se obtiene de sala al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d067",
-    "difficulty": "dificil",
-    "clue": "Peso transportado cuando cara abraza una intrusa. (5)",
-    "answer": "CARGA",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Peso transportado",
-    "fodder": "cara",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "CARGA se forma al introducir una letra en cara."
-  },
-  {
-    "id": "d068",
-    "difficulty": "dificil",
-    "clue": "Recipiente para comida que queda cuando platos pierde una pieza. (5)",
-    "answer": "PLATO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Recipiente para comida",
-    "fodder": "platos",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "PLATO se obtiene de platos al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d069",
-    "difficulty": "dificil",
-    "clue": "Puede ser vehículo de dos ruedas o persona que habla demasiado. (7)",
-    "answer": "CARRETA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Vehículo de dos ruedas",
-    "fodder": "persona que habla demasiado",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CARRETA: «Vehículo de dos ruedas» y «persona que habla demasiado»."
-  },
-  {
-    "id": "d070",
-    "difficulty": "dificil",
-    "clue": "Puede ser estructura que cubre a un ave o instrumento para escribir. (5)",
-    "answer": "PLUMA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Estructura que cubre a un ave",
-    "fodder": "instrumento para escribir",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a PLUMA: «Estructura que cubre a un ave» y «instrumento para escribir»."
-  },
-  {
-    "id": "d071",
-    "difficulty": "dificil",
-    "clue": "Parte plana de una planta que queda cuando hojas pierde una pieza. (4)",
-    "answer": "HOJA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Parte plana de una planta",
-    "fodder": "hojas",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "HOJA se obtiene de hojas al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d072",
-    "difficulty": "dificil",
-    "clue": "Puede ser sentido de la visión o aspecto de algo. (5)",
-    "answer": "VISTA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Sentido de la visión",
-    "fodder": "aspecto de algo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a VISTA: «Sentido de la visión» y «aspecto de algo»."
-  },
-  {
-    "id": "d073",
-    "difficulty": "dificil",
-    "clue": "Sirve para trabajo realizado y también para creación artística. (4)",
-    "answer": "OBRA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Trabajo realizado",
-    "fodder": "creación artística",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a OBRA: «Trabajo realizado» y «creación artística»."
-  },
-  {
-    "id": "d074",
-    "difficulty": "dificil",
-    "clue": "Entre choque o impacto y acción de golpear, la palabra no cambia. (5)",
-    "answer": "GOLPE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Choque o impacto",
-    "fodder": "acción de golpear",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a GOLPE: «Choque o impacto» y «acción de golpear»."
-  },
-  {
-    "id": "d075",
-    "difficulty": "dificil",
-    "clue": "Sirve para conjunto de fibras retorcidas y también para instrumento musical de cuerda. (6)",
-    "answer": "CUERDA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Conjunto de fibras retorcidas",
-    "fodder": "instrumento musical de cuerda",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a CUERDA: «Conjunto de fibras retorcidas» y «instrumento musical de cuerda»."
-  },
-  {
-    "id": "d076",
-    "difficulty": "dificil",
-    "clue": "Entre radiación que permite ver y persona o cosa brillante, la palabra no cambia. (3)",
-    "answer": "LUZ",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Radiación que permite ver",
-    "fodder": "persona o cosa brillante",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a LUZ: «Radiación que permite ver» y «persona o cosa brillante»."
-  },
-  {
-    "id": "d077",
-    "difficulty": "dificil",
-    "clue": "Alegría sonora que llega cuando asir cambia de dirección. (4)",
-    "answer": "RISA",
-    "mechanisms": [
-      "reversal"
-    ],
-    "definition": "Alegría sonora",
-    "fodder": "asir",
-    "indicators": [
-      "cambia de dirección"
-    ],
-    "explanation": "RISA aparece al leer asir al revés."
-  },
-  {
-    "id": "d078",
-    "difficulty": "dificil",
-    "clue": "Pieza del juego de bolos que queda cuando bolos pierde una pieza. (4)",
-    "answer": "BOLO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Pieza del juego de bolos",
-    "fodder": "bolos",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "BOLO se obtiene de bolos al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d079",
-    "difficulty": "dificil",
-    "clue": "Apunte escrito, perdida dentro de anotación. (4)",
-    "answer": "NOTA",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Apunte escrito",
-    "fodder": "anotación",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "NOTA aparece de forma continua dentro de «anotación». La definición es «Apunte escrito»."
-  },
-  {
-    "id": "d080",
-    "difficulty": "dificil",
-    "clue": "Gran extensión salada que queda al dejar fuera la primera letra de amar. (3)",
-    "answer": "MAR",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Gran extensión salada",
-    "fodder": "amar",
-    "indicators": [
-      "dejar fuera la primera letra"
-    ],
-    "explanation": "MAR se obtiene de amar al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d081",
-    "difficulty": "dificil",
-    "clue": "Entre órgano de la boca y idioma, la palabra no cambia. (6)",
-    "answer": "LENGUA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Órgano de la boca",
-    "fodder": "idioma",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a LENGUA: «Órgano de la boca» y «idioma»."
-  },
-  {
-    "id": "d082",
-    "difficulty": "dificil",
-    "clue": "Entre del mar y persona que trabaja en un barco, la palabra no cambia. (6)",
-    "answer": "MARINO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Del mar",
-    "fodder": "persona que trabaja en un barco",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a MARINO: «Del mar» y «persona que trabaja en un barco»."
-  },
-  {
-    "id": "d083",
-    "difficulty": "dificil",
-    "clue": "Fuera de la ciudad hay uno; en una profesión también. (5)",
-    "answer": "CAMPO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Fuera de la ciudad hay uno",
-    "fodder": "",
-    "indicators": [
-      "también"
-    ],
-    "explanation": "CAMPO es terreno y ámbito de actividad."
-  },
-  {
-    "id": "d084",
-    "difficulty": "dificil",
-    "clue": "Puede ser unión entre cosas o persona que sirve de conexión. (6)",
-    "answer": "ENLACE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Unión entre cosas",
-    "fodder": "persona que sirve de conexión",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a ENLACE: «Unión entre cosas» y «persona que sirve de conexión»."
-  },
-  {
-    "id": "d085",
-    "difficulty": "dificil",
-    "clue": "Significado; basta con desordenar destino. (7)",
-    "answer": "SENTIDO",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Significado",
-    "fodder": "destino",
-    "indicators": [
-      "desordenar"
-    ],
-    "explanation": "Las letras de destino se reordenan para formar SENTIDO."
-  },
-  {
-    "id": "d086",
-    "difficulty": "dificil",
-    "clue": "Sirve para acuerdo con obligaciones y también para documento que formaliza un acuerdo. (8)",
-    "answer": "CONTRATO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Acuerdo con obligaciones",
-    "fodder": "documento que formaliza un acuerdo",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a CONTRATO: «Acuerdo con obligaciones» y «documento que formaliza un acuerdo»."
-  },
-  {
-    "id": "d087",
-    "difficulty": "dificil",
-    "clue": "Sirve para disminución de un dolor y también para consuelo. (6)",
-    "answer": "ALIVIO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Disminución de un dolor",
-    "fodder": "consuelo",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a ALIVIO: «Disminución de un dolor» y «consuelo»."
-  },
-  {
-    "id": "d088",
-    "difficulty": "dificil",
-    "clue": "Puede ser cantidad de agua que lleva un río o cantidad de dinero o recursos. (6)",
-    "answer": "CAUDAL",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Cantidad de agua que lleva un río",
-    "fodder": "cantidad de dinero o recursos",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CAUDAL: «Cantidad de agua que lleva un río» y «cantidad de dinero o recursos»."
-  },
-  {
-    "id": "d089",
-    "difficulty": "dificil",
-    "clue": "Animal doméstico que sobrevive cuando los gatos pierden su cola. (4)",
-    "answer": "GATO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Animal doméstico",
-    "fodder": "gatos",
-    "indicators": [
-      "pierden su cola"
-    ],
-    "explanation": "GATO se obtiene de gatos al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d090",
-    "difficulty": "dificil",
-    "clue": "Viene al mundo; basta con desordenar cena. (4)",
-    "answer": "NACE",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Viene al mundo",
-    "fodder": "cena",
-    "indicators": [
-      "desordenar"
-    ],
-    "explanation": "Las letras de cena se reordenan para formar NACE."
-  },
-  {
-    "id": "d091",
-    "difficulty": "dificil",
-    "clue": "Entre indicio que comunica algo y marca para orientar, la palabra no cambia. (5)",
-    "answer": "SENAL",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Indicio que comunica algo",
-    "fodder": "marca para orientar",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a SENAL: «Indicio que comunica algo» y «marca para orientar»."
-  },
-  {
-    "id": "d092",
-    "difficulty": "dificil",
-    "clue": "Puede ser vía para desplazarse o método. (6)",
-    "answer": "CAMINO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Vía para desplazarse",
-    "fodder": "método",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CAMINO: «Vía para desplazarse» y «método»."
-  },
-  {
-    "id": "d093",
-    "difficulty": "dificil",
-    "clue": "Sirve para que contiene dos veces una cantidad y también para persona que sustituye a otra. (5)",
-    "answer": "DOBLE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Que contiene dos veces una cantidad",
-    "fodder": "persona que sustituye a otra",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a DOBLE: «Que contiene dos veces una cantidad» y «persona que sustituye a otra»."
-  },
-  {
-    "id": "d094",
-    "difficulty": "dificil",
-    "clue": "Entre altura respecto a una referencia y grado de desarrollo, la palabra no cambia. (5)",
-    "answer": "NIVEL",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Altura respecto a una referencia",
-    "fodder": "grado de desarrollo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a NIVEL: «Altura respecto a una referencia» y «grado de desarrollo»."
-  },
-  {
-    "id": "d095",
-    "difficulty": "dificil",
-    "clue": "Entre recorrido cerrado y conjunto de componentes eléctricos, la palabra no cambia. (8)",
-    "answer": "CIRCUITO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Recorrido cerrado",
-    "fodder": "conjunto de componentes eléctricos",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CIRCUITO: «Recorrido cerrado» y «conjunto de componentes eléctricos»."
-  },
-  {
-    "id": "d096",
-    "difficulty": "dificil",
-    "clue": "Entre primate y persona muy simpática o graciosa, la palabra no cambia. (4)",
-    "answer": "MONO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Primate",
-    "fodder": "persona muy simpática o graciosa",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a MONO: «Primate» y «persona muy simpática o graciosa»."
-  },
-  {
-    "id": "d097",
-    "difficulty": "dificil",
-    "clue": "Puede ser contacto afectuoso con los labios o marca afectuosa. (4)",
-    "answer": "BESO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Contacto afectuoso con los labios",
-    "fodder": "marca afectuosa",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a BESO: «Contacto afectuoso con los labios» y «marca afectuosa»."
-  },
-  {
-    "id": "d098",
-    "difficulty": "dificil",
-    "clue": "Sirve para fuerza para mover algo y también para decisión para actuar. (6)",
-    "answer": "EMPUJE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Fuerza para mover algo",
-    "fodder": "decisión para actuar",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a EMPUJE: «Fuerza para mover algo» y «decisión para actuar»."
-  },
-  {
-    "id": "d099",
-    "difficulty": "dificil",
-    "clue": "Puede ser conjunto ordenado o programa televisivo. (5)",
-    "answer": "SERIE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Conjunto ordenado",
-    "fodder": "programa televisivo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a SERIE: «Conjunto ordenado» y «programa televisivo»."
-  },
-  {
-    "id": "d100",
-    "difficulty": "dificil",
-    "clue": "Entre parte superior de una habitación y límite máximo, la palabra no cambia. (5)",
-    "answer": "TECHO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte superior de una habitación",
-    "fodder": "límite máximo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a TECHO: «Parte superior de una habitación» y «límite máximo»."
-  },
-  {
-    "id": "d101",
-    "difficulty": "dificil",
-    "clue": "Puede ser tristeza o castigo. (4)",
-    "answer": "PENA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Tristeza",
-    "fodder": "castigo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a PENA: «Tristeza» y «castigo»."
-  },
-  {
-    "id": "d102",
-    "difficulty": "dificil",
-    "clue": "Altura de un sonido que queda cuando trono pierde una pieza. (4)",
-    "answer": "TONO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Altura de un sonido",
-    "fodder": "trono",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "TONO se obtiene de trono al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d103",
-    "difficulty": "dificil",
-    "clue": "Entre objeto que cubre el rostro y producto cosmético para las pestañas, la palabra no cambia. (7)",
-    "answer": "MASCARA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Objeto que cubre el rostro",
-    "fodder": "producto cosmético para las pestañas",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a MASCARA: «Objeto que cubre el rostro» y «producto cosmético para las pestañas»."
-  },
-  {
-    "id": "d104",
-    "difficulty": "dificil",
-    "clue": "Sirve para parte frontal de la cabeza y también para superficie de una moneda. (4)",
-    "answer": "CARA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte frontal de la cabeza",
-    "fodder": "superficie de una moneda",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a CARA: «Parte frontal de la cabeza» y «superficie de una moneda»."
-  },
-  {
-    "id": "d105",
-    "difficulty": "dificil",
-    "clue": "Entre objeto para mejorar la visión y lentes montadas, la palabra no cambia. (5)",
-    "answer": "GAFAS",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Objeto para mejorar la visión",
-    "fodder": "lentes montadas",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a GAFAS: «Objeto para mejorar la visión» y «lentes montadas»."
-  },
-  {
-    "id": "d106",
-    "difficulty": "dificil",
-    "clue": "Fija el barco cuando el canal pierde su orden. (5)",
-    "answer": "ANCLA",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Fija el barco",
-    "fodder": "canal",
-    "indicators": [
-      "pierde su orden"
-    ],
-    "explanation": "Las letras de canal se reordenan para formar ANCLA."
-  },
-  {
-    "id": "d107",
-    "difficulty": "medio-dificil",
-    "clue": "El colectivo la hace; una conversación también puede necesitarla. (6)",
-    "answer": "PARADA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "El colectivo la hace",
-    "fodder": "",
-    "indicators": [
-      "también"
-    ],
-    "explanation": "PARADA es lugar/acción de detenerse y pausa."
-  },
-  {
-    "id": "d108",
-    "difficulty": "dificil",
-    "clue": "Puede ser parte entre cabeza y tronco o parte estrecha de una botella. (6)",
-    "answer": "CUELLO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte entre cabeza y tronco",
-    "fodder": "parte estrecha de una botella",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CUELLO: «Parte entre cabeza y tronco» y «parte estrecha de una botella»."
-  },
-  {
-    "id": "d109",
-    "difficulty": "dificil",
-    "clue": "La lleva un rey y también puede llevarla una rueda. (6)",
-    "answer": "CORONA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "La lleva un rey",
-    "fodder": "",
-    "indicators": [
-      "y"
-    ],
-    "explanation": "CORONA tiene ambos sentidos."
-  },
-  {
-    "id": "d110",
-    "difficulty": "dificil",
-    "clue": "Camino previsto, perdida dentro de fruta. (4)",
-    "answer": "RUTA",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Camino previsto",
-    "fodder": "fruta",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "RUTA aparece de forma continua dentro de «fruta». La definición es «Camino previsto»."
-  },
-  {
-    "id": "d111",
-    "difficulty": "dificil",
-    "clue": "Entre proyectil y persona muy rápida, la palabra no cambia. (4)",
-    "answer": "BALA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Proyectil",
-    "fodder": "persona muy rápida",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a BALA: «Proyectil» y «persona muy rápida»."
-  },
-  {
-    "id": "d112",
-    "difficulty": "dificil",
-    "clue": "Extremidades de un ave que sale de sala cuando todo queda revuelto. (4)",
-    "answer": "ALAS",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Extremidades de un ave",
-    "fodder": "sala",
-    "indicators": [
-      "todo queda revuelto"
-    ],
-    "explanation": "Las letras de sala se reordenan para formar ALAS."
-  },
-  {
-    "id": "d113",
-    "difficulty": "dificil",
-    "clue": "Puede ser facultad de pensar o persona muy inteligente. (5)",
-    "answer": "MENTE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Facultad de pensar",
-    "fodder": "persona muy inteligente",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a MENTE: «Facultad de pensar» y «persona muy inteligente»."
-  },
-  {
-    "id": "d114",
-    "difficulty": "dificil",
-    "clue": "Entre masa de agua interior y forma de un recipiente, en ciertos usos, la palabra no cambia. (4)",
-    "answer": "LAGO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Masa de agua interior",
-    "fodder": "forma de un recipiente, en ciertos usos",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a LAGO: «Masa de agua interior» y «forma de un recipiente, en ciertos usos»."
-  },
-  {
-    "id": "d115",
-    "difficulty": "dificil",
-    "clue": "Expresión que indica cantidad, perdida dentro de numeroso. (6)",
-    "answer": "NUMERO",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Expresión que indica cantidad",
-    "fodder": "numeroso",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "NUMERO aparece de forma continua dentro de «numeroso». La definición es «Expresión que indica cantidad»."
-  },
-  {
-    "id": "d116",
-    "difficulty": "dificil",
-    "clue": "Semilla pequeña cuando gran abraza una intrusa. (5)",
-    "answer": "GRANO",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Semilla pequeña",
-    "fodder": "gran",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "GRANO se forma al introducir una letra en gran."
-  },
-  {
-    "id": "d117",
-    "difficulty": "dificil",
-    "clue": "Entre descarga eléctrica atmosférica y persona o cosa muy rápida, la palabra no cambia. (4)",
-    "answer": "RAYO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Descarga eléctrica atmosférica",
-    "fodder": "persona o cosa muy rápida",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a RAYO: «Descarga eléctrica atmosférica» y «persona o cosa muy rápida»."
-  },
-  {
-    "id": "d118",
-    "difficulty": "dificil",
-    "clue": "Sirve para acción de elevarse del suelo y también para cambio brusco. (5)",
-    "answer": "SALTO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Acción de elevarse del suelo",
-    "fodder": "cambio brusco",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a SALTO: «Acción de elevarse del suelo» y «cambio brusco»."
-  },
-  {
-    "id": "d119",
-    "difficulty": "dificil",
-    "clue": "Puede ser parte posterior o reverso de una mano. (5)",
-    "answer": "DORSO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte posterior",
-    "fodder": "reverso de una mano",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a DORSO: «Parte posterior» y «reverso de una mano»."
-  },
-  {
-    "id": "d120",
-    "difficulty": "dificil",
-    "clue": "Acción de dar algo, perdida dentro de entregado. (7)",
-    "answer": "ENTREGA",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Acción de dar algo",
-    "fodder": "entregado",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "ENTREGA aparece de forma continua dentro de «entregado». La definición es «Acción de dar algo»."
-  },
-  {
-    "id": "d121",
-    "difficulty": "dificil",
-    "clue": "Entre ave doméstica y persona cobarde, la palabra no cambia. (7)",
-    "answer": "GALLINA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Ave doméstica",
-    "fodder": "persona cobarde",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a GALLINA: «Ave doméstica» y «persona cobarde»."
-  },
-  {
-    "id": "d122",
-    "difficulty": "dificil",
-    "clue": "Entre encima de y envoltorio de papel, la palabra no cambia. (5)",
-    "answer": "SOBRE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Encima de",
-    "fodder": "envoltorio de papel",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a SOBRE: «Encima de» y «envoltorio de papel»."
-  },
-  {
-    "id": "d123",
-    "difficulty": "dificil",
-    "clue": "Puede ser pieza elástica o recurso que produce un efecto. (7)",
-    "answer": "RESORTE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Pieza elástica",
-    "fodder": "recurso que produce un efecto",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a RESORTE: «Pieza elástica» y «recurso que produce un efecto»."
-  },
-  {
-    "id": "d124",
-    "difficulty": "dificil",
-    "clue": "Entre suelo y planeta, la palabra no cambia. (6)",
-    "answer": "TIERRA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Suelo",
-    "fodder": "planeta",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a TIERRA: «Suelo» y «planeta»."
-  },
-  {
-    "id": "d125",
-    "difficulty": "dificil",
-    "clue": "Puede ser producto de una combustión o engaño o apariencia vacía. (4)",
-    "answer": "HUMO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Producto de una combustión",
-    "fodder": "engaño o apariencia vacía",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a HUMO: «Producto de una combustión» y «engaño o apariencia vacía»."
-  },
-  {
-    "id": "d126",
-    "difficulty": "dificil",
-    "clue": "Fibra para coser que queda cuando hilos pierde una pieza. (4)",
-    "answer": "HILO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Fibra para coser",
-    "fodder": "hilos",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "HILO se obtiene de hilos al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d127",
-    "difficulty": "dificil",
-    "clue": "Parte de una prenda que queda cuando mangas pierde una pieza. (5)",
-    "answer": "MANGA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Parte de una prenda",
-    "fodder": "mangas",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "MANGA se obtiene de mangas al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d128",
-    "difficulty": "dificil",
-    "clue": "Sirve para lo que queda y también para operación que quita una cantidad de otra. (5)",
-    "answer": "RESTO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Lo que queda",
-    "fodder": "operación que quita una cantidad de otra",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a RESTO: «Lo que queda» y «operación que quita una cantidad de otra»."
-  },
-  {
-    "id": "d129",
-    "difficulty": "dificil",
-    "clue": "Puede ser pieza que une dos partes móviles o elemento decisivo de una situación. (7)",
-    "answer": "BISAGRA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Pieza que une dos partes móviles",
-    "fodder": "elemento decisivo de una situación",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a BISAGRA: «Pieza que une dos partes móviles» y «elemento decisivo de una situación»."
-  },
-  {
-    "id": "d130",
-    "difficulty": "dificil",
-    "clue": "Mensaje escrito que queda cuando cartas pierde una pieza. (5)",
-    "answer": "CARTA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Mensaje escrito",
-    "fodder": "cartas",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "CARTA se obtiene de cartas al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d131",
-    "difficulty": "dificil",
-    "clue": "Entre acción de encajar y pieza ornamental de hilo, la palabra no cambia. (6)",
-    "answer": "ENCAJE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Acción de encajar",
-    "fodder": "pieza ornamental de hilo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a ENCAJE: «Acción de encajar» y «pieza ornamental de hilo»."
-  },
-  {
-    "id": "d132",
-    "difficulty": "dificil",
-    "clue": "Sirve para parte de una planta y también para origen de algo. (4)",
-    "answer": "RAIZ",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte de una planta",
-    "fodder": "origen de algo",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a RAIZ: «Parte de una planta» y «origen de algo»."
-  },
-  {
-    "id": "d133",
-    "difficulty": "dificil",
-    "clue": "Puede ser persona que acompaña o colega. (9)",
-    "answer": "COMPANERO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Persona que acompaña",
-    "fodder": "colega",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a COMPANERO: «Persona que acompaña» y «colega»."
-  },
-  {
-    "id": "d134",
-    "difficulty": "dificil",
-    "clue": "Principio espiritual que nace de una mala cabeza. (4)",
-    "answer": "ALMA",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Principio espiritual",
-    "fodder": "mala",
-    "indicators": [
-      "nace de una mala cabeza"
-    ],
-    "explanation": "Las letras de mala se reordenan para formar ALMA."
-  },
-  {
-    "id": "d135",
-    "difficulty": "dificil",
-    "clue": "Entre extremo de un eje y deporte a caballo y con pelota, la palabra no cambia. (4)",
-    "answer": "POLO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Extremo de un eje",
-    "fodder": "deporte a caballo y con pelota",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a POLO: «Extremo de un eje» y «deporte a caballo y con pelota»."
-  },
-  {
-    "id": "d136",
-    "difficulty": "dificil",
-    "clue": "Sirve para caja para recibir cartas y también para compartimento de recepción. (5)",
-    "answer": "BUZON",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Caja para recibir cartas",
-    "fodder": "compartimento de recepción",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a BUZON: «Caja para recibir cartas» y «compartimento de recepción»."
-  },
-  {
-    "id": "d137",
-    "difficulty": "dificil",
-    "clue": "Puede ser zona de una ciudad o conjunto de casas de una zona. (6)",
-    "answer": "BARRIO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Zona de una ciudad",
-    "fodder": "conjunto de casas de una zona",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a BARRIO: «Zona de una ciudad» y «conjunto de casas de una zona»."
-  },
-  {
-    "id": "d138",
-    "difficulty": "dificil",
-    "clue": "Sirve para representación resumida y también para plan básico. (7)",
-    "answer": "ESQUEMA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Representación resumida",
-    "fodder": "plan básico",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a ESQUEMA: «Representación resumida» y «plan básico»."
-  },
-  {
-    "id": "d139",
-    "difficulty": "dificil",
-    "clue": "Puede ser representación visual o idea mental de algo. (6)",
-    "answer": "IMAGEN",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Representación visual",
-    "fodder": "idea mental de algo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a IMAGEN: «Representación visual» y «idea mental de algo»."
-  },
-  {
-    "id": "d140",
-    "difficulty": "dificil",
-    "clue": "Sirve para sufrimiento físico y también para pena que duele. (5)",
-    "answer": "DOLOR",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Sufrimiento físico",
-    "fodder": "pena que duele",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a DOLOR: «Sufrimiento físico» y «pena que duele»."
-  },
-  {
-    "id": "d141",
-    "difficulty": "dificil",
-    "clue": "Entre objeto que da forma y modelo que sirve de guía, la palabra no cambia. (5)",
-    "answer": "MOLDE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Objeto que da forma",
-    "fodder": "modelo que sirve de guía",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a MOLDE: «Objeto que da forma» y «modelo que sirve de guía»."
-  },
-  {
-    "id": "d142",
-    "difficulty": "dificil",
-    "clue": "Une dos orillas y, con un calendario caprichoso, puede regalarte un día. (6)",
-    "answer": "PUENTE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Une dos orillas",
-    "fodder": "",
-    "indicators": [
-      "y"
-    ],
-    "explanation": "PUENTE es construcción y día entre festivos."
-  },
-  {
-    "id": "d143",
-    "difficulty": "dificil",
-    "clue": "Puede ser prenda ligera de manga corta o pieza interior. (8)",
-    "answer": "CAMISETA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Prenda ligera de manga corta",
-    "fodder": "pieza interior",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CAMISETA: «Prenda ligera de manga corta» y «pieza interior»."
-  },
-  {
-    "id": "d144",
-    "difficulty": "dificil",
-    "clue": "Sirve para cubo de juego y también para entregado o concedido. (4)",
-    "answer": "DADO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Cubo de juego",
-    "fodder": "entregado o concedido",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a DADO: «Cubo de juego» y «entregado o concedido»."
-  },
-  {
-    "id": "d145",
-    "difficulty": "dificil",
-    "clue": "Puede ser parte de un conjunto o zona de actividad económica. (6)",
-    "answer": "SECTOR",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte de un conjunto",
-    "fodder": "zona de actividad económica",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a SECTOR: «Parte de un conjunto» y «zona de actividad económica»."
-  },
-  {
-    "id": "d146",
-    "difficulty": "medio-dificil",
-    "clue": "Puede interrumpir una llamada o dictar una sentencia. (5)",
-    "answer": "CORTE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Puede interrumpir una llamada",
-    "fodder": "",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "CORTE alude a interrupción y tribunal."
-  },
-  {
-    "id": "d147",
-    "difficulty": "dificil",
-    "clue": "Plato líquido que sale de paso cuando todo queda revuelto. (4)",
-    "answer": "SOPA",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Plato líquido",
-    "fodder": "paso",
-    "indicators": [
-      "todo queda revuelto"
-    ],
-    "explanation": "Las letras de paso se reordenan para formar SOPA."
-  },
-  {
-    "id": "d148",
-    "difficulty": "dificil",
-    "clue": "Sirve para pared resistente y también para obstáculo. (4)",
-    "answer": "MURO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Pared resistente",
-    "fodder": "obstáculo",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a MURO: «Pared resistente» y «obstáculo»."
-  },
-  {
-    "id": "d149",
-    "difficulty": "dificil",
-    "clue": "Puede ser palabra que identifica o reputación de una persona. (6)",
-    "answer": "NOMBRE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Palabra que identifica",
-    "fodder": "reputación de una persona",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a NOMBRE: «Palabra que identifica» y «reputación de una persona»."
-  },
-  {
-    "id": "d150",
-    "difficulty": "dificil",
-    "clue": "Puede ser una partida o el margen que permite una pieza moverse. (5)",
+    "id": "d002",
+    "difficulty": "experto",
+    "clue": "Puede ser una partida; fuego cambia una letra: f por j. (5)",
     "answer": "JUEGO",
     "mechanisms": [
-      "double-definition"
+      "substitution"
     ],
     "definition": "Puede ser una partida",
-    "fodder": "",
+    "fodder": "FUEGO",
     "indicators": [
-      "o"
+      "cambia una letra"
     ],
-    "explanation": "JUEGO tiene ambos sentidos."
+    "explanation": "FUEGO cambia F por J = JUEGO.",
+    "_def": "Actividad con reglas"
   },
   {
-    "id": "d151",
-    "difficulty": "dificil",
-    "clue": "Sirve para conjunto de instrumentos de percusión y también para fuente de energía. (7)",
-    "answer": "BATERIA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Conjunto de instrumentos de percusión",
-    "fodder": "fuente de energía",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a BATERIA: «Conjunto de instrumentos de percusión» y «fuente de energía»."
-  },
-  {
-    "id": "d152",
-    "difficulty": "dificil",
-    "clue": "Viento suave cuando risa abraza una intrusa. (5)",
-    "answer": "BRISA",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Viento suave",
-    "fodder": "risa",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "BRISA se forma al introducir una letra en risa."
-  },
-  {
-    "id": "d153",
-    "difficulty": "dificil",
-    "clue": "Entre pieza que se pulsa y botón de un instrumento, la palabra no cambia. (5)",
-    "answer": "TECLA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Pieza que se pulsa",
-    "fodder": "botón de un instrumento",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a TECLA: «Pieza que se pulsa» y «botón de un instrumento»."
-  },
-  {
-    "id": "d154",
-    "difficulty": "dificil",
-    "clue": "Puede ser parte posterior del pie o parte final de un documento. (5)",
-    "answer": "TALON",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte posterior del pie",
-    "fodder": "parte final de un documento",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a TALON: «Parte posterior del pie» y «parte final de un documento»."
-  },
-  {
-    "id": "d155",
-    "difficulty": "medio-dificil",
-    "clue": "Puede esperarte en una sala o aparecer en un libro contable. (7)",
-    "answer": "ASIENTO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Puede esperarte en una sala",
-    "fodder": "",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "ASIENTO es lugar para sentarse y anotación contable."
-  },
-  {
-    "id": "d156",
-    "difficulty": "dificil",
-    "clue": "Categoría que sale cuando el grano pierde su sitio. (5)",
-    "answer": "RANGO",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Categoría",
-    "fodder": "grano",
-    "indicators": [
-      "pierde su sitio"
-    ],
-    "explanation": "Las letras de grano se reordenan para formar RANGO."
-  },
-  {
-    "id": "d157",
-    "difficulty": "dificil",
-    "clue": "Puede ser animal del desierto o persona que transporta droga. (7)",
-    "answer": "CAMELLO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Animal del desierto",
-    "fodder": "persona que transporta droga",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CAMELLO: «Animal del desierto» y «persona que transporta droga»."
-  },
-  {
-    "id": "d158",
-    "difficulty": "dificil",
-    "clue": "Asunto del que se habla, perdida dentro de sistema. (4)",
-    "answer": "TEMA",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Asunto del que se habla",
-    "fodder": "sistema",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "TEMA aparece de forma continua dentro de «sistema». La definición es «Asunto del que se habla»."
-  },
-  {
-    "id": "d159",
-    "difficulty": "dificil",
-    "clue": "Información concreta que queda cuando datos pierde una pieza. (4)",
-    "answer": "DATO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Información concreta",
-    "fodder": "datos",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "DATO se obtiene de datos al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d160",
-    "difficulty": "dificil",
-    "clue": "Entre separación entre dos puntos y frialdad en el trato, la palabra no cambia. (9)",
-    "answer": "DISTANCIA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Separación entre dos puntos",
-    "fodder": "frialdad en el trato",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a DISTANCIA: «Separación entre dos puntos» y «frialdad en el trato»."
-  },
-  {
-    "id": "d161",
-    "difficulty": "dificil",
-    "clue": "Sirve para prenda de vestir y también para parte baja de una montaña. (5)",
-    "answer": "FALDA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Prenda de vestir",
-    "fodder": "parte baja de una montaña",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a FALDA: «Prenda de vestir» y «parte baja de una montaña»."
-  },
-  {
-    "id": "d162",
-    "difficulty": "dificil",
-    "clue": "Ave acuática que queda cuando plato pierde una pieza. (4)",
-    "answer": "PATO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Ave acuática",
-    "fodder": "plato",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "PATO se obtiene de plato al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d163",
-    "difficulty": "dificil",
-    "clue": "Entre línea aparente que separa cielo y tierra y límite de lo conocido, la palabra no cambia. (9)",
-    "answer": "HORIZONTE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Línea aparente que separa cielo y tierra",
-    "fodder": "límite de lo conocido",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a HORIZONTE: «Línea aparente que separa cielo y tierra» y «límite de lo conocido»."
-  },
-  {
-    "id": "d164",
-    "difficulty": "dificil",
-    "clue": "Fila de asientos, perdida dentro de agradable. (5)",
-    "answer": "GRADA",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Fila de asientos",
-    "fodder": "agradable",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "GRADA aparece de forma continua dentro de «agradable». La definición es «Fila de asientos»."
-  },
-  {
-    "id": "d165",
-    "difficulty": "dificil",
-    "clue": "Puede tener curvas y asfalto, o llevarte hasta la respuesta. (5)",
-    "answer": "PISTA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Puede tener curvas y asfalto",
-    "fodder": "",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "PISTA es lugar para actividad y señal/indicio."
-  },
-  {
-    "id": "d166",
-    "difficulty": "dificil",
-    "clue": "Entre herramienta de dientes y cadena montañosa, la palabra no cambia. (6)",
-    "answer": "SIERRA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Herramienta de dientes",
-    "fodder": "cadena montañosa",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a SIERRA: «Herramienta de dientes» y «cadena montañosa»."
-  },
-  {
-    "id": "d167",
-    "difficulty": "medio-dificil",
-    "clue": "Lo esperas en una fila y puede durar toda una jornada. (5)",
-    "answer": "TURNO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Lo esperas en una fila",
-    "fodder": "",
-    "indicators": [
-      "y"
-    ],
-    "explanation": "TURNO es orden de intervención y periodo de trabajo."
-  },
-  {
-    "id": "d168",
-    "difficulty": "dificil",
-    "clue": "Periodo de enseñanza, perdida dentro de recursos. (5)",
-    "answer": "CURSO",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Periodo de enseñanza",
-    "fodder": "recursos",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "CURSO aparece de forma continua dentro de «recursos». La definición es «Periodo de enseñanza»."
-  },
-  {
-    "id": "d169",
-    "difficulty": "dificil",
-    "clue": "Tabique vertical, perdida dentro de paredes. (5)",
-    "answer": "PARED",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Tabique vertical",
-    "fodder": "paredes",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "PARED aparece de forma continua dentro de «paredes». La definición es «Tabique vertical»."
-  },
-  {
-    "id": "d170",
-    "difficulty": "dificil",
-    "clue": "Sirve para magnitud que ordena los sucesos y también para estado atmosférico. (6)",
-    "answer": "TIEMPO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Magnitud que ordena los sucesos",
-    "fodder": "estado atmosférico",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a TIEMPO: «Magnitud que ordena los sucesos» y «estado atmosférico»."
-  },
-  {
-    "id": "d171",
-    "difficulty": "dificil",
-    "clue": "Puede ser instrumento que mide el tiempo o persona muy puntual. (5)",
-    "answer": "RELOJ",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Instrumento que mide el tiempo",
-    "fodder": "persona muy puntual",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a RELOJ: «Instrumento que mide el tiempo» y «persona muy puntual»."
-  },
-  {
-    "id": "d172",
-    "difficulty": "dificil",
-    "clue": "Cantidad de materia cuando asa abraza una intrusa. (4)",
-    "answer": "MASA",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Cantidad de materia",
-    "fodder": "asa",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "MASA se forma al introducir una letra en asa."
-  },
-  {
-    "id": "d173",
-    "difficulty": "dificil",
-    "clue": "Puede ser impresión producida por la luz o carácter o matiz. (5)",
-    "answer": "COLOR",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Impresión producida por la luz",
-    "fodder": "carácter o matiz",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a COLOR: «Impresión producida por la luz» y «carácter o matiz»."
-  },
-  {
-    "id": "d174",
-    "difficulty": "dificil",
-    "clue": "Señal gráfica redonda que queda cuando puntos pierde una pieza. (5)",
-    "answer": "PUNTO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Señal gráfica redonda",
-    "fodder": "puntos",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "PUNTO se obtiene de puntos al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d175",
-    "difficulty": "dificil",
-    "clue": "Puede ser instrumento para orientarse o guía. (7)",
-    "answer": "BRUJULA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Instrumento para orientarse",
-    "fodder": "guía",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a BRUJULA: «Instrumento para orientarse» y «guía»."
-  },
-  {
-    "id": "d176",
-    "difficulty": "dificil",
-    "clue": "Sirve para espacio sobre nuestras cabezas y también para techo de una habitación en sentido figurado. (5)",
-    "answer": "CIELO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Espacio sobre nuestras cabezas",
-    "fodder": "techo de una habitación en sentido figurado",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a CIELO: «Espacio sobre nuestras cabezas» y «techo de una habitación en sentido figurado»."
-  },
-  {
-    "id": "d177",
-    "difficulty": "dificil",
-    "clue": "Entre superficie que se pisa y vivienda en un edificio, la palabra no cambia. (4)",
-    "answer": "PISO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Superficie que se pisa",
-    "fodder": "vivienda en un edificio",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a PISO: «Superficie que se pisa» y «vivienda en un edificio»."
-  },
-  {
-    "id": "d178",
-    "difficulty": "dificil",
-    "clue": "Sirve para parte de un recorrido y también para segmento. (5)",
-    "answer": "TRAMO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte de un recorrido",
-    "fodder": "segmento",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a TRAMO: «Parte de un recorrido» y «segmento»."
-  },
-  {
-    "id": "d179",
-    "difficulty": "dificil",
-    "clue": "Lugar al que se dirige alguien: sentido cambia de sitio y da la respuesta. (7)",
-    "answer": "DESTINO",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Lugar al que se dirige alguien",
-    "fodder": "sentido",
-    "indicators": [
-      "cambia de sitio"
-    ],
-    "explanation": "Las letras de sentido se reordenan para formar DESTINO."
-  },
-  {
-    "id": "d180",
-    "difficulty": "dificil",
-    "clue": "Máquina para trabajar piezas cuando tono abraza una intrusa. (5)",
-    "answer": "TORNO",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Máquina para trabajar piezas",
-    "fodder": "tono",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "TORNO se forma al introducir una letra en tono."
-  },
-  {
-    "id": "d181",
-    "difficulty": "dificil",
-    "clue": "Movimiento al caminar que queda cuando pasos pierde una pieza. (4)",
-    "answer": "PASO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Movimiento al caminar",
-    "fodder": "pasos",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "PASO se obtiene de pasos al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d182",
-    "difficulty": "dificil",
-    "clue": "Extremidad superior, perdida dentro de humano. (4)",
-    "answer": "MANO",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Extremidad superior",
-    "fodder": "humano",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "MANO aparece de forma continua dentro de «humano». La definición es «Extremidad superior»."
-  },
-  {
-    "id": "d183",
-    "difficulty": "dificil",
-    "clue": "Pieza para ejercitarse que queda cuando presa pierde una pieza. (4)",
-    "answer": "PESA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Pieza para ejercitarse",
-    "fodder": "presa",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "PESA se obtiene de presa al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d184",
-    "difficulty": "dificil",
-    "clue": "Entre salida de un tallo y aparición repentina de algo, la palabra no cambia. (5)",
-    "answer": "BROTE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Salida de un tallo",
-    "fodder": "aparición repentina de algo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a BROTE: «Salida de un tallo» y «aparición repentina de algo»."
-  },
-  {
-    "id": "d185",
-    "difficulty": "dificil",
-    "clue": "Sirve para pendiente de un terreno y también para precio o esfuerzo que algo exige. (6)",
-    "answer": "CUESTA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Pendiente de un terreno",
-    "fodder": "precio o esfuerzo que algo exige",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a CUESTA: «Pendiente de un terreno» y «precio o esfuerzo que algo exige»."
-  },
-  {
-    "id": "d186",
-    "difficulty": "dificil",
-    "clue": "Entre lámpara portátil y dispositivo de iluminación manual, la palabra no cambia. (8)",
-    "answer": "LINTERNA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Lámpara portátil",
-    "fodder": "dispositivo de iluminación manual",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a LINTERNA: «Lámpara portátil» y «dispositivo de iluminación manual»."
-  },
-  {
-    "id": "d187",
-    "difficulty": "dificil",
-    "clue": "Recipiente con paredes, perdida dentro de encajar. (4)",
-    "answer": "CAJA",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Recipiente con paredes",
-    "fodder": "encajar",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "CAJA aparece de forma continua dentro de «encajar». La definición es «Recipiente con paredes»."
-  },
-  {
-    "id": "d188",
-    "difficulty": "dificil",
-    "clue": "Sirve para rastro que deja un objeto al moverse y también para monumento funerario. (6)",
-    "answer": "ESTELA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Rastro que deja un objeto al moverse",
-    "fodder": "monumento funerario",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a ESTELA: «Rastro que deja un objeto al moverse» y «monumento funerario»."
-  },
-  {
-    "id": "d189",
-    "difficulty": "dificil",
-    "clue": "Celebración religiosa que queda cuando misma pierde su primera letra. (4)",
-    "answer": "MISA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Celebración religiosa",
-    "fodder": "misma",
-    "indicators": [
-      "pierde su primera letra"
-    ],
-    "explanation": "MISA se obtiene de misma al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d190",
-    "difficulty": "dificil",
-    "clue": "Conjunto de flores que queda cuando tramo pierde una pieza. (4)",
-    "answer": "RAMO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Conjunto de flores",
-    "fodder": "tramo",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "RAMO se obtiene de tramo al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d191",
-    "difficulty": "dificil",
-    "clue": "Pequeña porción de líquido que sale de gato cuando todo queda revuelto. (4)",
-    "answer": "GOTA",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Pequeña porción de líquido",
-    "fodder": "gato",
-    "indicators": [
-      "todo queda revuelto"
-    ],
-    "explanation": "Las letras de gato se reordenan para formar GOTA."
-  },
-  {
-    "id": "d192",
-    "difficulty": "dificil",
-    "clue": "Puede ser pelota para jugar o persona muy tonta, coloquial. (5)",
-    "answer": "BALON",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Pelota para jugar",
-    "fodder": "persona muy tonta, coloquial",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a BALON: «Pelota para jugar» y «persona muy tonta, coloquial»."
-  },
-  {
-    "id": "d193",
-    "difficulty": "dificil",
-    "clue": "Puede ser masa visible de vapor de agua o servicio informático remoto. (4)",
-    "answer": "NUBE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Masa visible de vapor de agua",
-    "fodder": "servicio informático remoto",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a NUBE: «Masa visible de vapor de agua» y «servicio informático remoto»."
-  },
-  {
-    "id": "d194",
-    "difficulty": "dificil",
-    "clue": "Documento de una reunión que queda cuando actua pierde una pieza. (4)",
-    "answer": "ACTA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Documento de una reunión",
-    "fodder": "actua",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "ACTA se obtiene de actua al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d195",
-    "difficulty": "dificil",
-    "clue": "Agarrar si risa vuelve sobre sus pasos. (4)",
-    "answer": "ASIR",
-    "mechanisms": [
-      "reversal"
-    ],
-    "definition": "Agarrar",
-    "fodder": "risa",
-    "indicators": [
-      "vuelve sobre sus pasos"
-    ],
-    "explanation": "ASIR aparece al leer risa al revés."
-  },
-  {
-    "id": "d196",
-    "difficulty": "dificil",
-    "clue": "Fruto seco que queda cuando pasar pierde el final. (4)",
-    "answer": "PASA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Fruto seco",
-    "fodder": "pasar",
-    "indicators": [
-      "pierde el final"
-    ],
-    "explanation": "PASA se obtiene de pasar al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d197",
-    "difficulty": "medio-dificil",
-    "clue": "Está debajo de todo y, en un asunto, puede ser lo esencial. (5)",
-    "answer": "FONDO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Está debajo de todo",
-    "fodder": "",
-    "indicators": [
-      "y"
-    ],
-    "explanation": "FONDO tiene sentido físico y abstracto."
-  },
-  {
-    "id": "d198",
-    "difficulty": "dificil",
-    "clue": "Acuerdo entre personas cuando rato abraza una intrusa. (5)",
-    "answer": "TRATO",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Acuerdo entre personas",
-    "fodder": "rato",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "TRATO se forma al introducir una letra en rato."
-  },
-  {
-    "id": "d199",
-    "difficulty": "dificil",
-    "clue": "Elevación de agua, si lo dices en voz alta. (3)",
-    "answer": "OLA",
-    "mechanisms": [
-      "homophone"
-    ],
-    "definition": "Elevación de agua",
-    "fodder": "hola",
-    "indicators": [
-      "en voz alta"
-    ],
-    "explanation": "OLA suena como «hola»; la definición es «Elevación de agua»."
-  },
-  {
-    "id": "d200",
-    "difficulty": "dificil",
-    "clue": "Habitación amplia cuando sal abraza una intrusa. (4)",
-    "answer": "SALA",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Habitación amplia",
-    "fodder": "sal",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "SALA se forma al introducir una letra en sal."
-  },
-  {
-    "id": "d201",
-    "difficulty": "dificil",
-    "clue": "Sirve para recipiente con asa y también para persona o cosa de forma torpe, en uso coloquial. (5)",
-    "answer": "JARRA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Recipiente con asa",
-    "fodder": "persona o cosa de forma torpe, en uso coloquial",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a JARRA: «Recipiente con asa» y «persona o cosa de forma torpe, en uso coloquial»."
-  },
-  {
-    "id": "d202",
-    "difficulty": "dificil",
-    "clue": "Puede estar por resolver o inclinarse cuesta abajo. (9)",
-    "answer": "PENDIENTE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Puede estar por resolver",
-    "fodder": "",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "PENDIENTE tiene sentido temporal y geométrico."
-  },
-  {
-    "id": "d203",
-    "difficulty": "dificil",
-    "clue": "Bolsa que aparece cuando unas ocas regresan. (4)",
-    "answer": "SACO",
-    "mechanisms": [
-      "reversal"
-    ],
-    "definition": "Bolsa",
-    "fodder": "ocas",
-    "indicators": [
-      "regresan"
-    ],
-    "explanation": "SACO aparece al leer ocas al revés."
-  },
-  {
-    "id": "d204",
-    "difficulty": "dificil",
-    "clue": "Sirve para acción de bajar de una nave y también para llegada de tropas a tierra. (10)",
-    "answer": "DESEMBARCO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Acción de bajar de una nave",
-    "fodder": "llegada de tropas a tierra",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a DESEMBARCO: «Acción de bajar de una nave» y «llegada de tropas a tierra»."
-  },
-  {
-    "id": "d205",
-    "difficulty": "medio-dificil",
-    "clue": "Rodea una caja o se sube a un escenario. (5)",
-    "answer": "BANDA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Rodea una caja",
-    "fodder": "",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "BANDA puede ser franja y grupo musical."
-  },
-  {
-    "id": "d206",
-    "difficulty": "dificil",
-    "clue": "Puede ser fuerza que mueve o deseo repentino de actuar. (7)",
-    "answer": "IMPULSO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Fuerza que mueve",
-    "fodder": "deseo repentino de actuar",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a IMPULSO: «Fuerza que mueve» y «deseo repentino de actuar»."
-  },
-  {
-    "id": "d207",
-    "difficulty": "dificil",
-    "clue": "Sirve para material que retiene partículas y también para criterio que deja pasar unas cosas y otras no. (6)",
-    "answer": "FILTRO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Material que retiene partículas",
-    "fodder": "criterio que deja pasar unas cosas y otras no",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a FILTRO: «Material que retiene partículas» y «criterio que deja pasar unas cosas y otras no»."
-  },
-  {
-    "id": "d208",
-    "difficulty": "dificil",
-    "clue": "Extremo de algo: boca cambia de sitio y da la respuesta. (4)",
-    "answer": "CABO",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Extremo de algo",
-    "fodder": "boca",
-    "indicators": [
-      "cambia de sitio"
-    ],
-    "explanation": "Las letras de boca se reordenan para formar CABO."
-  },
-  {
-    "id": "d209",
-    "difficulty": "dificil",
-    "clue": "Sirve para juguete que vuela con hilo y también para cuerpo celeste. (6)",
-    "answer": "COMETA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Juguete que vuela con hilo",
-    "fodder": "cuerpo celeste",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a COMETA: «Juguete que vuela con hilo» y «cuerpo celeste»."
-  },
-  {
-    "id": "d210",
-    "difficulty": "medio-dificil",
-    "clue": "Importa en la balanza y también en una decisión. (4)",
-    "answer": "PESO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Importa en la balanza",
-    "fodder": "",
-    "indicators": [
-      "también"
-    ],
-    "explanation": "Dos sentidos de PESO: magnitud física e importancia."
-  },
-  {
-    "id": "d211",
-    "difficulty": "dificil",
-    "clue": "Sirve para color de la sangre y también para persona comunista, coloquial. (4)",
-    "answer": "ROJO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Color de la sangre",
-    "fodder": "persona comunista, coloquial",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a ROJO: «Color de la sangre» y «persona comunista, coloquial»."
-  },
-  {
-    "id": "d212",
-    "difficulty": "medio-dificil",
-    "clue": "Se abre en una pared y, a veces, en una agenda. (7)",
-    "answer": "VENTANA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Se abre en una pared",
-    "fodder": "",
-    "indicators": [
-      "y"
-    ],
-    "explanation": "VENTANA es abertura y franja temporal disponible."
-  },
-  {
-    "id": "d213",
-    "difficulty": "dificil",
-    "clue": "Puede ser modifica algo o hace una permuta o sustitución. (6)",
-    "answer": "CAMBIA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Modifica algo",
-    "fodder": "hace una permuta o sustitución",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CAMBIA: «Modifica algo» y «hace una permuta o sustitución»."
-  },
-  {
-    "id": "d214",
-    "difficulty": "dificil",
-    "clue": "Entre articulación del brazo y curva pronunciada, la palabra no cambia. (4)",
-    "answer": "CODO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Articulación del brazo",
-    "fodder": "curva pronunciada",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CODO: «Articulación del brazo» y «curva pronunciada»."
-  },
-  {
-    "id": "d215",
-    "difficulty": "medio-dificil",
-    "clue": "Abre una puerta, pero también puede abrir un problema. (5)",
-    "answer": "LLAVE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Abre una puerta",
-    "fodder": "",
-    "indicators": [
-      "pero también"
-    ],
-    "explanation": "LLAVE es objeto físico y solución/clue clave."
-  },
-  {
-    "id": "d216",
-    "difficulty": "dificil",
-    "clue": "Espacio reservado en un teatro cuando palo abraza una intrusa. (5)",
-    "answer": "PALCO",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Espacio reservado en un teatro",
-    "fodder": "palo",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "PALCO se forma al introducir una letra en palo."
-  },
-  {
-    "id": "d217",
-    "difficulty": "dificil",
-    "clue": "Sentir amor cuando mar abraza una intrusa. (4)",
-    "answer": "AMAR",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Sentir amor",
-    "fodder": "mar",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "AMAR se forma al introducir una letra en mar."
-  },
-  {
-    "id": "d218",
-    "difficulty": "dificil",
-    "clue": "Puede ser extremidad superior o parte lateral de un objeto. (5)",
-    "answer": "BRAZO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Extremidad superior",
-    "fodder": "parte lateral de un objeto",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a BRAZO: «Extremidad superior» y «parte lateral de un objeto»."
-  },
-  {
-    "id": "d219",
-    "difficulty": "dificil",
-    "clue": "Latido arterial, perdida dentro de impulso. (5)",
-    "answer": "PULSO",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Latido arterial",
-    "fodder": "impulso",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "PULSO aparece de forma continua dentro de «impulso». La definición es «Latido arterial»."
-  },
-  {
-    "id": "d220",
-    "difficulty": "dificil",
-    "clue": "Sirve para relativo a la conducta y también para ánimo. (5)",
-    "answer": "MORAL",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Relativo a la conducta",
-    "fodder": "ánimo",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a MORAL: «Relativo a la conducta» y «ánimo»."
-  },
-  {
-    "id": "d221",
-    "difficulty": "dificil",
-    "clue": "Sirve para actividad para entretenerse y también para juego o afición. (10)",
-    "answer": "PASATIEMPO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Actividad para entretenerse",
-    "fodder": "juego o afición",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a PASATIEMPO: «Actividad para entretenerse» y «juego o afición»."
-  },
-  {
-    "id": "d222",
-    "difficulty": "dificil",
-    "clue": "Parte de la mano cuando alma abraza una intrusa. (5)",
-    "answer": "PALMA",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Parte de la mano",
-    "fodder": "alma",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "PALMA se forma al introducir una letra en alma."
-  },
-  {
-    "id": "d223",
-    "difficulty": "dificil",
-    "clue": "Entre parte dura del esqueleto y elemento difícil de tratar, la palabra no cambia. (5)",
-    "answer": "HUESO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte dura del esqueleto",
-    "fodder": "elemento difícil de tratar",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a HUESO: «Parte dura del esqueleto» y «elemento difícil de tratar»."
-  },
-  {
-    "id": "d224",
-    "difficulty": "dificil",
-    "clue": "Sujetar, si la rata vuelve sobre sus pasos. (4)",
-    "answer": "ATAR",
-    "mechanisms": [
-      "reversal"
-    ],
-    "definition": "Sujetar",
-    "fodder": "rata",
-    "indicators": [
-      "vuelve sobre sus pasos"
-    ],
-    "explanation": "ATAR aparece al leer rata al revés."
-  },
-  {
-    "id": "d225",
-    "difficulty": "dificil",
-    "clue": "Herramienta para cavar, perdida dentro de palabra. (4)",
-    "answer": "PALA",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Herramienta para cavar",
-    "fodder": "palabra",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "PALA aparece de forma continua dentro de «palabra». La definición es «Herramienta para cavar»."
-  },
-  {
-    "id": "d226",
-    "difficulty": "dificil",
-    "clue": "Puede ser fuente de luz o centro de atención. (4)",
-    "answer": "FOCO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Fuente de luz",
-    "fodder": "centro de atención",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a FOCO: «Fuente de luz» y «centro de atención»."
-  },
-  {
-    "id": "d227",
-    "difficulty": "dificil",
-    "clue": "Asiento alargado que nace de blanco sin el comienzo de libro. (5)",
-    "answer": "BANCO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Asiento alargado",
-    "fodder": "blanco",
-    "indicators": [
-      "sin el comienzo de libro"
-    ],
-    "explanation": "BANCO se obtiene de blanco al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d228",
-    "difficulty": "dificil",
-    "clue": "Entre recipiente metálico y envase de hojalata, la palabra no cambia. (4)",
-    "answer": "LATA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Recipiente metálico",
-    "fodder": "envase de hojalata",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a LATA: «Recipiente metálico» y «envase de hojalata»."
-  },
-  {
-    "id": "d229",
-    "difficulty": "dificil",
-    "clue": "Sirve para magnitud obtenida al medir y también para disposición tomada. (6)",
-    "answer": "MEDIDA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Magnitud obtenida al medir",
-    "fodder": "disposición tomada",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a MEDIDA: «Magnitud obtenida al medir» y «disposición tomada»."
-  },
-  {
-    "id": "d230",
-    "difficulty": "dificil",
-    "clue": "Puede ser utensilio para trasvasar líquidos o forma que se estrecha. (6)",
-    "answer": "EMBUDO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Utensilio para trasvasar líquidos",
-    "fodder": "forma que se estrecha",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a EMBUDO: «Utensilio para trasvasar líquidos» y «forma que se estrecha»."
-  },
-  {
-    "id": "d231",
-    "difficulty": "dificil",
-    "clue": "Puede ser serie graduada o parada intermedia de un viaje. (6)",
-    "answer": "ESCALA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Serie graduada",
-    "fodder": "parada intermedia de un viaje",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a ESCALA: «Serie graduada» y «parada intermedia de un viaje»."
-  },
-  {
-    "id": "d232",
-    "difficulty": "dificil",
-    "clue": "Sirve para nombre de una obra y también para distinción académica. (6)",
-    "answer": "TITULO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Nombre de una obra",
-    "fodder": "distinción académica",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a TITULO: «Nombre de una obra» y «distinción académica»."
-  },
-  {
-    "id": "d233",
-    "difficulty": "dificil",
-    "clue": "Frutas de pepita; basta con desordenar presa. (5)",
-    "answer": "PERAS",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Frutas de pepita",
-    "fodder": "presa",
-    "indicators": [
-      "desordenar"
-    ],
-    "explanation": "Las letras de presa se reordenan para formar PERAS."
-  },
-  {
-    "id": "d234",
-    "difficulty": "dificil",
-    "clue": "Entre contorno de una figura y conjunto de rasgos de una persona, la palabra no cambia. (6)",
-    "answer": "PERFIL",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Contorno de una figura",
-    "fodder": "conjunto de rasgos de una persona",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a PERFIL: «Contorno de una figura» y «conjunto de rasgos de una persona»."
-  },
-  {
-    "id": "d235",
-    "difficulty": "dificil",
-    "clue": "Pequeño roedor cuando rato abraza una intrusa. (5)",
-    "answer": "RATON",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Pequeño roedor",
-    "fodder": "rato",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "RATON se forma al introducir una letra en rato."
-  },
-  {
-    "id": "d236",
-    "difficulty": "dificil",
-    "clue": "Sirve para pieza de un juego y también para tarjeta con datos. (5)",
-    "answer": "FICHA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Pieza de un juego",
-    "fodder": "tarjeta con datos",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a FICHA: «Pieza de un juego» y «tarjeta con datos»."
-  },
-  {
-    "id": "d237",
-    "difficulty": "dificil",
-    "clue": "Puede ser poder sobre algo o dirección de internet. (7)",
-    "answer": "DOMINIO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Poder sobre algo",
-    "fodder": "dirección de internet",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a DOMINIO: «Poder sobre algo» y «dirección de internet»."
-  },
-  {
-    "id": "d238",
-    "difficulty": "dificil",
-    "clue": "Sirve para borde de un sólido y también para cresta o línea de encuentro. (6)",
-    "answer": "ARISTA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Borde de un sólido",
-    "fodder": "cresta o línea de encuentro",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a ARISTA: «Borde de un sólido» y «cresta o línea de encuentro»."
-  },
-  {
-    "id": "d239",
-    "difficulty": "dificil",
-    "clue": "Parte de un árbol si amar vuelve sobre sus pasos. (4)",
-    "answer": "RAMA",
-    "mechanisms": [
-      "reversal"
-    ],
-    "definition": "Parte de un árbol",
-    "fodder": "amar",
-    "indicators": [
-      "vuelve sobre sus pasos"
-    ],
-    "explanation": "RAMA aparece al leer amar al revés."
-  },
-  {
-    "id": "d240",
-    "difficulty": "dificil",
-    "clue": "Sirve para materia de granos finos y también para terreno de competición. (5)",
-    "answer": "ARENA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Materia de granos finos",
-    "fodder": "terreno de competición",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a ARENA: «Materia de granos finos» y «terreno de competición»."
-  },
-  {
-    "id": "d241",
-    "difficulty": "dificil",
-    "clue": "Puede ser persona que actúa en nombre de otra o sustancia que produce un efecto. (6)",
-    "answer": "AGENTE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Persona que actúa en nombre de otra",
-    "fodder": "sustancia que produce un efecto",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a AGENTE: «Persona que actúa en nombre de otra» y «sustancia que produce un efecto»."
-  },
-  {
-    "id": "d242",
-    "difficulty": "dificil",
-    "clue": "Puede ser golpe dado con fuerza o persona que causa muchos problemas. (5)",
-    "answer": "AZOTE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Golpe dado con fuerza",
-    "fodder": "persona que causa muchos problemas",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a AZOTE: «Golpe dado con fuerza» y «persona que causa muchos problemas»."
-  },
-  {
-    "id": "d243",
-    "difficulty": "dificil",
-    "clue": "Entre grupo de alumnos y categoría, la palabra no cambia. (5)",
-    "answer": "CLASE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Grupo de alumnos",
-    "fodder": "categoría",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CLASE: «Grupo de alumnos» y «categoría»."
-  },
-  {
-    "id": "d244",
-    "difficulty": "dificil",
-    "clue": "Piedra que aparece cuando el arco cambia de sitio. (4)",
-    "answer": "ROCA",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Piedra",
-    "fodder": "arco",
-    "indicators": [
-      "cambia de sitio"
-    ],
-    "explanation": "Las letras de arco se reordenan para formar ROCA."
-  },
-  {
-    "id": "d245",
-    "difficulty": "dificil",
-    "clue": "Mamífero carnívoro; basta con desordenar bolo. (4)",
-    "answer": "LOBO",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Mamífero carnívoro",
-    "fodder": "bolo",
-    "indicators": [
-      "desordenar"
-    ],
-    "explanation": "Las letras de bolo se reordenan para formar LOBO."
-  },
-  {
-    "id": "d246",
-    "difficulty": "dificil",
-    "clue": "Conductor de electricidad que queda cuando cables pierde una pieza. (5)",
-    "answer": "CABLE",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Conductor de electricidad",
-    "fodder": "cables",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "CABLE se obtiene de cables al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d247",
-    "difficulty": "dificil",
-    "clue": "Puede ser elevación pequeña del terreno o montículo. (5)",
-    "answer": "CERRO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Elevación pequeña del terreno",
-    "fodder": "montículo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CERRO: «Elevación pequeña del terreno» y «montículo»."
-  },
-  {
-    "id": "d248",
-    "difficulty": "dificil",
-    "clue": "Herramienta abrasiva que queda cuando clima pierde una pieza. (4)",
-    "answer": "LIMA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Herramienta abrasiva",
-    "fodder": "clima",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "LIMA se obtiene de clima al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d249",
-    "difficulty": "dificil",
-    "clue": "Sirve para orilla del mar y también para cantidad que cuesta algo. (5)",
-    "answer": "COSTA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Orilla del mar",
-    "fodder": "cantidad que cuesta algo",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a COSTA: «Orilla del mar» y «cantidad que cuesta algo»."
-  },
-  {
-    "id": "d250",
-    "difficulty": "dificil",
-    "clue": "Puede ser sustancia de las abejas o material para pulir. (4)",
-    "answer": "CERA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Sustancia de las abejas",
-    "fodder": "material para pulir",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CERA: «Sustancia de las abejas» y «material para pulir»."
-  },
-  {
-    "id": "d251",
-    "difficulty": "dificil",
-    "clue": "Entre filamento que nace en la piel y cabello, la palabra no cambia. (4)",
-    "answer": "PELO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Filamento que nace en la piel",
-    "fodder": "cabello",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a PELO: «Filamento que nace en la piel» y «cabello»."
-  },
-  {
-    "id": "d252",
-    "difficulty": "dificil",
-    "clue": "Puede ser conjunto de acciones organizadas o temporada militar. (7)",
-    "answer": "CAMPAÑA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Conjunto de acciones organizadas",
-    "fodder": "temporada militar",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CAMPAÑA: «Conjunto de acciones organizadas» y «temporada militar»."
-  },
-  {
-    "id": "d253",
-    "difficulty": "dificil",
-    "clue": "Entre ayuda y punto en que algo descansa, la palabra no cambia. (5)",
-    "answer": "APOYO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Ayuda",
-    "fodder": "punto en que algo descansa",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a APOYO: «Ayuda» y «punto en que algo descansa»."
-  },
-  {
-    "id": "d254",
-    "difficulty": "dificil",
-    "clue": "Pieza que cubre; basta con desordenar pata. (4)",
-    "answer": "TAPA",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Pieza que cubre",
-    "fodder": "pata",
-    "indicators": [
-      "desordenar"
-    ],
-    "explanation": "Las letras de pata se reordenan para formar TAPA."
-  },
-  {
-    "id": "d255",
-    "difficulty": "dificil",
-    "clue": "Puede ser defensa protectora o emblema. (6)",
-    "answer": "ESCUDO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Defensa protectora",
-    "fodder": "emblema",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a ESCUDO: «Defensa protectora» y «emblema»."
-  },
-  {
-    "id": "d256",
-    "difficulty": "dificil",
-    "clue": "Puede ser representación a escala o liso y sin relieve. (5)",
-    "answer": "PLANO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Representación a escala",
-    "fodder": "liso y sin relieve",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a PLANO: «Representación a escala» y «liso y sin relieve»."
-  },
-  {
-    "id": "d257",
-    "difficulty": "dificil",
-    "clue": "Sirve para extensión que ocupa algo y también para hueco disponible. (7)",
-    "answer": "ESPACIO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Extensión que ocupa algo",
-    "fodder": "hueco disponible",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a ESPACIO: «Extensión que ocupa algo» y «hueco disponible»."
-  },
-  {
-    "id": "d258",
-    "difficulty": "dificil",
-    "clue": "Parte del calzado que sale cuando el canto se desarma. (5)",
-    "answer": "TACON",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Parte del calzado",
-    "fodder": "canto",
-    "indicators": [
-      "se desarma"
-    ],
-    "explanation": "Las letras de canto se reordenan para formar TACON."
-  },
-  {
-    "id": "d259",
-    "difficulty": "dificil",
-    "clue": "Entre de gran altura y detención o parada, la palabra no cambia. (4)",
-    "answer": "ALTO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "De gran altura",
-    "fodder": "detención o parada",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a ALTO: «De gran altura» y «detención o parada»."
-  },
-  {
-    "id": "d260",
-    "difficulty": "dificil",
-    "clue": "Puede ser prenda con mangas o cubierta exterior de algo. (6)",
-    "answer": "CAMISA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Prenda con mangas",
-    "fodder": "cubierta exterior de algo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CAMISA: «Prenda con mangas» y «cubierta exterior de algo»."
-  },
-  {
-    "id": "d261",
-    "difficulty": "dificil",
-    "clue": "Modo de funcionar cuando marca abraza una intrusa. (6)",
-    "answer": "MARCHA",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Modo de funcionar",
-    "fodder": "marca",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "MARCHA se forma al introducir una letra en marca."
-  },
-  {
-    "id": "d262",
-    "difficulty": "dificil",
-    "clue": "Un momento breve que queda si el trato pierde su primera pieza. (4)",
-    "answer": "RATO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Un momento breve",
-    "fodder": "trato",
-    "indicators": [
-      "pierde su primera pieza"
-    ],
-    "explanation": "RATO se obtiene de trato al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d263",
-    "difficulty": "dificil",
-    "clue": "Puede ser sucesión de puntos o servicio o ruta de transporte. (5)",
-    "answer": "LINEA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Sucesión de puntos",
-    "fodder": "servicio o ruta de transporte",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a LINEA: «Sucesión de puntos» y «servicio o ruta de transporte»."
-  },
-  {
-    "id": "d264",
-    "difficulty": "dificil",
-    "clue": "Entre superficie para escribir y marcador táctico de un entrenador, la palabra no cambia. (7)",
-    "answer": "PIZARRA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Superficie para escribir",
-    "fodder": "marcador táctico de un entrenador",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a PIZARRA: «Superficie para escribir» y «marcador táctico de un entrenador»."
-  },
-  {
-    "id": "d265",
-    "difficulty": "dificil",
-    "clue": "Puede ser casa familiar o lugar donde vive alguien. (5)",
-    "answer": "HOGAR",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Casa familiar",
-    "fodder": "lugar donde vive alguien",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a HOGAR: «Casa familiar» y «lugar donde vive alguien»."
-  },
-  {
-    "id": "d266",
-    "difficulty": "dificil",
-    "clue": "Puede ser conjunto de cables o instalación eléctrica. (8)",
-    "answer": "CABLEADO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Conjunto de cables",
-    "fodder": "instalación eléctrica",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CABLEADO: «Conjunto de cables» y «instalación eléctrica»."
-  },
-  {
-    "id": "d267",
-    "difficulty": "dificil",
-    "clue": "Sirve para aspecto exterior y también para unidad antigua de capacidad. (5)",
-    "answer": "PINTA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Aspecto exterior",
-    "fodder": "unidad antigua de capacidad",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a PINTA: «Aspecto exterior» y «unidad antigua de capacidad»."
-  },
-  {
-    "id": "d268",
-    "difficulty": "dificil",
-    "clue": "Parte más alta que queda cuando clima pierde una pieza. (4)",
-    "answer": "CIMA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Parte más alta",
-    "fodder": "clima",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "CIMA se obtiene de clima al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d269",
-    "difficulty": "dificil",
-    "clue": "Puede ser parte lateral del cuerpo o lado de algo. (7)",
-    "answer": "COSTADO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte lateral del cuerpo",
-    "fodder": "lado de algo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a COSTADO: «Parte lateral del cuerpo» y «lado de algo»."
-  },
-  {
-    "id": "d270",
-    "difficulty": "dificil",
-    "clue": "Puede ser pieza alargada o local donde se sirven bebidas. (5)",
-    "answer": "BARRA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Pieza alargada",
-    "fodder": "local donde se sirven bebidas",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a BARRA: «Pieza alargada» y «local donde se sirven bebidas»."
-  },
-  {
-    "id": "d271",
-    "difficulty": "dificil",
-    "clue": "Sirve para acción de rodar y también para pieza o acción de un mecanismo, según contexto. (4)",
-    "answer": "RODA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Acción de rodar",
-    "fodder": "pieza o acción de un mecanismo, según contexto",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a RODA: «Acción de rodar» y «pieza o acción de un mecanismo, según contexto»."
-  },
-  {
-    "id": "d272",
-    "difficulty": "dificil",
-    "clue": "Parte por donde se agarra una herramienta cuando mano abraza una intrusa. (5)",
-    "answer": "MANGO",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Parte por donde se agarra una herramienta",
-    "fodder": "mano",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "MANGO se forma al introducir una letra en mano."
-  },
-  {
-    "id": "d273",
-    "difficulty": "dificil",
-    "clue": "Cuerpo celeste que queda cuando rastro pierde una pieza. (5)",
-    "answer": "ASTRO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Cuerpo celeste",
-    "fodder": "rastro",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "ASTRO se obtiene de rastro al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d274",
-    "difficulty": "dificil",
-    "clue": "Puede ser borde de una página o diferencia o espacio disponible. (6)",
-    "answer": "MARGEN",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Borde de una página",
-    "fodder": "diferencia o espacio disponible",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a MARGEN: «Borde de una página» y «diferencia o espacio disponible»."
-  },
-  {
-    "id": "d275",
-    "difficulty": "dificil",
-    "clue": "Objeto indefinido que queda cuando cosas pierde una pieza. (4)",
-    "answer": "COSA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Objeto indefinido",
-    "fodder": "cosas",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "COSA se obtiene de cosas al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d276",
-    "difficulty": "dificil",
-    "clue": "Entre línea alrededor de la que gira algo y idea central, la palabra no cambia. (3)",
-    "answer": "EJE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Línea alrededor de la que gira algo",
-    "fodder": "idea central",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a EJE: «Línea alrededor de la que gira algo» y «idea central»."
-  },
-  {
-    "id": "d277",
-    "difficulty": "dificil",
-    "clue": "Sirve para recinto para animales y también para lugar de encierro. (6)",
-    "answer": "CORRAL",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Recinto para animales",
-    "fodder": "lugar de encierro",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a CORRAL: «Recinto para animales» y «lugar de encierro»."
-  },
-  {
-    "id": "d278",
-    "difficulty": "dificil",
-    "clue": "Sin asperezas que queda cuando lista pierde una pieza. (4)",
-    "answer": "LISA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Sin asperezas",
-    "fodder": "lista",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "LISA se obtiene de lista al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d279",
-    "difficulty": "dificil",
-    "clue": "Borde que rodea una imagen que queda cuando marcos pierde una pieza. (5)",
-    "answer": "MARCO",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Borde que rodea una imagen",
-    "fodder": "marcos",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "MARCO se obtiene de marcos al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d280",
-    "difficulty": "dificil",
-    "clue": "Entre representación geográfica y esquema para orientarse, la palabra no cambia. (4)",
-    "answer": "MAPA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Representación geográfica",
-    "fodder": "esquema para orientarse",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a MAPA: «Representación geográfica» y «esquema para orientarse»."
-  },
-  {
-    "id": "d281",
-    "difficulty": "dificil",
-    "clue": "Puede ser palo para golpear una pelota o instrumento deportivo. (4)",
-    "answer": "BATE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Palo para golpear una pelota",
-    "fodder": "instrumento deportivo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a BATE: «Palo para golpear una pelota» y «instrumento deportivo»."
-  },
-  {
-    "id": "d282",
-    "difficulty": "dificil",
-    "clue": "Sirve para mujer distinguida y también para pieza del ajedrez. (4)",
-    "answer": "DAMA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Mujer distinguida",
-    "fodder": "pieza del ajedrez",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a DAMA: «Mujer distinguida» y «pieza del ajedrez»."
-  },
-  {
-    "id": "d283",
-    "difficulty": "dificil",
-    "clue": "Suena cuando el tacón deja de estar en su sitio. (5)",
-    "answer": "CANTO",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Suena",
-    "fodder": "tacon",
-    "indicators": [
-      "deja de estar en su sitio"
-    ],
-    "explanation": "Las letras de tacon se reordenan para formar CANTO."
-  },
-  {
-    "id": "d284",
-    "difficulty": "dificil",
-    "clue": "Entre acción de salvar y precio pagado para recuperar algo, la palabra no cambia. (7)",
-    "answer": "RESCATE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Acción de salvar",
-    "fodder": "precio pagado para recuperar algo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a RESCATE: «Acción de salvar» y «precio pagado para recuperar algo»."
-  },
-  {
-    "id": "d285",
-    "difficulty": "dificil",
-    "clue": "Entre combustión con llamas y entusiasmo o energía, la palabra no cambia. (5)",
-    "answer": "FUEGO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Combustión con llamas",
-    "fodder": "entusiasmo o energía",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a FUEGO: «Combustión con llamas» y «entusiasmo o energía»."
-  },
-  {
-    "id": "d286",
-    "difficulty": "dificil",
-    "clue": "Objeto fino para coser cuando agua abraza una intrusa. (5)",
-    "answer": "AGUJA",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Objeto fino para coser",
-    "fodder": "agua",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "AGUJA se forma al introducir una letra en agua."
-  },
-  {
-    "id": "d287",
-    "difficulty": "dificil",
-    "clue": "Sirve para prenda para la mano y también para protección que cubre una mano. (6)",
-    "answer": "GUANTE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Prenda para la mano",
-    "fodder": "protección que cubre una mano",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a GUANTE: «Prenda para la mano» y «protección que cubre una mano»."
-  },
-  {
-    "id": "d288",
-    "difficulty": "dificil",
-    "clue": "Superficie que se pisa, perdida dentro de consuelo. (5)",
-    "answer": "SUELO",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Superficie que se pisa",
-    "fodder": "consuelo",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "SUELO aparece de forma continua dentro de «consuelo». La definición es «Superficie que se pisa»."
-  },
-  {
-    "id": "d289",
-    "difficulty": "dificil",
-    "clue": "Sirve para pieza que sujeta y también para sujeción de oficina. (5)",
-    "answer": "GRAPA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Pieza que sujeta",
-    "fodder": "sujeción de oficina",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a GRAPA: «Pieza que sujeta» y «sujeción de oficina»."
-  },
-  {
-    "id": "d290",
-    "difficulty": "dificil",
-    "clue": "Afecto que vuelve cuando roma mira hacia atrás. (4)",
-    "answer": "AMOR",
-    "mechanisms": [
-      "reversal"
-    ],
-    "definition": "Afecto",
-    "fodder": "roma",
-    "indicators": [
-      "mira hacia atrás"
-    ],
-    "explanation": "AMOR aparece al leer roma al revés."
-  },
-  {
-    "id": "d291",
-    "difficulty": "dificil",
-    "clue": "Sirve para proyectil con punta y también para símbolo que indica dirección. (6)",
-    "answer": "FLECHA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Proyectil con punta",
-    "fodder": "símbolo que indica dirección",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a FLECHA: «Proyectil con punta» y «símbolo que indica dirección»."
-  },
-  {
-    "id": "d292",
-    "difficulty": "dificil",
-    "clue": "Sirve para comunicación de advertencia y también para anuncio. (5)",
-    "answer": "AVISO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Comunicación de advertencia",
-    "fodder": "anuncio",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a AVISO: «Comunicación de advertencia» y «anuncio»."
-  },
-  {
-    "id": "d293",
-    "difficulty": "dificil",
-    "clue": "Sirve para superficie de tierra y también para ámbito en que se desarrolla algo. (7)",
-    "answer": "TERRENO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Superficie de tierra",
-    "fodder": "ámbito en que se desarrolla algo",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a TERRENO: «Superficie de tierra» y «ámbito en que se desarrolla algo»."
-  },
-  {
-    "id": "d294",
-    "difficulty": "dificil",
-    "clue": "Sirve para pieza de dinero y también para unidad monetaria. (6)",
-    "answer": "MONEDA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Pieza de dinero",
-    "fodder": "unidad monetaria",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a MONEDA: «Pieza de dinero» y «unidad monetaria»."
-  },
-  {
-    "id": "d295",
-    "difficulty": "dificil",
-    "clue": "Sirve para marca estampada y también para precinto adhesivo. (5)",
-    "answer": "SELLO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Marca estampada",
-    "fodder": "precinto adhesivo",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a SELLO: «Marca estampada» y «precinto adhesivo»."
-  },
-  {
-    "id": "d296",
-    "difficulty": "dificil",
-    "clue": "Sirve para entonación particular y también para signo ortográfico. (6)",
-    "answer": "ACENTO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Entonación particular",
-    "fodder": "signo ortográfico",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a ACENTO: «Entonación particular» y «signo ortográfico»."
-  },
-  {
-    "id": "d297",
-    "difficulty": "dificil",
-    "clue": "Puede ser tira estrecha de material o película grabada. (5)",
-    "answer": "CINTA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Tira estrecha de material",
-    "fodder": "película grabada",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CINTA: «Tira estrecha de material» y «película grabada»."
-  },
-  {
-    "id": "d298",
-    "difficulty": "dificil",
-    "clue": "Argumento de una obra cuando rama abraza una intrusa. (5)",
-    "answer": "TRAMA",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Argumento de una obra",
-    "fodder": "rama",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "TRAMA se forma al introducir una letra en rama."
-  },
-  {
-    "id": "d299",
-    "difficulty": "dificil",
-    "clue": "Entre pieza que gira y produce impulso y órgano de ciertas estructuras, la palabra no cambia. (6)",
-    "answer": "HELICE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Pieza que gira y produce impulso",
-    "fodder": "órgano de ciertas estructuras",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a HELICE: «Pieza que gira y produce impulso» y «órgano de ciertas estructuras»."
-  },
-  {
-    "id": "d300",
-    "difficulty": "dificil",
-    "clue": "Puede ser montón de objetos o dispositivo que produce electricidad. (4)",
-    "answer": "PILA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Montón de objetos",
-    "fodder": "dispositivo que produce electricidad",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a PILA: «Montón de objetos» y «dispositivo que produce electricidad»."
-  },
-  {
-    "id": "d301",
-    "difficulty": "dificil",
-    "clue": "Entre obra escrita y conjunto de hojas encuadernadas, la palabra no cambia. (5)",
-    "answer": "LIBRO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Obra escrita",
-    "fodder": "conjunto de hojas encuadernadas",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a LIBRO: «Obra escrita» y «conjunto de hojas encuadernadas»."
-  },
-  {
-    "id": "d302",
-    "difficulty": "dificil",
-    "clue": "Espacio público, perdida dentro de desplazarse. (5)",
-    "answer": "PLAZA",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Espacio público",
-    "fodder": "desplazarse",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "PLAZA aparece de forma continua dentro de «desplazarse». La definición es «Espacio público»."
-  },
-  {
-    "id": "d303",
-    "difficulty": "dificil",
-    "clue": "Mandato que queda cuando ordena pierde una pieza. (5)",
-    "answer": "ORDEN",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Mandato",
-    "fodder": "ordena",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "ORDEN se obtiene de ordena al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d304",
-    "difficulty": "dificil",
-    "clue": "Sirve para material para confeccionar ropa y también para asunto o cuestión, coloquial. (4)",
-    "answer": "TELA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Material para confeccionar ropa",
-    "fodder": "asunto o cuestión, coloquial",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a TELA: «Material para confeccionar ropa» y «asunto o cuestión, coloquial»."
-  },
-  {
-    "id": "d305",
-    "difficulty": "dificil",
-    "clue": "Entre de sabor áspero y desagradable, la palabra no cambia. (6)",
-    "answer": "AMARGO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "De sabor áspero",
-    "fodder": "desagradable",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a AMARGO: «De sabor áspero» y «desagradable»."
-  },
-  {
-    "id": "d306",
-    "difficulty": "dificil",
-    "clue": "Hoja fina de metal u otro material, con animal mirando hacia atrás. (6)",
-    "answer": "LAMINA",
-    "mechanisms": [
-      "reversal"
-    ],
-    "definition": "Hoja fina de metal u otro material",
-    "fodder": "animal",
-    "indicators": [
-      "mirando hacia atrás"
-    ],
-    "explanation": "LAMINA aparece al leer animal al revés."
-  },
-  {
-    "id": "d307",
-    "difficulty": "dificil",
-    "clue": "Entre parte posterior y fila de personas, la palabra no cambia. (4)",
-    "answer": "COLA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte posterior",
-    "fodder": "fila de personas",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a COLA: «Parte posterior» y «fila de personas»."
-  },
-  {
-    "id": "d308",
-    "difficulty": "dificil",
-    "clue": "Puede ser parte anterior o zona de combate. (6)",
-    "answer": "FRENTE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte anterior",
-    "fodder": "zona de combate",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a FRENTE: «Parte anterior» y «zona de combate»."
-  },
-  {
-    "id": "d309",
-    "difficulty": "dificil",
-    "clue": "Sirve para rúbrica personal y también para empresa o marca de autor. (5)",
-    "answer": "FIRMA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Rúbrica personal",
-    "fodder": "empresa o marca de autor",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a FIRMA: «Rúbrica personal» y «empresa o marca de autor»."
-  },
-  {
-    "id": "d310",
-    "difficulty": "dificil",
-    "clue": "Sirve para parte lateral y también para cada una de dos posiciones enfrentadas. (4)",
-    "answer": "LADO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte lateral",
-    "fodder": "cada una de dos posiciones enfrentadas",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a LADO: «Parte lateral» y «cada una de dos posiciones enfrentadas»."
-  },
-  {
-    "id": "d311",
-    "difficulty": "dificil",
-    "clue": "Sirve para lugar donde paran trenes y también para periodo del año. (8)",
-    "answer": "ESTACION",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Lugar donde paran trenes",
-    "fodder": "periodo del año",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a ESTACION: «Lugar donde paran trenes» y «periodo del año»."
-  },
-  {
-    "id": "d312",
-    "difficulty": "dificil",
-    "clue": "Da entrada a una casa y también a una oportunidad. (6)",
-    "answer": "PUERTA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Da entrada a una casa",
-    "fodder": "",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "PUERTA es acceso físico y figurado."
-  },
-  {
-    "id": "d313",
-    "difficulty": "dificil",
-    "clue": "Refugio de aves, perdida dentro de sonido. (4)",
-    "answer": "NIDO",
-    "mechanisms": [
-      "hidden"
-    ],
-    "definition": "Refugio de aves",
-    "fodder": "sonido",
-    "indicators": [
-      "perdida dentro de"
-    ],
-    "explanation": "NIDO aparece de forma continua dentro de «sonido». La definición es «Refugio de aves»."
-  },
-  {
-    "id": "d314",
-    "difficulty": "dificil",
-    "clue": "Puede ser protección para la cabeza o parte exterior de una nave. (5)",
-    "answer": "CASCO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Protección para la cabeza",
-    "fodder": "parte exterior de una nave",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CASCO: «Protección para la cabeza» y «parte exterior de una nave»."
-  },
-  {
-    "id": "d315",
-    "difficulty": "dificil",
-    "clue": "Instrumento de ataque que sale de una rama revuelta. (4)",
-    "answer": "ARMA",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Instrumento de ataque",
-    "fodder": "rama",
-    "indicators": [
-      "revuelta"
-    ],
-    "explanation": "Las letras de rama se reordenan para formar ARMA."
-  },
-  {
-    "id": "d316",
-    "difficulty": "dificil",
-    "clue": "Entre sucesión de peldaños y progresión de niveles, la palabra no cambia. (8)",
-    "answer": "ESCALERA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Sucesión de peldaños",
-    "fodder": "progresión de niveles",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a ESCALERA: «Sucesión de peldaños» y «progresión de niveles»."
-  },
-  {
-    "id": "d317",
-    "difficulty": "dificil",
-    "clue": "Puede ser camino más corto o procedimiento rápido. (5)",
-    "answer": "ATAJO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Camino más corto",
-    "fodder": "procedimiento rápido",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a ATAJO: «Camino más corto» y «procedimiento rápido»."
-  },
-  {
-    "id": "d318",
-    "difficulty": "dificil",
-    "clue": "Queda escrito en un archivo o cambia según cómo hables. (8)",
-    "answer": "REGISTRO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Queda escrito en un archivo",
-    "fodder": "",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "REGISTRO es inscripción y variedad de uso vocal/lingüístico."
-  },
-  {
-    "id": "d319",
-    "difficulty": "dificil",
-    "clue": "Embarcación cuando ave abraza una intrusa. (4)",
-    "answer": "NAVE",
-    "mechanisms": [
-      "container"
-    ],
-    "definition": "Embarcación",
-    "fodder": "ave",
-    "indicators": [
-      "abraza una intrusa"
-    ],
-    "explanation": "NAVE se forma al introducir una letra en ave."
-  },
-  {
-    "id": "d320",
-    "difficulty": "dificil",
-    "clue": "Sirve para canal por el que pasa algo y también para vía de comunicación. (8)",
-    "answer": "CONDUCTO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Canal por el que pasa algo",
-    "fodder": "vía de comunicación",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a CONDUCTO: «Canal por el que pasa algo» y «vía de comunicación»."
-  },
-  {
-    "id": "d321",
-    "difficulty": "dificil",
-    "clue": "Te devuelve la cara y, a veces, tus propias costumbres. (6)",
-    "answer": "ESPEJO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Te devuelve la cara",
-    "fodder": "",
-    "indicators": [
-      "y"
-    ],
-    "explanation": "ESPEJO es superficie reflectante y modelo que reproduce conducta."
-  },
-  {
-    "id": "d322",
-    "difficulty": "dificil",
-    "clue": "Entre trozo de madera y golpe, la palabra no cambia. (4)",
-    "answer": "PALO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Trozo de madera",
-    "fodder": "golpe",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a PALO: «Trozo de madera» y «golpe»."
-  },
-  {
-    "id": "d323",
-    "difficulty": "dificil",
-    "clue": "Sirve para persona que juzga y también para árbitro de una competición. (4)",
-    "answer": "JUEZ",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Persona que juzga",
-    "fodder": "árbitro de una competición",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a JUEZ: «Persona que juzga» y «árbitro de una competición»."
-  },
-  {
-    "id": "d324",
-    "difficulty": "medio-dificil",
-    "clue": "Puede devolverte la cara o una respuesta que sale sola. (7)",
-    "answer": "REFLEJO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Puede devolverte la cara",
-    "fodder": "",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "REFLEJO es imagen reflejada y reacción automática."
-  },
-  {
-    "id": "d325",
-    "difficulty": "dificil",
-    "clue": "Roedor que aparece cuando atar regresa. (4)",
-    "answer": "RATA",
-    "mechanisms": [
-      "reversal"
-    ],
-    "definition": "Roedor",
-    "fodder": "atar",
-    "indicators": [
-      "regresa"
-    ],
-    "explanation": "RATA aparece al leer atar al revés."
-  },
-  {
-    "id": "d326",
-    "difficulty": "dificil",
-    "clue": "Sirve para señal que representa algo y también para síntoma. (5)",
-    "answer": "SIGNO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Señal que representa algo",
-    "fodder": "síntoma",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a SIGNO: «Señal que representa algo» y «síntoma»."
-  },
-  {
-    "id": "d327",
-    "difficulty": "dificil",
-    "clue": "Entre mueble para dormir y lecho de un río, la palabra no cambia. (4)",
-    "answer": "CAMA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Mueble para dormir",
-    "fodder": "lecho de un río",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CAMA: «Mueble para dormir» y «lecho de un río»."
-  },
-  {
-    "id": "d328",
-    "difficulty": "dificil",
-    "clue": "Entre aro que se lleva en un dedo y estructura circular, la palabra no cambia. (6)",
-    "answer": "ANILLO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Aro que se lleva en un dedo",
-    "fodder": "estructura circular",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a ANILLO: «Aro que se lleva en un dedo» y «estructura circular»."
-  },
-  {
-    "id": "d329",
-    "difficulty": "dificil",
-    "clue": "Entre desafío y objetivo difícil, la palabra no cambia. (4)",
-    "answer": "RETO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Desafío",
-    "fodder": "objetivo difícil",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a RETO: «Desafío» y «objetivo difícil»."
-  },
-  {
-    "id": "d330",
-    "difficulty": "dificil",
-    "clue": "Sirve para construcción elevada y también para pieza del ajedrez. (5)",
-    "answer": "TORRE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Construcción elevada",
-    "fodder": "pieza del ajedrez",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a TORRE: «Construcción elevada» y «pieza del ajedrez»."
-  },
-  {
-    "id": "d331",
-    "difficulty": "dificil",
-    "clue": "Entre espacio de entrada de un edificio y patio interior, la palabra no cambia. (5)",
-    "answer": "ATRIO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Espacio de entrada de un edificio",
-    "fodder": "patio interior",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a ATRIO: «Espacio de entrada de un edificio» y «patio interior»."
-  },
-  {
-    "id": "d332",
-    "difficulty": "dificil",
-    "clue": "Líquido que queda cuando la aguja pierde su última pieza. (4)",
-    "answer": "AGUA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Líquido",
-    "fodder": "aguja",
-    "indicators": [
-      "pierde su última pieza"
-    ],
-    "explanation": "AGUA se obtiene de aguja al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d333",
-    "difficulty": "dificil",
-    "clue": "Porción de un todo que queda cuando partes pierde una pieza. (5)",
-    "answer": "PARTE",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Porción de un todo",
-    "fodder": "partes",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "PARTE se obtiene de partes al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d334",
-    "difficulty": "dificil",
-    "clue": "Sirve para pieza metálica para fijar y también para espina o dolor persistente. (5)",
-    "answer": "CLAVO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Pieza metálica para fijar",
-    "fodder": "espina o dolor persistente",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a CLAVO: «Pieza metálica para fijar» y «espina o dolor persistente»."
-  },
-  {
-    "id": "d335",
-    "difficulty": "dificil",
-    "clue": "Entre herramienta para golpear y hueso del oído, la palabra no cambia. (8)",
-    "answer": "MARTILLO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Herramienta para golpear",
-    "fodder": "hueso del oído",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a MARTILLO: «Herramienta para golpear» y «hueso del oído»."
-  },
-  {
-    "id": "d336",
-    "difficulty": "dificil",
-    "clue": "Extremidad de un animal que sale de tapa cuando todo queda revuelto. (4)",
-    "answer": "PATA",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Extremidad de un animal",
-    "fodder": "tapa",
-    "indicators": [
-      "todo queda revuelto"
-    ],
-    "explanation": "Las letras de tapa se reordenan para formar PATA."
-  },
-  {
-    "id": "d337",
-    "difficulty": "dificil",
-    "clue": "Que no es buena cuando el alma pierde el orden. (4)",
-    "answer": "MALA",
-    "mechanisms": [
-      "anagram"
-    ],
-    "definition": "Que no es buena",
-    "fodder": "alma",
-    "indicators": [
-      "pierde el orden"
-    ],
-    "explanation": "Las letras de alma se reordenan para formar MALA."
-  },
-  {
-    "id": "d338",
-    "difficulty": "dificil",
-    "clue": "Sirve para objeto que atrae hierro y también para persona muy atractiva. (4)",
-    "answer": "IMAN",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Objeto que atrae hierro",
-    "fodder": "persona muy atractiva",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a IMAN: «Objeto que atrae hierro» y «persona muy atractiva»."
-  },
-  {
-    "id": "d339",
-    "difficulty": "dificil",
-    "clue": "Puede ser discusión de ideas o intercambio formal de argumentos. (6)",
-    "answer": "DEBATE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Discusión de ideas",
-    "fodder": "intercambio formal de argumentos",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a DEBATE: «Discusión de ideas» y «intercambio formal de argumentos»."
-  },
-  {
-    "id": "d340",
-    "difficulty": "dificil",
-    "clue": "Extremidad inferior que queda cuando piel pierde una pieza. (3)",
-    "answer": "PIE",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Extremidad inferior",
-    "fodder": "piel",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "PIE se obtiene de piel al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d341",
-    "difficulty": "dificil",
-    "clue": "Entre vaso con pie y trofeo deportivo, la palabra no cambia. (4)",
-    "answer": "COPA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Vaso con pie",
-    "fodder": "trofeo deportivo",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a COPA: «Vaso con pie» y «trofeo deportivo»."
-  },
-  {
-    "id": "d342",
-    "difficulty": "dificil",
-    "clue": "Entre movimiento hacia delante y progreso, la palabra no cambia. (6)",
-    "answer": "AVANCE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Movimiento hacia delante",
-    "fodder": "progreso",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a AVANCE: «Movimiento hacia delante» y «progreso»."
-  },
-  {
-    "id": "d343",
-    "difficulty": "dificil",
-    "clue": "Representación mental que queda cuando ideas pierde una pieza. (4)",
-    "answer": "IDEA",
-    "mechanisms": [
-      "deletion"
-    ],
-    "definition": "Representación mental",
-    "fodder": "ideas",
-    "indicators": [
-      "pierde una pieza"
-    ],
-    "explanation": "IDEA se obtiene de ideas al retirar la letra indicada por la pista."
-  },
-  {
-    "id": "d344",
-    "difficulty": "dificil",
-    "clue": "Sirve para parte principal de un árbol y también para cuerpo humano sin extremidades. (6)",
-    "answer": "TRONCO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Parte principal de un árbol",
-    "fodder": "cuerpo humano sin extremidades",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a TRONCO: «Parte principal de un árbol» y «cuerpo humano sin extremidades»."
-  },
-  {
-    "id": "d345",
-    "difficulty": "dificil",
-    "clue": "Entre caminata y lugar para caminar, la palabra no cambia. (5)",
-    "answer": "PASEO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Caminata",
-    "fodder": "lugar para caminar",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a PASEO: «Caminata» y «lugar para caminar»."
-  },
-  {
-    "id": "d346",
-    "difficulty": "dificil",
-    "clue": "Entre sensación producida por una temperatura alta y entusiasmo o intensidad, la palabra no cambia. (5)",
-    "answer": "CALOR",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Sensación producida por una temperatura alta",
-    "fodder": "entusiasmo o intensidad",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a CALOR: «Sensación producida por una temperatura alta» y «entusiasmo o intensidad»."
-  },
-  {
-    "id": "d347",
-    "difficulty": "dificil",
-    "clue": "Puede ser número de ejemplares impresos o acción de lanzar. (6)",
-    "answer": "TIRADA",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Número de ejemplares impresos",
-    "fodder": "acción de lanzar",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a TIRADA: «Número de ejemplares impresos» y «acción de lanzar»."
-  },
-  {
-    "id": "d348",
-    "difficulty": "dificil",
-    "clue": "Vivienda, si lo dices en voz alta. (4)",
-    "answer": "CASA",
-    "mechanisms": [
-      "homophone"
-    ],
-    "definition": "Vivienda",
-    "fodder": "caza",
-    "indicators": [
-      "en voz alta"
-    ],
-    "explanation": "CASA suena como «caza»; la definición es «Vivienda»."
-  },
-  {
-    "id": "d349",
-    "difficulty": "dificil",
-    "clue": "Sirve para punto de conexión y también para punto de una red. (4)",
-    "answer": "NODO",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Punto de conexión",
-    "fodder": "punto de una red",
-    "indicators": [
-      "y también"
-    ],
-    "explanation": "Las dos definiciones apuntan a NODO: «Punto de conexión» y «punto de una red»."
-  },
-  {
-    "id": "d350",
-    "difficulty": "dificil",
-    "clue": "Entre estructura para embarcaciones y pieza elástica, la palabra no cambia. (6)",
-    "answer": "MUELLE",
-    "mechanisms": [
-      "double-definition"
-    ],
-    "definition": "Estructura para embarcaciones",
-    "fodder": "pieza elástica",
-    "indicators": [
-      "o"
-    ],
-    "explanation": "Las dos definiciones apuntan a MUELLE: «Estructura para embarcaciones» y «pieza elástica»."
-  },
-  {
-    "id": "d351",
-    "difficulty": "dificil",
-    "clue": "Objeto que arde con una mecha que queda cuando vuela pierde una pieza. (4)",
-    "answer": "VELA",
+    "id": "d003",
+    "difficulty": "muy-dificil",
+    "clue": "Voz emitida con fuerza; gira revisa Inés todo otra, de entrada, dicen más de lo que parece. (5)",
+    "answer": "GRITO",
     "mechanisms": [
-      "deletion"
+      "initials"
     ],
-    "definition": "Objeto que arde con una mecha",
-    "fodder": "vuela",
+    "definition": "Voz emitida con fuerza",
+    "fodder": "gira revisa Inés todo otra",
     "indicators": [
-      "pierde una pieza"
+      "de entrada"
     ],
-    "explanation": "VELA se obtiene de vuela al retirar la letra indicada por la pista."
+    "explanation": "Las primeras letras de «gira revisa Inés todo otra» forman GRITO.",
+    "_def": "Voz lanzada con fuerza"
   },
   {
-    "id": "d352",
+    "id": "d004",
     "difficulty": "dificil",
-    "clue": "Animal capturado; basta con desordenar peras. (5)",
+    "clue": "Animal capturado: peras perdió el rumbo antes de llegar. (5)",
     "answer": "PRESA",
     "mechanisms": [
       "anagram"
@@ -5287,68 +122,5641 @@ const PUZZLES = [
     "definition": "Animal capturado",
     "fodder": "peras",
     "indicators": [
-      "desordenar"
+      "perdió el rumbo"
     ],
-    "explanation": "Las letras de peras se reordenan para formar PRESA."
+    "explanation": "Anagrama de PERAS = PRESA.",
+    "_def": "Animal capturado"
+  },
+  {
+    "id": "d005",
+    "difficulty": "dificil",
+    "clue": "Material que retiene partículas; fuera indica la todo resulta obviamente, de entrada, dicen más de lo que parece. (6)",
+    "answer": "FILTRO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Material que retiene partículas",
+    "fodder": "fuera indica la todo resulta obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «fuera indica la todo resulta obviamente» forman FILTRO.",
+    "_def": "Lo que deja pasar una parte"
+  },
+  {
+    "id": "d006",
+    "difficulty": "muy-dificil",
+    "clue": "Pequeño roedor; RATONES queda sin S antes de seguir. (5)",
+    "answer": "RATON",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Pequeño roedor",
+    "fodder": "RATONES",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de RATONES para obtener RATON.",
+    "_def": "Pequeño roedor"
+  },
+  {
+    "id": "d007",
+    "difficulty": "dificil",
+    "clue": "Pieza de la dentadura; se cuela en expediente cerrado ayer, sin llamar la atención. (6)",
+    "answer": "DIENTE",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Pieza de la dentadura",
+    "fodder": "DIENTE",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "DIENTE aparece oculto en «expediente cerrado ayer».",
+    "_def": "Pieza de la boca"
+  },
+  {
+    "id": "d008",
+    "difficulty": "dificil",
+    "clue": "Parte de un recorrido; TRAMOS queda sin S antes de seguir. (5)",
+    "answer": "TRAMO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Parte de un recorrido",
+    "fodder": "TRAMOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de TRAMOS para obtener TRAMO.",
+    "_def": "Parte de un recorrido"
+  },
+  {
+    "id": "d009",
+    "difficulty": "experto",
+    "clue": "Prenda de vestir; FALDAS queda sin S antes de seguir. (5)",
+    "answer": "FALDA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Prenda de vestir",
+    "fodder": "FALDAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de FALDAS para obtener FALDA.",
+    "_def": "Prenda que cuelga desde la cintura"
+  },
+  {
+    "id": "d010",
+    "difficulty": "dificil",
+    "clue": "Lugar por donde se sale, perdido en salidas, sin llamar la atención. (6)",
+    "answer": "SALIDA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Lugar por donde se sale",
+    "fodder": "salida",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "SALIDA aparece oculto en salidas.",
+    "_def": "Lugar por donde se sale"
+  },
+  {
+    "id": "d011",
+    "difficulty": "muy-dificil",
+    "clue": "Objeto para mejorar la visión; gira Ana finalmente Ayer solo, de entrada, dicen más de lo que parece. (5)",
+    "answer": "GAFAS",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Objeto para mejorar la visión",
+    "fodder": "gira Ana finalmente Ayer solo",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «gira Ana finalmente Ayer solo» forman GAFAS.",
+    "_def": "Objeto para mejorar la visión"
+  },
+  {
+    "id": "d012",
+    "difficulty": "muy-dificil",
+    "clue": "Bolsa: ocas perdió el orden antes de la escena. (4)",
+    "answer": "SACO",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Bolsa",
+    "fodder": "OCAS",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de OCAS = SACO.",
+    "_def": "Bolsa de tela"
+  },
+  {
+    "id": "d013",
+    "difficulty": "experto",
+    "clue": "Importa en la balanza; PESOS queda sin S antes de seguir. (4)",
+    "answer": "PESO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Importa en la balanza",
+    "fodder": "PESOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de PESOS para obtener PESO.",
+    "_def": "Medida de gravedad"
+  },
+  {
+    "id": "d014",
+    "difficulty": "experto",
+    "clue": "Poder sobre algo; durante otra mientras Inés nadie indica observa, de entrada, dicen más de lo que parece. (7)",
+    "answer": "DOMINIO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Poder sobre algo",
+    "fodder": "durante otra mientras Inés nadie indica observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «durante otra mientras Inés nadie indica observa» forman DOMINIO.",
+    "_def": "Control o ámbito"
+  },
+  {
+    "id": "d015",
+    "difficulty": "muy-dificil",
+    "clue": "Comunicación de advertencia; Ayer vino Inés sin objeciones, de entrada, dejan la respuesta escondida. (5)",
+    "answer": "AVISO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Comunicación de advertencia",
+    "fodder": "Ayer vino Inés sin objeciones",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las iniciales de «Ayer vino Inés sin objeciones» forman AVISO.",
+    "_def": "Comunicación breve"
+  },
+  {
+    "id": "d016",
+    "difficulty": "experto",
+    "clue": "Camino más corto; Ayer tal Ahora juzga obviamente, de entrada, dicen más de lo que parece. (5)",
+    "answer": "ATAJO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Camino más corto",
+    "fodder": "Ayer tal Ahora juzga obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Ayer tal Ahora juzga obviamente» forman ATAJO.",
+    "_def": "Camino más corto"
+  },
+  {
+    "id": "d017",
+    "difficulty": "muy-dificil",
+    "clue": "Peso transportado; CARGAS queda sin S antes de seguir. (5)",
+    "answer": "CARGA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Peso transportado",
+    "fodder": "CARGAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de CARGAS para obtener CARGA.",
+    "_def": "Peso que se transporta"
+  },
+  {
+    "id": "d018",
+    "difficulty": "experto",
+    "clue": "Torre que guía a los barcos; nota musical, ro como rumor, abreviado. (4)",
+    "answer": "FARO",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Torre que guía a los barcos",
+    "fodder": "nota musical",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "FA+RO=FARO",
+    "_def": "Torre luminosa"
+  },
+  {
+    "id": "d019",
+    "difficulty": "muy-dificil",
+    "clue": "Sustancia de las abejas; centro, abreviado, ra como rango, abreviado. (4)",
+    "answer": "CERA",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Sustancia de las abejas",
+    "fodder": "centro",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "CE+RA=CERA",
+    "_def": "Sustancia de velas"
+  },
+  {
+    "id": "d020",
+    "difficulty": "muy-dificil",
+    "clue": "Trozo de madera; padre, abreviado, lo como pronombre. (4)",
+    "answer": "PALO",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Trozo de madera",
+    "fodder": "padre",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "PA+LO=PALO",
+    "_def": "Barra de madera"
+  },
+  {
+    "id": "d021",
+    "difficulty": "dificil",
+    "clue": "Color de la sangre; ROJOS queda sin S antes de seguir. (4)",
+    "answer": "ROJO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Color de la sangre",
+    "fodder": "ROJOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de ROJOS para obtener ROJO.",
+    "_def": "Color de señal de peligro"
+  },
+  {
+    "id": "d022",
+    "difficulty": "experto",
+    "clue": "Animal del desierto; con Apenas muy esa la la otro, de entrada, dicen más de lo que parece. (7)",
+    "answer": "CAMELLO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Animal del desierto",
+    "fodder": "con Apenas muy esa la la otro",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «con Apenas muy esa la la otro» forman CAMELLO.",
+    "_def": "Mamífero de joroba"
+  },
+  {
+    "id": "d023",
+    "difficulty": "experto",
+    "clue": "Información concreta; DATOS queda sin S antes de seguir. (4)",
+    "answer": "DATO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Información concreta",
+    "fodder": "DATOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de DATOS para obtener DATO.",
+    "_def": "Información concreta"
+  },
+  {
+    "id": "d024",
+    "difficulty": "muy-dificil",
+    "clue": "Desafío; nota musical, to como tocado, abreviado. (4)",
+    "answer": "RETO",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Desafío",
+    "fodder": "nota musical",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "RE+TO=RETO",
+    "_def": "Desafío"
+  },
+  {
+    "id": "d025",
+    "difficulty": "muy-dificil",
+    "clue": "Animal doméstico: toga perdió el orden antes de la escena. (4)",
+    "answer": "GATO",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Animal doméstico",
+    "fodder": "TOGA",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de TOGA = GATO.",
+    "_def": "Felino doméstico"
+  },
+  {
+    "id": "d026",
+    "difficulty": "experto",
+    "clue": "Satélite natural de la Tierra; se cuela en la luna apareció, sin llamar la atención. (4)",
+    "answer": "LUNA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Satélite natural de la Tierra",
+    "fodder": "LUNA",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "LUNA aparece oculto en «la luna apareció».",
+    "_def": "Satélite natural"
+  },
+  {
+    "id": "d027",
+    "difficulty": "experto",
+    "clue": "Fuera de la ciudad hay uno; cierra Ayer mientras por otro, de entrada, dicen más de lo que parece. (5)",
+    "answer": "CAMPO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Fuera de la ciudad hay uno",
+    "fodder": "cierra Ayer mientras por otro",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «cierra Ayer mientras por otro» forman CAMPO.",
+    "_def": "Terreno abierto"
+  },
+  {
+    "id": "d028",
+    "difficulty": "dificil",
+    "clue": "Magnitud que ordena los sucesos; tiempos queda sin s antes de seguir. (6)",
+    "answer": "TIEMPO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Magnitud que ordena los sucesos",
+    "fodder": "tiempos",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de TIEMPOS para obtener TIEMPO.",
+    "_def": "Tiempo"
+  },
+  {
+    "id": "d029",
+    "difficulty": "dificil",
+    "clue": "Espacio reservado en un teatro; Pablo abrió lentamente cada objeto, de entrada, dejan la respuesta escondida. (5)",
+    "answer": "PALCO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Espacio reservado en un teatro",
+    "fodder": "Pablo abrió lentamente cada objeto",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las iniciales de «Pablo abrió lentamente cada objeto» forman PALCO.",
+    "_def": "Balcón de un teatro"
+  },
+  {
+    "id": "d030",
+    "difficulty": "muy-dificil",
+    "clue": "Vegetal; Ser vegetal, perdido en plantación, sin llamar la atención. (6)",
+    "answer": "PLANTA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Vegetal",
+    "fodder": "planta",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "PLANTA aparece oculto en plantación.",
+    "_def": "Ser vegetal"
+  },
+  {
+    "id": "d031",
+    "difficulty": "muy-dificil",
+    "clue": "Significado: destino perdió el orden antes de la escena. (7)",
+    "answer": "SENTIDO",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Significado",
+    "fodder": "DESTINO",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de DESTINO = SENTIDO.",
+    "_def": "Significado o dirección"
+  },
+  {
+    "id": "d032",
+    "difficulty": "muy-dificil",
+    "clue": "Canal por el que pasa algo; casi otra nunca durante un casi tal otro, de entrada, dicen más de lo que parece. (8)",
+    "answer": "CONDUCTO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Canal por el que pasa algo",
+    "fodder": "casi otra nunca durante un casi tal otro",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «casi otra nunca durante un casi tal otro» forman CONDUCTO.",
+    "_def": "Canal para transportar algo"
+  },
+  {
+    "id": "d033",
+    "difficulty": "dificil",
+    "clue": "Calzado que cubre el pie y parte de la pierna; nota cambia una letra: n por b. (4)",
+    "answer": "BOTA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Calzado que cubre el pie y parte de la pierna",
+    "fodder": "NOTA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "NOTA cambia N por B = BOTA.",
+    "_def": "Calzado que cubre el tobillo"
+  },
+  {
+    "id": "d034",
+    "difficulty": "muy-dificil",
+    "clue": "Asunto del que se habla; toma cambia una letra: o por e. (4)",
+    "answer": "TEMA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Asunto del que se habla",
+    "fodder": "TOMA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "TOMA cambia O por E = TEMA.",
+    "_def": "Asunto del que se habla"
+  },
+  {
+    "id": "d035",
+    "difficulty": "experto",
+    "clue": "Punto de conexión; Nunca olvides dejarlo ordenado, de entrada, dejan la respuesta escondida. (4)",
+    "answer": "NODO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Punto de conexión",
+    "fodder": "Nunca olvides dejarlo ordenado",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las iniciales de «Nunca olvides dejarlo ordenado» forman NODO.",
+    "_def": "Punto de conexión"
+  },
+  {
+    "id": "d036",
+    "difficulty": "dificil",
+    "clue": "Persona que trabaja a bordo; mira Apenas resulta Inés nunca el rápido otra, de entrada, dicen más de lo que parece. (8)",
+    "answer": "MARINERO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Persona que trabaja a bordo",
+    "fodder": "mira Apenas resulta Inés nunca el rápido otra",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «mira Apenas resulta Inés nunca el rápido otra» forman MARINERO.",
+    "_def": "Quien trabaja a bordo"
+  },
+  {
+    "id": "d037",
+    "difficulty": "experto",
+    "clue": "Montón de objetos; pipa cambia una letra: p por l. (4)",
+    "answer": "PILA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Montón de objetos",
+    "fodder": "PIPA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "PIPA cambia P por L = PILA.",
+    "_def": "Conjunto o batería"
+  },
+  {
+    "id": "d038",
+    "difficulty": "experto",
+    "clue": "Parte de la mano; deda cambia una letra: a por o. (4)",
+    "answer": "DEDO",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Parte de la mano",
+    "fodder": "DEDA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "DEDA cambia A por O = DEDO.",
+    "_def": "Extremidad de la mano"
+  },
+  {
+    "id": "d039",
+    "difficulty": "muy-dificil",
+    "clue": "Porción de tierra rodeada de agua: sila perdió el orden antes de la escena. (4)",
+    "answer": "ISLA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Porción de tierra rodeada de agua",
+    "fodder": "SILA",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de SILA = ISLA.",
+    "_def": "Porción de tierra rodeada de agua"
+  },
+  {
+    "id": "d040",
+    "difficulty": "dificil",
+    "clue": "Rastro que deja un objeto al moverse; esa sobre también en los Ana, de entrada, dicen más de lo que parece. (6)",
+    "answer": "ESTELA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Rastro que deja un objeto al moverse",
+    "fodder": "esa sobre también en los Ana",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «esa sobre también en los Ana» forman ESTELA.",
+    "_def": "Rastro que queda"
+  },
+  {
+    "id": "d041",
+    "difficulty": "muy-dificil",
+    "clue": "Pieza del juego de bolos; bolos queda sin s antes de seguir. (4)",
+    "answer": "BOLO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Pieza del juego de bolos",
+    "fodder": "bolos",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de BOLOS para obtener BOLO.",
+    "_def": "Pieza que se derriba jugando"
+  },
+  {
+    "id": "d042",
+    "difficulty": "experto",
+    "clue": "Serie graduada; se cuela en la escala del plano, sin llamar la atención. (6)",
+    "answer": "ESCALA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Serie graduada",
+    "fodder": "ESCALA",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "ESCALA aparece oculto en «la escala del plano».",
+    "_def": "Relación entre tamaños"
+  },
+  {
+    "id": "d043",
+    "difficulty": "experto",
+    "clue": "Ave acuática; PLATO queda sin O antes de seguir. (4)",
+    "answer": "PATO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Ave acuática",
+    "fodder": "PLATO",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de PLATO para obtener PATO.",
+    "_def": "Ave acuática"
+  },
+  {
+    "id": "d044",
+    "difficulty": "muy-dificil",
+    "clue": "Pieza que sujeta; grada cambia una letra: d por p. (5)",
+    "answer": "GRAPA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Pieza que sujeta",
+    "fodder": "GRADA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "GRADA cambia D por P = GRAPA.",
+    "_def": "Pieza para sujetar"
+  },
+  {
+    "id": "d045",
+    "difficulty": "muy-dificil",
+    "clue": "Parte posterior del pie; salon cambia una letra: s por t. (5)",
+    "answer": "TALON",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Parte posterior del pie",
+    "fodder": "SALON",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "SALON cambia S por T = TALON.",
+    "_def": "Parte posterior del pie"
+  },
+  {
+    "id": "d046",
+    "difficulty": "dificil",
+    "clue": "Lo que queda; RESTOS queda sin S antes de seguir. (5)",
+    "answer": "RESTO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Lo que queda",
+    "fodder": "RESTOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de RESTOS para obtener RESTO.",
+    "_def": "Lo que queda"
+  },
+  {
+    "id": "d047",
+    "difficulty": "experto",
+    "clue": "Abre una puerta; LLAVES queda sin S antes de seguir. (5)",
+    "answer": "LLAVE",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Abre una puerta",
+    "fodder": "LLAVES",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de LLAVES para obtener LLAVE.",
+    "_def": "Instrumento para abrir"
+  },
+  {
+    "id": "d048",
+    "difficulty": "experto",
+    "clue": "Acción de dar algo; en nunca también revisa entre graba Ayer, de entrada, dicen más de lo que parece. (7)",
+    "answer": "ENTREGA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Acción de dar algo",
+    "fodder": "en nunca también revisa entre graba Ayer",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «en nunca también revisa entre graba Ayer» forman ENTREGA.",
+    "_def": "Acto de dar algo"
+  },
+  {
+    "id": "d049",
+    "difficulty": "dificil",
+    "clue": "Máquina para trabajar piezas: trono perdió el orden antes de la escena. (5)",
+    "answer": "TORNO",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Máquina para trabajar piezas",
+    "fodder": "TRONO",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de TRONO = TORNO.",
+    "_def": "Máquina que gira una pieza"
+  },
+  {
+    "id": "d050",
+    "difficulty": "muy-dificil",
+    "clue": "Espacio abierto dentro de una vivienda; PATIOS queda sin S antes de seguir. (5)",
+    "answer": "PATIO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Espacio abierto dentro de una vivienda",
+    "fodder": "PATIOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de PATIOS para obtener PATIO.",
+    "_def": "Espacio abierto de una casa"
+  },
+  {
+    "id": "d051",
+    "difficulty": "dificil",
+    "clue": "Parte de la mano; PALMAS queda sin S antes de seguir. (5)",
+    "answer": "PALMA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Parte de la mano",
+    "fodder": "PALMAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de PALMAS para obtener PALMA.",
+    "_def": "Parte de la mano"
+  },
+  {
+    "id": "d052",
+    "difficulty": "experto",
+    "clue": "Prenda con mangas; casi Ahora mira Inés sin Alguien, de entrada, dicen más de lo que parece. (6)",
+    "answer": "CAMISA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Prenda con mangas",
+    "fodder": "casi Ahora mira Inés sin Alguien",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «casi Ahora mira Inés sin Alguien» forman CAMISA.",
+    "_def": "Prenda de vestir"
+  },
+  {
+    "id": "d053",
+    "difficulty": "muy-dificil",
+    "clue": "Apunte escrito; negación, ta como nota musical solfada, abreviada. (4)",
+    "answer": "NOTA",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Apunte escrito",
+    "fodder": "negación",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "NO+TA=NOTA",
+    "_def": "Apunte breve o sonido musical"
+  },
+  {
+    "id": "d054",
+    "difficulty": "experto",
+    "clue": "Herramienta abrasiva; CLIMA queda sin A antes de seguir. (4)",
+    "answer": "LIMA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Herramienta abrasiva",
+    "fodder": "CLIMA",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de CLIMA para obtener LIMA.",
+    "_def": "Fruta cítrica o herramienta"
+  },
+  {
+    "id": "d055",
+    "difficulty": "experto",
+    "clue": "Casa familiar; hace obviamente graba Ahora recuerda, de entrada, dicen más de lo que parece. (5)",
+    "answer": "HOGAR",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Casa familiar",
+    "fodder": "hace obviamente graba Ahora recuerda",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «hace obviamente graba Ahora recuerda» forman HOGAR.",
+    "_def": "Casa o lugar familiar"
+  },
+  {
+    "id": "d056",
+    "difficulty": "muy-dificil",
+    "clue": "Periodo de enseñanza; con usa resulta sin obviamente, de entrada, dicen más de lo que parece. (5)",
+    "answer": "CURSO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Periodo de enseñanza",
+    "fodder": "con usa resulta sin obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «con usa resulta sin obviamente» forman CURSO.",
+    "_def": "Recorrido o formación"
+  },
+  {
+    "id": "d057",
+    "difficulty": "experto",
+    "clue": "Te devuelve la cara; esa sin por entre junta obviamente, de entrada, dicen más de lo que parece. (6)",
+    "answer": "ESPEJO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Te devuelve la cara",
+    "fodder": "esa sin por entre junta obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «esa sin por entre junta obviamente» forman ESPEJO.",
+    "_def": "Superficie que devuelve una imagen"
+  },
+  {
+    "id": "d058",
+    "difficulty": "experto",
+    "clue": "Rodea una caja; breve Alguien no durante Ayer, de entrada, dicen más de lo que parece. (5)",
+    "answer": "BANDA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Rodea una caja",
+    "fodder": "breve Alguien no durante Ayer",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «breve Alguien no durante Ayer» forman BANDA.",
+    "_def": "Franja o grupo"
+  },
+  {
+    "id": "d059",
+    "difficulty": "muy-dificil",
+    "clue": "Fibra para coser; hasta Inés la otra, de entrada, dicen más de lo que parece. (4)",
+    "answer": "HILO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Fibra para coser",
+    "fodder": "hasta Inés la otra",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «hasta Inés la otra» forman HILO.",
+    "_def": "Fibra continua"
+  },
+  {
+    "id": "d060",
+    "difficulty": "experto",
+    "clue": "Pieza circular que gira; ruedas queda sin s antes de seguir. (5)",
+    "answer": "RUEDA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Pieza circular que gira",
+    "fodder": "ruedas",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de RUEDAS para obtener RUEDA.",
+    "_def": "Pieza circular que gira"
+  },
+  {
+    "id": "d061",
+    "difficulty": "experto",
+    "clue": "Sensación producida por una temperatura alta; CALORES queda sin S antes de seguir. (5)",
+    "answer": "CALOR",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Sensación producida por una temperatura alta",
+    "fodder": "CALORES",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de CALORES para obtener CALOR.",
+    "_def": "Energía térmica"
+  },
+  {
+    "id": "d062",
+    "difficulty": "muy-dificil",
+    "clue": "Viene al mundo: cena perdió el orden antes de la escena. (4)",
+    "answer": "NACE",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Viene al mundo",
+    "fodder": "CENA",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de CENA = NACE.",
+    "_def": "Empieza a existir"
+  },
+  {
+    "id": "d063",
+    "difficulty": "muy-dificil",
+    "clue": "Mensaje escrito; carro, abreviado, ta como tarde, abreviada. (5)",
+    "answer": "CARTA",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Mensaje escrito",
+    "fodder": "carro",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "CAR+TA=CARTA",
+    "_def": "Mensaje escrito"
+  },
+  {
+    "id": "d064",
+    "difficulty": "muy-dificil",
+    "clue": "Extremidad de un animal; padre, abreviado, ta como tarde, abreviada. (4)",
+    "answer": "PATA",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Extremidad de un animal",
+    "fodder": "padre",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "PA+TA=PATA",
+    "_def": "Extremidad de un animal"
+  },
+  {
+    "id": "d065",
+    "difficulty": "muy-dificil",
+    "clue": "Puede devolverte la cara; revisa el fuera la el junta otra, de entrada, dicen más de lo que parece. (7)",
+    "answer": "REFLEJO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Puede devolverte la cara",
+    "fodder": "revisa el fuera la el junta otra",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «revisa el fuera la el junta otra» forman REFLEJO.",
+    "_def": "Imagen devuelta por una superficie"
+  },
+  {
+    "id": "d066",
+    "difficulty": "experto",
+    "clue": "Conjunto de fibras retorcidas; cierra usa el rápido de Ayer, de entrada, dicen más de lo que parece. (6)",
+    "answer": "CUERDA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Conjunto de fibras retorcidas",
+    "fodder": "cierra usa el rápido de Ayer",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «cierra usa el rápido de Ayer» forman CUERDA.",
+    "_def": "Conjunto de fibras trenzadas"
+  },
+  {
+    "id": "d067",
+    "difficulty": "experto",
+    "clue": "Parte lateral; LADOS queda sin S antes de seguir. (4)",
+    "answer": "LADO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Parte lateral",
+    "fodder": "LADOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de LADOS para obtener LADO.",
+    "_def": "Parte lateral"
+  },
+  {
+    "id": "d068",
+    "difficulty": "muy-dificil",
+    "clue": "Sentido de la visión; pista cambia una letra: p por v. (5)",
+    "answer": "VISTA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Sentido de la visión",
+    "fodder": "PISTA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "PISTA cambia P por V = VISTA.",
+    "_def": "Facultad de ver"
+  },
+  {
+    "id": "d069",
+    "difficulty": "dificil",
+    "clue": "Puede abrir una cerradura; clase, abreviada, ve como ve. (5)",
+    "answer": "CLAVE",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Puede abrir una cerradura",
+    "fodder": "clase",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "CLA+VE=CLAVE",
+    "_def": "Dato para abrir o entender"
+  },
+  {
+    "id": "d070",
+    "difficulty": "muy-dificil",
+    "clue": "Aparato que recibe emisiones; Segmento desde el centro a la circunferencia, perdido en radiografía, sin llamar la atención. (5)",
+    "answer": "RADIO",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Aparato que recibe emisiones",
+    "fodder": "radio",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "RADIO aparece oculto en radiografía.",
+    "_def": "Segmento desde el centro a la circunferencia"
+  },
+  {
+    "id": "d071",
+    "difficulty": "experto",
+    "clue": "Salida de un tallo; Bruno recordó otra tarde especialmente, de entrada, dejan la respuesta escondida. (5)",
+    "answer": "BROTE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Salida de un tallo",
+    "fodder": "Bruno recordó otra tarde especialmente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las iniciales de «Bruno recordó otra tarde especialmente» forman BROTE.",
+    "_def": "Yema o comienzo"
+  },
+  {
+    "id": "d072",
+    "difficulty": "muy-dificil",
+    "clue": "Facultad de pensar; mañana el no también en, de entrada, dicen más de lo que parece. (5)",
+    "answer": "MENTE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Facultad de pensar",
+    "fodder": "mañana el no también en",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «mañana el no también en» forman MENTE.",
+    "_def": "Facultad de pensar"
+  },
+  {
+    "id": "d073",
+    "difficulty": "experto",
+    "clue": "Extremidad superior; baja revisa Ana zurdo obviamente, de entrada, dicen más de lo que parece. (5)",
+    "answer": "BRAZO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Extremidad superior",
+    "fodder": "baja revisa Ana zurdo obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «baja revisa Ana zurdo obviamente» forman BRAZO.",
+    "_def": "Extremidad superior"
+  },
+  {
+    "id": "d074",
+    "difficulty": "dificil",
+    "clue": "Recipiente con asa; barra cambia una letra: b por j. (5)",
+    "answer": "JARRA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Recipiente con asa",
+    "fodder": "BARRA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "BARRA cambia B por J = JARRA.",
+    "_def": "Recipiente de mesa"
+  },
+  {
+    "id": "d075",
+    "difficulty": "experto",
+    "clue": "Alimento usado para atraer animales; cierra el breve otro, de entrada, dicen más de lo que parece. (4)",
+    "answer": "CEBO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Alimento usado para atraer animales",
+    "fodder": "cierra el breve otro",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «cierra el breve otro» forman CEBO.",
+    "_def": "Señuelo para atraer"
+  },
+  {
+    "id": "d076",
+    "difficulty": "experto",
+    "clue": "Expresión que indica cantidad; no un muy entre resulta observa, de entrada, dicen más de lo que parece. (6)",
+    "answer": "NUMERO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Expresión que indica cantidad",
+    "fodder": "no un muy entre resulta observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «no un muy entre resulta observa» forman NUMERO.",
+    "_def": "Signo que representa una cantidad"
+  },
+  {
+    "id": "d077",
+    "difficulty": "experto",
+    "clue": "Une dos orillas; puede, sin final, nte como ente, abreviado. (6)",
+    "answer": "PUENTE",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Une dos orillas",
+    "fodder": "puede",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "PUE+NTE=PUENTE",
+    "_def": "Obra para cruzar un obstáculo"
+  },
+  {
+    "id": "d078",
+    "difficulty": "muy-dificil",
+    "clue": "Parte lateral del cuerpo; cada observa solo todo Ana desde otro, de entrada, dicen más de lo que parece. (7)",
+    "answer": "COSTADO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Parte lateral del cuerpo",
+    "fodder": "cada observa solo todo Ana desde otro",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «cada observa solo todo Ana desde otro» forman COSTADO.",
+    "_def": "Lado del cuerpo o de algo"
+  },
+  {
+    "id": "d079",
+    "difficulty": "dificil",
+    "clue": "Un momento breve; Rato, perdido en ratonera, sin llamar la atención. (4)",
+    "answer": "RATO",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Un momento breve",
+    "fodder": "rato",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "RATO aparece oculto en ratonera.",
+    "_def": "Rato"
+  },
+  {
+    "id": "d080",
+    "difficulty": "dificil",
+    "clue": "Ayuda; Apenas por otra yo observa, de entrada, dicen más de lo que parece. (5)",
+    "answer": "APOYO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Ayuda",
+    "fodder": "Apenas por otra yo observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Apenas por otra yo observa» forman APOYO.",
+    "_def": "Ayuda o sostén"
+  },
+  {
+    "id": "d081",
+    "difficulty": "dificil",
+    "clue": "Sentir amor: rama perdió el rumbo antes de llegar. (4)",
+    "answer": "AMAR",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Sentir amor",
+    "fodder": "rama",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de RAMA = AMAR.",
+    "_def": "Querer profundamente"
+  },
+  {
+    "id": "d082",
+    "difficulty": "muy-dificil",
+    "clue": "Curva entre dos puntos; OCRA vuelve sobre sus pasos. (4)",
+    "answer": "ARCO",
+    "mechanisms": [
+      "reversal"
+    ],
+    "definition": "Curva entre dos puntos",
+    "fodder": "OCRA",
+    "indicators": [
+      "vuelve sobre sus pasos"
+    ],
+    "explanation": "OCRA al revés = ARCO.",
+    "_def": "Arco"
+  },
+  {
+    "id": "d083",
+    "difficulty": "dificil",
+    "clue": "Vaso con pie; COPAS queda sin S antes de seguir. (4)",
+    "answer": "COPA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Vaso con pie",
+    "fodder": "COPAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de COPAS para obtener COPA.",
+    "_def": "Vaso con pie"
+  },
+  {
+    "id": "d084",
+    "difficulty": "muy-dificil",
+    "clue": "Del mar; muy Ana revisa imagina nos observa, de entrada, dicen más de lo que parece. (6)",
+    "answer": "MARINO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Del mar",
+    "fodder": "muy Ana revisa imagina nos observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «muy Ana revisa imagina nos observa» forman MARINO.",
+    "_def": "Del mar"
+  },
+  {
+    "id": "d085",
+    "difficulty": "experto",
+    "clue": "Material elástico; GOMAS queda sin S antes de seguir. (4)",
+    "answer": "GOMA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Material elástico",
+    "fodder": "GOMAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de GOMAS para obtener GOMA.",
+    "_def": "Material elástico"
+  },
+  {
+    "id": "d086",
+    "difficulty": "muy-dificil",
+    "clue": "Obra escrita; la imagina breve revisa otro, de entrada, dicen más de lo que parece. (5)",
+    "answer": "LIBRO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Obra escrita",
+    "fodder": "la imagina breve revisa otro",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «la imagina breve revisa otro» forman LIBRO.",
+    "_def": "Conjunto de páginas"
+  },
+  {
+    "id": "d087",
+    "difficulty": "muy-dificil",
+    "clue": "Parte por donde se agarra una herramienta; MANGOS queda sin S antes de seguir. (5)",
+    "answer": "MANGO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Parte por donde se agarra una herramienta",
+    "fodder": "MANGOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de MANGOS para obtener MANGO.",
+    "_def": "Parte por donde se agarra"
+  },
+  {
+    "id": "d088",
+    "difficulty": "muy-dificil",
+    "clue": "Mamífero carnívoro: bolo perdió el orden antes de la escena. (4)",
+    "answer": "LOBO",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Mamífero carnívoro",
+    "fodder": "BOLO",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de BOLO = LOBO.",
+    "_def": "Mamífero salvaje"
+  },
+  {
+    "id": "d089",
+    "difficulty": "experto",
+    "clue": "Persona que juzga; Jamás una es zanja, de entrada, dejan la respuesta escondida. (4)",
+    "answer": "JUEZ",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Persona que juzga",
+    "fodder": "Jamás una es zanja",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las iniciales de «Jamás una es zanja» forman JUEZ.",
+    "_def": "Quien imparte justicia"
+  },
+  {
+    "id": "d090",
+    "difficulty": "muy-dificil",
+    "clue": "Cavidad profunda: misa perdió el rumbo antes de llegar. (4)",
+    "answer": "SIMA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Cavidad profunda",
+    "fodder": "misa",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de MISA = SIMA.",
+    "_def": "Cavidad profunda"
+  },
+  {
+    "id": "d091",
+    "difficulty": "muy-dificil",
+    "clue": "Objeto fino para coser; Ahora guarda usa jamás Ana, de entrada, dicen más de lo que parece. (5)",
+    "answer": "AGUJA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Objeto fino para coser",
+    "fodder": "Ahora guarda usa jamás Ana",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Ahora guarda usa jamás Ana» forman AGUJA.",
+    "_def": "Objeto fino y puntiagudo"
+  },
+  {
+    "id": "d092",
+    "difficulty": "muy-dificil",
+    "clue": "Pieza de dinero; mientras otro nadie en de Ana, de entrada, dicen más de lo que parece. (6)",
+    "answer": "MONEDA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Pieza de dinero",
+    "fodder": "mientras otro nadie en de Ana",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «mientras otro nadie en de Ana» forman MONEDA.",
+    "_def": "Pieza metálica de curso legal"
+  },
+  {
+    "id": "d093",
+    "difficulty": "dificil",
+    "clue": "Indicio que comunica algo; sin entre no Ahora la, de entrada, dicen más de lo que parece. (5)",
+    "answer": "SENAL",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Indicio que comunica algo",
+    "fodder": "sin entre no Ahora la",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «sin entre no Ahora la» forman SENAL.",
+    "_def": "Marca que comunica"
+  },
+  {
+    "id": "d094",
+    "difficulty": "experto",
+    "clue": "Mandato; Disposición o mandato, perdido en ordenado, sin llamar la atención. (5)",
+    "answer": "ORDEN",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Mandato",
+    "fodder": "orden",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "ORDEN aparece oculto en ordenado.",
+    "_def": "Disposición o mandato"
+  },
+  {
+    "id": "d095",
+    "difficulty": "dificil",
+    "clue": "Sujetar; atars queda sin s antes de seguir. (4)",
+    "answer": "ATAR",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Sujetar",
+    "fodder": "atars",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de ATARS para obtener ATAR.",
+    "_def": "Atar"
+  },
+  {
+    "id": "d096",
+    "difficulty": "muy-dificil",
+    "clue": "Categoría: grano perdió el rumbo antes de llegar. (5)",
+    "answer": "RANGO",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Categoría",
+    "fodder": "grano",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de GRANO = RANGO.",
+    "_def": "Posición dentro de una escala"
+  },
+  {
+    "id": "d097",
+    "difficulty": "experto",
+    "clue": "Articulación del brazo; CODOS queda sin S antes de seguir. (4)",
+    "answer": "CODO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Articulación del brazo",
+    "fodder": "CODOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de CODOS para obtener CODO.",
+    "_def": "Articulación del brazo"
+  },
+  {
+    "id": "d098",
+    "difficulty": "experto",
+    "clue": "Señal que representa algo; sin intenta gira no observa, de entrada, dicen más de lo que parece. (5)",
+    "answer": "SIGNO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Señal que representa algo",
+    "fodder": "sin intenta gira no observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «sin intenta gira no observa» forman SIGNO.",
+    "_def": "Señal que representa algo"
+  },
+  {
+    "id": "d099",
+    "difficulty": "muy-dificil",
+    "clue": "Borde de un sólido; Alguien recuerda imagina siempre también Alguien, de entrada, dicen más de lo que parece. (6)",
+    "answer": "ARISTA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Borde de un sólido",
+    "fodder": "Alguien recuerda imagina siempre también Alguien",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Alguien recuerda imagina siempre también Alguien» forman ARISTA.",
+    "_def": "Borde donde se encuentran caras"
+  },
+  {
+    "id": "d100",
+    "difficulty": "dificil",
+    "clue": "Caminata; PASEOS queda sin S antes de seguir. (5)",
+    "answer": "PASEO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Caminata",
+    "fodder": "PASEOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de PASEOS para obtener PASEO.",
+    "_def": "Caminata"
+  },
+  {
+    "id": "d101",
+    "difficulty": "experto",
+    "clue": "Prenda ligera de manga corta; casi Ana muy indica sobre entre todo Ahora, de entrada, dicen más de lo que parece. (8)",
+    "answer": "CAMISETA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Prenda ligera de manga corta",
+    "fodder": "casi Ana muy indica sobre entre todo Ahora",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «casi Ana muy indica sobre entre todo Ahora» forman CAMISETA.",
+    "_def": "Prenda de manga corta"
+  },
+  {
+    "id": "d102",
+    "difficulty": "experto",
+    "clue": "Líquido; Ayer guarda usa Ayer, de entrada, dicen más de lo que parece. (4)",
+    "answer": "AGUA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Líquido",
+    "fodder": "Ayer guarda usa Ayer",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Ayer guarda usa Ayer» forman AGUA.",
+    "_def": "Líquido esencial"
+  },
+  {
+    "id": "d103",
+    "difficulty": "dificil",
+    "clue": "Mueble para dormir; CAMAS queda sin S antes de seguir. (4)",
+    "answer": "CAMA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Mueble para dormir",
+    "fodder": "CAMAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de CAMAS para obtener CAMA.",
+    "_def": "Mueble para dormir"
+  },
+  {
+    "id": "d104",
+    "difficulty": "experto",
+    "clue": "Grada para espectadores, perdido en tribunal, sin llamar la atención. (7)",
+    "answer": "TRIBUNA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Grada para espectadores",
+    "fodder": "tribuna",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "TRIBUNA aparece oculto en tribunal.",
+    "_def": "Grada para espectadores"
+  },
+  {
+    "id": "d105",
+    "difficulty": "dificil",
+    "clue": "Estructura para embarcaciones; mientras usa el luego los esa, de entrada, dicen más de lo que parece. (6)",
+    "answer": "MUELLE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Estructura para embarcaciones",
+    "fodder": "mientras usa el luego los esa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «mientras usa el luego los esa» forman MUELLE.",
+    "_def": "Lugar de atraque"
+  },
+  {
+    "id": "d106",
+    "difficulty": "experto",
+    "clue": "Extremidad superior; se cuela en la mano derecha, sin llamar la atención. (4)",
+    "answer": "MANO",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Extremidad superior",
+    "fodder": "MANO",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "MANO aparece oculto en «la mano derecha».",
+    "_def": "Extremidad superior"
+  },
+  {
+    "id": "d107",
+    "difficulty": "experto",
+    "clue": "Órgano de la boca; Órgano o idioma, perdido en lenguaje, sin llamar la atención. (6)",
+    "answer": "LENGUA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Órgano de la boca",
+    "fodder": "lengua",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "LENGUA aparece oculto en lenguaje.",
+    "_def": "Órgano o idioma"
+  },
+  {
+    "id": "d108",
+    "difficulty": "dificil",
+    "clue": "Cantidad de materia; mesa cambia una letra: e por a. (4)",
+    "answer": "MASA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Cantidad de materia",
+    "fodder": "MESA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "MESA cambia E por A = MASA.",
+    "_def": "Cantidad reunida"
+  },
+  {
+    "id": "d109",
+    "difficulty": "experto",
+    "clue": "Recipiente metálico; la Alguien tras Apenas, de entrada, dicen más de lo que parece. (4)",
+    "answer": "LATA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Recipiente metálico",
+    "fodder": "la Alguien tras Apenas",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «la Alguien tras Apenas» forman LATA.",
+    "_def": "Lata"
+  },
+  {
+    "id": "d110",
+    "difficulty": "experto",
+    "clue": "Porción de un todo; partes queda sin s antes de seguir. (5)",
+    "answer": "PARTE",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Porción de un todo",
+    "fodder": "partes",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de PARTES para obtener PARTE.",
+    "_def": "Porción o informe"
+  },
+  {
+    "id": "d111",
+    "difficulty": "dificil",
+    "clue": "Movimiento al caminar: sopa perdió el rumbo antes de llegar. (4)",
+    "answer": "PASO",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Movimiento al caminar",
+    "fodder": "sopa",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de SOPA = PASO.",
+    "_def": "Movimiento al andar"
+  },
+  {
+    "id": "d112",
+    "difficulty": "muy-dificil",
+    "clue": "Acuerdo entre personas; TRATOS queda sin S antes de seguir. (5)",
+    "answer": "TRATO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Acuerdo entre personas",
+    "fodder": "TRATOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de TRATOS para obtener TRATO.",
+    "_def": "Modo de relacionarse"
+  },
+  {
+    "id": "d113",
+    "difficulty": "muy-dificil",
+    "clue": "Frutas de pepita: pesar perdió el orden antes de la escena. (5)",
+    "answer": "PERAS",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Frutas de pepita",
+    "fodder": "PESAR",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de PESAR = PERAS.",
+    "_def": "Frutos del peral"
+  },
+  {
+    "id": "d114",
+    "difficulty": "dificil",
+    "clue": "Extremidad inferior; se cuela en ese pie de página, sin llamar la atención. (3)",
+    "answer": "PIE",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Extremidad inferior",
+    "fodder": "PIE",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "PIE aparece oculto en «ese pie de página».",
+    "_def": "Extremo del cuerpo"
+  },
+  {
+    "id": "d115",
+    "difficulty": "experto",
+    "clue": "Hoja fina de metal u otro material; luego Apenas mañana Inés nadie Ana, de entrada, dicen más de lo que parece. (6)",
+    "answer": "LAMINA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Hoja fina de metal u otro material",
+    "fodder": "luego Apenas mañana Inés nadie Ana",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «luego Apenas mañana Inés nadie Ana» forman LAMINA.",
+    "_def": "Hoja delgada"
+  },
+  {
+    "id": "d116",
+    "difficulty": "dificil",
+    "clue": "Habitación amplia: alas perdió el rumbo antes de llegar. (4)",
+    "answer": "SALA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Habitación amplia",
+    "fodder": "alas",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de ALAS = SALA.",
+    "_def": "Sala"
+  },
+  {
+    "id": "d117",
+    "difficulty": "muy-dificil",
+    "clue": "Configuración externa; foro, abreviado, ma como madre, abreviada. (5)",
+    "answer": "FORMA",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Configuración externa",
+    "fodder": "foro",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "FOR+MA=FORMA",
+    "_def": "Configuración exterior"
+  },
+  {
+    "id": "d118",
+    "difficulty": "experto",
+    "clue": "Punto que no se debe superar; la intenta muy indica tal entre, de entrada, dicen más de lo que parece. (6)",
+    "answer": "LIMITE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Punto que no se debe superar",
+    "fodder": "la intenta muy indica tal entre",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «la intenta muy indica tal entre» forman LIMITE.",
+    "_def": "Punto que no se debe superar"
+  },
+  {
+    "id": "d119",
+    "difficulty": "experto",
+    "clue": "Zona de una ciudad; breve Ana resulta revisa imagina otro, de entrada, dicen más de lo que parece. (6)",
+    "answer": "BARRIO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Zona de una ciudad",
+    "fodder": "breve Ana resulta revisa imagina otro",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «breve Ana resulta revisa imagina otro» forman BARRIO.",
+    "_def": "Zona de una ciudad"
+  },
+  {
+    "id": "d120",
+    "difficulty": "dificil",
+    "clue": "Sonido producido al hablar; Sonido de la garganta, perdido en vozarrón, sin llamar la atención. (3)",
+    "answer": "VOZ",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Sonido producido al hablar",
+    "fodder": "voz",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "VOZ aparece oculto en vozarrón.",
+    "_def": "Sonido de la garganta"
+  },
+  {
+    "id": "d121",
+    "difficulty": "dificil",
+    "clue": "Ciudad principal; casi Ayer para indica tal Ana luego, de entrada, dicen más de lo que parece. (7)",
+    "answer": "CAPITAL",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Ciudad principal",
+    "fodder": "casi Ayer para indica tal Ana luego",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «casi Ayer para indica tal Ana luego» forman CAPITAL.",
+    "_def": "Ciudad principal"
+  },
+  {
+    "id": "d122",
+    "difficulty": "muy-dificil",
+    "clue": "No cede; firmes queda sin s antes de seguir. (5)",
+    "answer": "FIRME",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "No cede",
+    "fodder": "firmes",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de FIRMES para obtener FIRME.",
+    "_def": "Que no cede"
+  },
+  {
+    "id": "d123",
+    "difficulty": "muy-dificil",
+    "clue": "Refugio de aves; se cuela en caminó al nido, sin llamar la atención. (4)",
+    "answer": "NIDO",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Refugio de aves",
+    "fodder": "NIDO",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "NIDO aparece oculto en «caminó al nido».",
+    "_def": "Refugio de un ave"
+  },
+  {
+    "id": "d124",
+    "difficulty": "experto",
+    "clue": "Instrumento para orientarse; busca resulta usted juzga una luego Ahora, de entrada, dicen más de lo que parece. (7)",
+    "answer": "BRUJULA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Instrumento para orientarse",
+    "fodder": "busca resulta usted juzga una luego Ahora",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «busca resulta usted juzga una luego Ahora» forman BRUJULA.",
+    "_def": "Instrumento para orientarse"
+  },
+  {
+    "id": "d125",
+    "difficulty": "dificil",
+    "clue": "Fruto seco; PASTA queda sin A antes de seguir. (4)",
+    "answer": "PASA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Fruto seco",
+    "fodder": "PASTA",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de PASTA para obtener PASA.",
+    "_def": "Fruta arrugada o verbo"
+  },
+  {
+    "id": "d126",
+    "difficulty": "dificil",
+    "clue": "Conductor de electricidad; Cable, perdido en cableado, sin llamar la atención. (5)",
+    "answer": "CABLE",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Conductor de electricidad",
+    "fodder": "cable",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "CABLE aparece oculto en cableado.",
+    "_def": "Cable"
+  },
+  {
+    "id": "d127",
+    "difficulty": "dificil",
+    "clue": "Repetición de un sonido; Elena cambió opiniones, de entrada, dejan la respuesta escondida. (3)",
+    "answer": "ECO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Repetición de un sonido",
+    "fodder": "Elena cambió opiniones",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las iniciales de «Elena cambió opiniones» forman ECO.",
+    "_def": "Sonido devuelto"
+  },
+  {
+    "id": "d128",
+    "difficulty": "muy-dificil",
+    "clue": "Pieza maciza; bloques queda sin s antes de seguir. (6)",
+    "answer": "BLOQUE",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Pieza maciza",
+    "fodder": "bloques",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de BLOQUES para obtener BLOQUE.",
+    "_def": "Pieza sólida de material"
+  },
+  {
+    "id": "d129",
+    "difficulty": "experto",
+    "clue": "Elemento que sostiene; siempre otra primero otro recuerda también esa, de entrada, dicen más de lo que parece. (7)",
+    "answer": "SOPORTE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Elemento que sostiene",
+    "fodder": "siempre otra primero otro recuerda también esa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «siempre otra primero otro recuerda también esa» forman SOPORTE.",
+    "_def": "Base que sostiene"
+  },
+  {
+    "id": "d130",
+    "difficulty": "experto",
+    "clue": "Espacio público; para los Ayer zurdo Ahora, de entrada, dicen más de lo que parece. (5)",
+    "answer": "PLAZA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Espacio público",
+    "fodder": "para los Ayer zurdo Ahora",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «para los Ayer zurdo Ahora» forman PLAZA.",
+    "_def": "Espacio público abierto"
+  },
+  {
+    "id": "d131",
+    "difficulty": "muy-dificil",
+    "clue": "Piedra: cora perdió el orden antes de la escena. (4)",
+    "answer": "ROCA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Piedra",
+    "fodder": "CORA",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de CORA = ROCA.",
+    "_def": "Piedra grande"
+  },
+  {
+    "id": "d132",
+    "difficulty": "dificil",
+    "clue": "Recipiente para comida; se cuela en el plato quedó vacío, sin llamar la atención. (5)",
+    "answer": "PLATO",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Recipiente para comida",
+    "fodder": "PLATO",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "PLATO aparece oculto en «el plato quedó vacío».",
+    "_def": "Recipiente para comer"
+  },
+  {
+    "id": "d133",
+    "difficulty": "experto",
+    "clue": "Estructura que cubre a un ave; PLUMAS queda sin S antes de seguir. (5)",
+    "answer": "PLUMA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Estructura que cubre a un ave",
+    "fodder": "PLUMAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de PLUMAS para obtener PLUMA.",
+    "_def": "Estructura que recubre a las aves"
+  },
+  {
+    "id": "d134",
+    "difficulty": "muy-dificil",
+    "clue": "Objeto que atrae hierro; indica mientras Alguien nadie, de entrada, dicen más de lo que parece. (4)",
+    "answer": "IMAN",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Objeto que atrae hierro",
+    "fodder": "indica mientras Alguien nadie",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «indica mientras Alguien nadie» forman IMAN.",
+    "_def": "Objeto que atrae ciertos metales"
+  },
+  {
+    "id": "d135",
+    "difficulty": "experto",
+    "clue": "Vivienda; Casa, perdido en casamiento, sin llamar la atención. (4)",
+    "answer": "CASA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Vivienda",
+    "fodder": "casa",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "CASA aparece oculto en casamiento.",
+    "_def": "Casa"
+  },
+  {
+    "id": "d136",
+    "difficulty": "dificil",
+    "clue": "Extremidades de un ave; SALA vuelve sobre sus pasos. (4)",
+    "answer": "ALAS",
+    "mechanisms": [
+      "reversal"
+    ],
+    "definition": "Extremidades de un ave",
+    "fodder": "SALA",
+    "indicators": [
+      "vuelve sobre sus pasos"
+    ],
+    "explanation": "SALA al revés = ALAS.",
+    "_def": "Lo que permite volar"
+  },
+  {
+    "id": "d137",
+    "difficulty": "dificil",
+    "clue": "Latido arterial; Latido perceptible, perdido en impulso, sin llamar la atención. (5)",
+    "answer": "PULSO",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Latido arterial",
+    "fodder": "pulso",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "PULSO aparece oculto en impulso.",
+    "_def": "Latido perceptible"
+  },
+  {
+    "id": "d138",
+    "difficulty": "muy-dificil",
+    "clue": "Plato líquido: paso perdió el orden antes de la escena. (4)",
+    "answer": "SOPA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Plato líquido",
+    "fodder": "PASO",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de PASO = SOPA.",
+    "_def": "Plato de cuchara"
+  },
+  {
+    "id": "d139",
+    "difficulty": "dificil",
+    "clue": "Representación mental; Inés donde en Alguien, de entrada, dicen más de lo que parece. (4)",
+    "answer": "IDEA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Representación mental",
+    "fodder": "Inés donde en Alguien",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Inés donde en Alguien» forman IDEA.",
+    "_def": "Ocurrencia"
+  },
+  {
+    "id": "d140",
+    "difficulty": "experto",
+    "clue": "Pieza elástica; resortes queda sin s antes de seguir. (7)",
+    "answer": "RESORTE",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Pieza elástica",
+    "fodder": "resortes",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de RESORTES para obtener RESORTE.",
+    "_def": "Pieza elástica"
+  },
+  {
+    "id": "d141",
+    "difficulty": "muy-dificil",
+    "clue": "Herramienta para golpear; muy Ahora revisa tal intenta luego luego obviamente, de entrada, dicen más de lo que parece. (8)",
+    "answer": "MARTILLO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Herramienta para golpear",
+    "fodder": "muy Ahora revisa tal intenta luego luego obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «muy Ahora revisa tal intenta luego luego obviamente» forman MARTILLO.",
+    "_def": "Herramienta para golpear"
+  },
+  {
+    "id": "d142",
+    "difficulty": "dificil",
+    "clue": "Superficie para escribir; primero intenta zanja Alguien rápido revisa Ayer, de entrada, dicen más de lo que parece. (7)",
+    "answer": "PIZARRA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Superficie para escribir",
+    "fodder": "primero intenta zanja Alguien rápido revisa Ayer",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «primero intenta zanja Alguien rápido revisa Ayer» forman PIZARRA.",
+    "_def": "Superficie para escribir"
+  },
+  {
+    "id": "d143",
+    "difficulty": "experto",
+    "clue": "Contacto afectuoso con los labios; bebida, abreviada, so como sur-oriente, abreviado. (4)",
+    "answer": "BESO",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Contacto afectuoso con los labios",
+    "fodder": "bebida",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "BE+SO=BESO",
+    "_def": "Contacto afectuoso"
+  },
+  {
+    "id": "d144",
+    "difficulty": "experto",
+    "clue": "Altura respecto a una referencia; nadie Inés vuelve entre los, de entrada, dicen más de lo que parece. (5)",
+    "answer": "NIVEL",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Altura respecto a una referencia",
+    "fodder": "nadie Inés vuelve entre los",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «nadie Inés vuelve entre los» forman NIVEL.",
+    "_def": "Grado o altura"
+  },
+  {
+    "id": "d145",
+    "difficulty": "experto",
+    "clue": "Persona que actúa en nombre de otra; Apenas guarda esa nos también entre, de entrada, dicen más de lo que parece. (6)",
+    "answer": "AGENTE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Persona que actúa en nombre de otra",
+    "fodder": "Apenas guarda esa nos también entre",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Apenas guarda esa nos también entre» forman AGENTE.",
+    "_def": "Persona que actúa en nombre de otra"
+  },
+  {
+    "id": "d146",
+    "difficulty": "muy-dificil",
+    "clue": "Filamento que nace en la piel; peso cambia una letra: s por l. (4)",
+    "answer": "PELO",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Filamento que nace en la piel",
+    "fodder": "PESO",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "PESO cambia S por L = PELO.",
+    "_def": "Filamento que nace de la piel"
+  },
+  {
+    "id": "d147",
+    "difficulty": "muy-dificil",
+    "clue": "Extensión que ocupa algo; entre siempre primero Ayer casi indica obviamente, de entrada, dicen más de lo que parece. (7)",
+    "answer": "ESPACIO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Extensión que ocupa algo",
+    "fodder": "entre siempre primero Ayer casi indica obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «entre siempre primero Ayer casi indica obviamente» forman ESPACIO.",
+    "_def": "Extensión disponible"
+  },
+  {
+    "id": "d148",
+    "difficulty": "muy-dificil",
+    "clue": "Elemento que forma parte de un conjunto; se cuela en empieza la función, sin llamar la atención. (5)",
+    "answer": "PIEZA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Elemento que forma parte de un conjunto",
+    "fodder": "PIEZA",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "PIEZA aparece oculto en «empieza la función».",
+    "_def": "Parte de un conjunto"
+  },
+  {
+    "id": "d149",
+    "difficulty": "muy-dificil",
+    "clue": "Conjunto ordenado; solo entre resulta imagina entre, de entrada, dicen más de lo que parece. (5)",
+    "answer": "SERIE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Conjunto ordenado",
+    "fodder": "solo entre resulta imagina entre",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «solo entre resulta imagina entre» forman SERIE.",
+    "_def": "Conjunto ordenado"
+  },
+  {
+    "id": "d150",
+    "difficulty": "experto",
+    "clue": "Tabique vertical; pareds queda sin s antes de seguir. (5)",
+    "answer": "PARED",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Tabique vertical",
+    "fodder": "pareds",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de PAREDS para obtener PARED.",
+    "_def": "Construcción vertical"
+  },
+  {
+    "id": "d151",
+    "difficulty": "muy-dificil",
+    "clue": "Trabajo realizado, perdido en obrador, sin llamar la atención. (4)",
+    "answer": "OBRA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Trabajo realizado",
+    "fodder": "obra",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "OBRA aparece oculto en obrador.",
+    "_def": "Trabajo realizado"
+  },
+  {
+    "id": "d152",
+    "difficulty": "dificil",
+    "clue": "Motocicleta; MOTOS queda sin S antes de seguir. (4)",
+    "answer": "MOTO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Motocicleta",
+    "fodder": "MOTOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de MOTOS para obtener MOTO.",
+    "_def": "Vehículo de dos ruedas"
+  },
+  {
+    "id": "d153",
+    "difficulty": "experto",
+    "clue": "Herramienta de dientes; tierra cambia una letra: t por s. (6)",
+    "answer": "SIERRA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Herramienta de dientes",
+    "fodder": "TIERRA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "TIERRA cambia T por S = SIERRA.",
+    "_def": "Herramienta de dientes o cordillera"
+  },
+  {
+    "id": "d154",
+    "difficulty": "muy-dificil",
+    "clue": "Tristeza; se cuela en apenas empezaba la charla, sin llamar la atención. (4)",
+    "answer": "PENA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Tristeza",
+    "fodder": "PENA",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "PENA aparece oculto en «apenas empezaba la charla».",
+    "_def": "Castigo o tristeza"
+  },
+  {
+    "id": "d155",
+    "difficulty": "muy-dificil",
+    "clue": "Instrumento de ataque: rama perdió el orden antes de la escena. (4)",
+    "answer": "ARMA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Instrumento de ataque",
+    "fodder": "RAMA",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de RAMA = ARMA.",
+    "_def": "Instrumento para atacar"
+  },
+  {
+    "id": "d156",
+    "difficulty": "muy-dificil",
+    "clue": "Modo de funcionar; MARCHAS queda sin S antes de seguir. (6)",
+    "answer": "MARCHA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Modo de funcionar",
+    "fodder": "MARCHAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de MARCHAS para obtener MARCHA.",
+    "_def": "Forma de caminar o funcionamiento"
+  },
+  {
+    "id": "d157",
+    "difficulty": "dificil",
+    "clue": "Condimento; Sal, perdido en salto, sin llamar la atención. (3)",
+    "answer": "SAL",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Condimento",
+    "fodder": "sal",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "SAL aparece oculto en salto.",
+    "_def": "Sal"
+  },
+  {
+    "id": "d158",
+    "difficulty": "muy-dificil",
+    "clue": "Representación geográfica; mata cambia una letra: t por p. (4)",
+    "answer": "MAPA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Representación geográfica",
+    "fodder": "MATA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "MATA cambia T por P = MAPA.",
+    "_def": "Representación de un territorio"
+  },
+  {
+    "id": "d159",
+    "difficulty": "muy-dificil",
+    "clue": "Vehículo de dos ruedas; cada Alguien resulta rápido en todo Ahora, de entrada, dicen más de lo que parece. (7)",
+    "answer": "CARRETA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Vehículo de dos ruedas",
+    "fodder": "cada Alguien resulta rápido en todo Ahora",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «cada Alguien resulta rápido en todo Ahora» forman CARRETA.",
+    "_def": "Vehículo tirado por animales"
+  },
+  {
+    "id": "d160",
+    "difficulty": "experto",
+    "clue": "Pieza para ejercitarse; PESAS queda sin S antes de seguir. (4)",
+    "answer": "PESA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Pieza para ejercitarse",
+    "fodder": "PESAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de PESAS para obtener PESA.",
+    "_def": "Objeto usado para medir masa"
+  },
+  {
+    "id": "d161",
+    "difficulty": "experto",
+    "clue": "Parte de un conjunto, perdido en sectorial, sin llamar la atención. (6)",
+    "answer": "SECTOR",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Parte de un conjunto",
+    "fodder": "sector",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "SECTOR aparece oculto en sectorial.",
+    "_def": "Parte de un conjunto"
+  },
+  {
+    "id": "d162",
+    "difficulty": "experto",
+    "clue": "Parte lateral de una embarcación; baja observa revisa desde observa, de entrada, dicen más de lo que parece. (5)",
+    "answer": "BORDO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Parte lateral de una embarcación",
+    "fodder": "baja observa revisa desde observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «baja observa revisa desde observa» forman BORDO.",
+    "_def": "Parte interior de una embarcación"
+  },
+  {
+    "id": "d163",
+    "difficulty": "muy-dificil",
+    "clue": "Materia de granos finos; Alguien recuerda esa no Ahora, de entrada, dicen más de lo que parece. (5)",
+    "answer": "ARENA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Materia de granos finos",
+    "fodder": "Alguien recuerda esa no Ahora",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Alguien recuerda esa no Ahora» forman ARENA.",
+    "_def": "Grano de roca suelto"
+  },
+  {
+    "id": "d164",
+    "difficulty": "dificil",
+    "clue": "Lugar donde se aprende; en solo como usa esa la Apenas, de entrada, dicen más de lo que parece. (7)",
+    "answer": "ESCUELA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Lugar donde se aprende",
+    "fodder": "en solo como usa esa la Apenas",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «en solo como usa esa la Apenas» forman ESCUELA.",
+    "_def": "Escuela"
+  },
+  {
+    "id": "d165",
+    "difficulty": "muy-dificil",
+    "clue": "Conjunto de flores: roma perdió el rumbo antes de llegar. (4)",
+    "answer": "RAMO",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Conjunto de flores",
+    "fodder": "roma",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de ROMA = RAMO.",
+    "_def": "Conjunto de flores"
+  },
+  {
+    "id": "d166",
+    "difficulty": "experto",
+    "clue": "Pared resistente; muy usa recuerda obviamente, de entrada, dicen más de lo que parece. (4)",
+    "answer": "MURO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Pared resistente",
+    "fodder": "muy usa recuerda obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «muy usa recuerda obviamente» forman MURO.",
+    "_def": "Pared gruesa"
+  },
+  {
+    "id": "d167",
+    "difficulty": "experto",
+    "clue": "Discusión de ideas; durante el breve Alguien todo en, de entrada, dicen más de lo que parece. (6)",
+    "answer": "DEBATE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Discusión de ideas",
+    "fodder": "durante el breve Alguien todo en",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «durante el breve Alguien todo en» forman DEBATE.",
+    "_def": "Discusión"
+  },
+  {
+    "id": "d168",
+    "difficulty": "muy-dificil",
+    "clue": "Elevación pequeña del terreno; como en rápido recuerda obviamente, de entrada, dicen más de lo que parece. (5)",
+    "answer": "CERRO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Elevación pequeña del terreno",
+    "fodder": "como en rápido recuerda obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «como en rápido recuerda obviamente» forman CERRO.",
+    "_def": "Elevación del terreno"
+  },
+  {
+    "id": "d169",
+    "difficulty": "experto",
+    "clue": "Entonación particular; Apenas como en nadie tras otro, de entrada, dicen más de lo que parece. (6)",
+    "answer": "ACENTO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Entonación particular",
+    "fodder": "Apenas como en nadie tras otro",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Apenas como en nadie tras otro» forman ACENTO.",
+    "_def": "Rasgo de pronunciación"
+  },
+  {
+    "id": "d170",
+    "difficulty": "muy-dificil",
+    "clue": "Argumento de una obra; Enredo o argumento, perdido en tramado, sin llamar la atención. (5)",
+    "answer": "TRAMA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Argumento de una obra",
+    "fodder": "trama",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "TRAMA aparece oculto en tramado.",
+    "_def": "Enredo o argumento"
+  },
+  {
+    "id": "d171",
+    "difficulty": "muy-dificil",
+    "clue": "Fuerza para mover algo; empujes queda sin s antes de seguir. (6)",
+    "answer": "EMPUJE",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Fuerza para mover algo",
+    "fodder": "empujes",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de EMPUJES para obtener EMPUJE.",
+    "_def": "Fuerza que hace avanzar"
+  },
+  {
+    "id": "d172",
+    "difficulty": "experto",
+    "clue": "Vía urbana; con Ana le la el, de entrada, dicen más de lo que parece. (5)",
+    "answer": "CALLE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Vía urbana",
+    "fodder": "con Ana le la el",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «con Ana le la el» forman CALLE.",
+    "_def": "Vía urbana"
+  },
+  {
+    "id": "d173",
+    "difficulty": "muy-dificil",
+    "clue": "Conjunto de acciones organizadas; campañas queda sin s antes de seguir. (7)",
+    "answer": "CAMPAÑA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Conjunto de acciones organizadas",
+    "fodder": "campañas",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de CAMPAÑAS para obtener CAMPAÑA.",
+    "_def": "Conjunto organizado de acciones"
+  },
+  {
+    "id": "d174",
+    "difficulty": "dificil",
+    "clue": "Conducto de agua: ancla perdió el rumbo antes de llegar. (5)",
+    "answer": "CANAL",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Conducto de agua",
+    "fodder": "ancla",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de ANCLA = CANAL.",
+    "_def": "Conducto de agua"
+  },
+  {
+    "id": "d175",
+    "difficulty": "experto",
+    "clue": "Llegada a tierra; donde el solo esa mientras buen Apenas resulta cierra obviamente, de entrada, dicen más de lo que parece. (10)",
+    "answer": "DESEMBARCO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Llegada a tierra",
+    "fodder": "donde el solo esa mientras buen Apenas resulta cierra obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «donde el solo esa mientras buen Apenas resulta cierra obviamente» forman DESEMBARCO.",
+    "_def": "Llegada a tierra"
+  },
+  {
+    "id": "d176",
+    "difficulty": "experto",
+    "clue": "Marca estampada; sillo cambia una letra: i por e. (5)",
+    "answer": "SELLO",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Marca estampada",
+    "fodder": "SILLO",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "SILLO cambia I por E = SELLO.",
+    "_def": "Marca o pequeña estampa"
+  },
+  {
+    "id": "d177",
+    "difficulty": "experto",
+    "clue": "Lugar donde paran trenes; entre solo tal Ana casi indica obviamente nos, de entrada, dicen más de lo que parece. (8)",
+    "answer": "ESTACION",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Lugar donde paran trenes",
+    "fodder": "entre solo tal Ana casi indica obviamente nos",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «entre solo tal Ana casi indica obviamente nos» forman ESTACION.",
+    "_def": "Lugar de parada o periodo del año"
+  },
+  {
+    "id": "d178",
+    "difficulty": "dificil",
+    "clue": "Lugar al que se dirige alguien: sentido perdió el rumbo antes de llegar. (7)",
+    "answer": "DESTINO",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Lugar al que se dirige alguien",
+    "fodder": "sentido",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de SENTIDO = DESTINO.",
+    "_def": "Lugar al que se llega"
+  },
+  {
+    "id": "d179",
+    "difficulty": "experto",
+    "clue": "Dulce de azúcar; cada Apenas rápido Ayer mañana el los observa, de entrada, dicen más de lo que parece. (8)",
+    "answer": "CARAMELO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Dulce de azúcar",
+    "fodder": "cada Apenas rápido Ayer mañana el los observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «cada Apenas rápido Ayer mañana el los observa» forman CARAMELO.",
+    "_def": "Dulce"
+  },
+  {
+    "id": "d180",
+    "difficulty": "dificil",
+    "clue": "De sabor áspero; Apenas mientras Ahora recuerda guarda obviamente, de entrada, dicen más de lo que parece. (6)",
+    "answer": "AMARGO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "De sabor áspero",
+    "fodder": "Apenas mientras Ahora recuerda guarda obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Apenas mientras Ahora recuerda guarda obviamente» forman AMARGO.",
+    "_def": "Amargo"
+  },
+  {
+    "id": "d181",
+    "difficulty": "experto",
+    "clue": "Fuente de luz; finalmente otro cada otra, de entrada, dicen más de lo que parece. (4)",
+    "answer": "FOCO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Fuente de luz",
+    "fodder": "finalmente otro cada otra",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «finalmente otro cada otra» forman FOCO.",
+    "_def": "Punto de luz o atención"
+  },
+  {
+    "id": "d182",
+    "difficulty": "muy-dificil",
+    "clue": "Sufrimiento físico; color cambia una letra: c por d. (5)",
+    "answer": "DOLOR",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Sufrimiento físico",
+    "fodder": "COLOR",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "COLOR cambia C por D = DOLOR.",
+    "_def": "Molestia física"
+  },
+  {
+    "id": "d183",
+    "difficulty": "dificil",
+    "clue": "Proyectil con punta; Finalmente Lucas entregó cartas hacia arriba, de entrada, dejan la respuesta escondida. (6)",
+    "answer": "FLECHA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Proyectil con punta",
+    "fodder": "Finalmente Lucas entregó cartas hacia arriba",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las iniciales de «Finalmente Lucas entregó cartas hacia arriba» forman FLECHA.",
+    "_def": "Proyectil con punta"
+  },
+  {
+    "id": "d184",
+    "difficulty": "experto",
+    "clue": "Obra pictórica; Cuando una artista decide, recorta originales, de entrada, dejan la respuesta escondida. (6)",
+    "answer": "CUADRO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Obra pictórica",
+    "fodder": "Cuando una artista decide, recorta originales",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las iniciales de «Cuando una artista decide, recorta originales» forman CUADRO.",
+    "_def": "Obra pictórica o conjunto"
+  },
+  {
+    "id": "d185",
+    "difficulty": "experto",
+    "clue": "Pequeña porción de líquido: toga perdió el orden antes de la escena. (4)",
+    "answer": "GOTA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Pequeña porción de líquido",
+    "fodder": "TOGA",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de TOGA = GOTA.",
+    "_def": "Porción muy pequeña de líquido"
+  },
+  {
+    "id": "d186",
+    "difficulty": "experto",
+    "clue": "Rúbrica personal; FIRMAS queda sin S antes de seguir. (5)",
+    "answer": "FIRMA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Rúbrica personal",
+    "fodder": "FIRMAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de FIRMAS para obtener FIRMA.",
+    "_def": "Rasgo escrito que identifica"
+  },
+  {
+    "id": "d187",
+    "difficulty": "muy-dificil",
+    "clue": "Parte del calzado: canto perdió el orden antes de la escena. (5)",
+    "answer": "TACON",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Parte del calzado",
+    "fodder": "CANTO",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de CANTO = TACON.",
+    "_def": "Parte elevada de un zapato"
+  },
+  {
+    "id": "d188",
+    "difficulty": "experto",
+    "clue": "Instrumento que mide el tiempo; revisa en luego obviamente junto, de entrada, dicen más de lo que parece. (5)",
+    "answer": "RELOJ",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Instrumento que mide el tiempo",
+    "fodder": "revisa en luego obviamente junto",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «revisa en luego obviamente junto» forman RELOJ.",
+    "_def": "Instrumento para medir el tiempo"
+  },
+  {
+    "id": "d189",
+    "difficulty": "dificil",
+    "clue": "Encima de; envoltorio; se cuela en sobre la mesa, sin llamar la atención. (5)",
+    "answer": "SOBRE",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Encima de",
+    "fodder": "SOBRE",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "SOBRE oculto en sobre la mesa.",
+    "_def": "Encima de; envoltorio"
+  },
+  {
+    "id": "d190",
+    "difficulty": "experto",
+    "clue": "La lleva un rey; como otra resulta otra nos Ahora, de entrada, dicen más de lo que parece. (6)",
+    "answer": "CORONA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "La lleva un rey",
+    "fodder": "como otra resulta otra nos Ahora",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «como otra resulta otra nos Ahora» forman CORONA.",
+    "_def": "Adorno circular de la cabeza"
+  },
+  {
+    "id": "d191",
+    "difficulty": "muy-dificil",
+    "clue": "Pendiente de un terreno; cuesta, abreviado, sta como estación, abreviada. (6)",
+    "answer": "CUESTA",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Pendiente de un terreno",
+    "fodder": "cuesta",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "CUE+STA=CUESTA",
+    "_def": "Pendiente"
+  },
+  {
+    "id": "d192",
+    "difficulty": "experto",
+    "clue": "Embarcación; Embarcación o nave espacial, perdido en navegante, sin llamar la atención. (4)",
+    "answer": "NAVE",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Embarcación",
+    "fodder": "nave",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "NAVE aparece oculto en navegante.",
+    "_def": "Embarcación o nave espacial"
+  },
+  {
+    "id": "d193",
+    "difficulty": "dificil",
+    "clue": "Que no es buena: alma perdió el orden antes de la escena. (4)",
+    "answer": "MALA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Que no es buena",
+    "fodder": "ALMA",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de ALMA = MALA.",
+    "_def": "Que no es buena"
+  },
+  {
+    "id": "d194",
+    "difficulty": "experto",
+    "clue": "Superficie que se pisa; pi, constante, so como sur-oeste, abreviado. (4)",
+    "answer": "PISO",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Superficie que se pisa",
+    "fodder": "pi",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "PI+SO=PISO",
+    "_def": "Suelo de una planta"
+  },
+  {
+    "id": "d195",
+    "difficulty": "muy-dificil",
+    "clue": "Recipiente con paredes; con Apenas juzga Ana, de entrada, dicen más de lo que parece. (4)",
+    "answer": "CAJA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Recipiente con paredes",
+    "fodder": "con Apenas juzga Ana",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «con Apenas juzga Ana» forman CAJA.",
+    "_def": "Caja"
+  },
+  {
+    "id": "d196",
+    "difficulty": "experto",
+    "clue": "Acción de salvar; resulta entre sin como Alguien también el, de entrada, dicen más de lo que parece. (7)",
+    "answer": "RESCATE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Acción de salvar",
+    "fodder": "resulta entre sin como Alguien también el",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «resulta entre sin como Alguien también el» forman RESCATE.",
+    "_def": "Acción de salvar"
+  },
+  {
+    "id": "d197",
+    "difficulty": "dificil",
+    "clue": "Marca dejada al pisar; huellas queda sin s antes de seguir. (6)",
+    "answer": "HUELLA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Marca dejada al pisar",
+    "fodder": "huellas",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de HUELLAS para obtener HUELLA.",
+    "_def": "Rastro dejado al pasar"
+  },
+  {
+    "id": "d198",
+    "difficulty": "experto",
+    "clue": "Puede interrumpir una llamada; cierra otra revisa tal el, de entrada, dicen más de lo que parece. (5)",
+    "answer": "CORTE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Puede interrumpir una llamada",
+    "fodder": "cierra otra revisa tal el",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «cierra otra revisa tal el» forman CORTE.",
+    "_def": "Sección o interrupción"
+  },
+  {
+    "id": "d199",
+    "difficulty": "muy-dificil",
+    "clue": "Acuerdo con obligaciones; se cuela en contrato, sin llamar la atención. (8)",
+    "answer": "CONTRATO",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Acuerdo con obligaciones",
+    "fodder": "CONTRATO",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "CONTRATO oculto en contrato.",
+    "_def": "Acuerdo legal"
+  },
+  {
+    "id": "d200",
+    "difficulty": "experto",
+    "clue": "Aro que se lleva en un dedo; Ahora nos indica le la otro, de entrada, dicen más de lo que parece. (6)",
+    "answer": "ANILLO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Aro que se lleva en un dedo",
+    "fodder": "Ahora nos indica le la otro",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Ahora nos indica le la otro» forman ANILLO.",
+    "_def": "Aro"
+  },
+  {
+    "id": "d201",
+    "difficulty": "experto",
+    "clue": "Flor; se cuela en la rosa del jardín, sin llamar la atención. (4)",
+    "answer": "ROSA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Flor",
+    "fodder": "ROSA",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "ROSA aparece oculto en «la rosa del jardín».",
+    "_def": "Flor"
+  },
+  {
+    "id": "d202",
+    "difficulty": "muy-dificil",
+    "clue": "Parte posterior; COLAS queda sin S antes de seguir. (4)",
+    "answer": "COLA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Parte posterior",
+    "fodder": "COLAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de COLAS para obtener COLA.",
+    "_def": "Parte posterior"
+  },
+  {
+    "id": "d203",
+    "difficulty": "experto",
+    "clue": "Protección para la cabeza; CASCOS queda sin S antes de seguir. (5)",
+    "answer": "CASCO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Protección para la cabeza",
+    "fodder": "CASCOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de CASCOS para obtener CASCO.",
+    "_def": "Protección para la cabeza"
+  },
+  {
+    "id": "d204",
+    "difficulty": "experto",
+    "clue": "Golpe dado con fuerza; Ayer zurdo otro tal el, de entrada, dicen más de lo que parece. (5)",
+    "answer": "AZOTE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Golpe dado con fuerza",
+    "fodder": "Ayer zurdo otro tal el",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Ayer zurdo otro tal el» forman AZOTE.",
+    "_def": "Golpe fuerte"
+  },
+  {
+    "id": "d205",
+    "difficulty": "experto",
+    "clue": "Palabra que identifica; nos obviamente mira busca rápido en, de entrada, dicen más de lo que parece. (6)",
+    "answer": "NOMBRE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Palabra que identifica",
+    "fodder": "nos obviamente mira busca rápido en",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «nos obviamente mira busca rápido en» forman NOMBRE.",
+    "_def": "Palabra que designa"
+  },
+  {
+    "id": "d206",
+    "difficulty": "muy-dificil",
+    "clue": "Parte de una planta; revisa Ayer intenta zanja, de entrada, dicen más de lo que parece. (4)",
+    "answer": "RAIZ",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Parte de una planta",
+    "fodder": "revisa Ayer intenta zanja",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «revisa Ayer intenta zanja» forman RAIZ.",
+    "_def": "Parte de la planta bajo tierra"
+  },
+  {
+    "id": "d207",
+    "difficulty": "experto",
+    "clue": "Magnitud obtenida al medir; mira el desde intenta de Ayer, de entrada, dicen más de lo que parece. (6)",
+    "answer": "MEDIDA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Magnitud obtenida al medir",
+    "fodder": "mira el desde intenta de Ayer",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «mira el desde intenta de Ayer» forman MEDIDA.",
+    "_def": "Cantidad expresada mediante una unidad"
+  },
+  {
+    "id": "d208",
+    "difficulty": "muy-dificil",
+    "clue": "Embarcación; BARCOS queda sin S antes de seguir. (5)",
+    "answer": "BARCO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Embarcación",
+    "fodder": "BARCOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de BARCOS para obtener BARCO.",
+    "_def": "Embarcación"
+  },
+  {
+    "id": "d209",
+    "difficulty": "dificil",
+    "clue": "Capital italiana; AMOR vuelve sobre sus pasos. (4)",
+    "answer": "ROMA",
+    "mechanisms": [
+      "reversal"
+    ],
+    "definition": "Capital italiana",
+    "fodder": "AMOR",
+    "indicators": [
+      "vuelve sobre sus pasos"
+    ],
+    "explanation": "AMOR al revés = ROMA.",
+    "_def": "Capital del Lacio"
+  },
+  {
+    "id": "d210",
+    "difficulty": "experto",
+    "clue": "Persona que acompaña; casi observa mañana primero Apenas nadie esa revisa otro, de entrada, dicen más de lo que parece. (9)",
+    "answer": "COMPANERO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Persona que acompaña",
+    "fodder": "casi observa mañana primero Apenas nadie esa revisa otro",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «casi observa mañana primero Apenas nadie esa revisa otro» forman COMPANERO.",
+    "_def": "Persona que acompaña"
+  },
+  {
+    "id": "d211",
+    "difficulty": "muy-dificil",
+    "clue": "Línea que no es recta; CURVAS queda sin S antes de seguir. (5)",
+    "answer": "CURVA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Línea que no es recta",
+    "fodder": "CURVAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de CURVAS para obtener CURVA.",
+    "_def": "Línea que no es recta"
+  },
+  {
+    "id": "d212",
+    "difficulty": "dificil",
+    "clue": "Señal gráfica redonda; punta cambia una letra: a por o. (5)",
+    "answer": "PUNTO",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Señal gráfica redonda",
+    "fodder": "PUNTA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "PUNTA cambia A por O = PUNTO.",
+    "_def": "Lugar exacto"
+  },
+  {
+    "id": "d213",
+    "difficulty": "dificil",
+    "clue": "Sucesión de peldaños; entre sin con Ahora luego el rápido Ana, de entrada, dicen más de lo que parece. (8)",
+    "answer": "ESCALERA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Sucesión de peldaños",
+    "fodder": "entre sin con Ahora luego el rápido Ana",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «entre sin con Ahora luego el rápido Ana» forman ESCALERA.",
+    "_def": "Sucesión de peldaños"
+  },
+  {
+    "id": "d214",
+    "difficulty": "experto",
+    "clue": "Parte más alta; cien, abreviado, ma como madre, abreviada. (4)",
+    "answer": "CIMA",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Parte más alta",
+    "fodder": "cien",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "CI+MA=CIMA",
+    "_def": "Parte más alta"
+  },
+  {
+    "id": "d215",
+    "difficulty": "dificil",
+    "clue": "Roedor; rta abraza a a. (4)",
+    "answer": "RATA",
+    "mechanisms": [
+      "container"
+    ],
+    "definition": "Roedor",
+    "fodder": "A",
+    "indicators": [
+      "abraza"
+    ],
+    "explanation": "A dentro de RTA = RATA.",
+    "_def": "Rata"
+  },
+  {
+    "id": "d216",
+    "difficulty": "muy-dificil",
+    "clue": "Mujer distinguida; gama cambia una letra: g por d. (4)",
+    "answer": "DAMA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Mujer distinguida",
+    "fodder": "GAMA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "GAMA cambia G por D = DAMA.",
+    "_def": "Mujer distinguida"
+  },
+  {
+    "id": "d217",
+    "difficulty": "muy-dificil",
+    "clue": "Objeto para guardar documentos; casi Ana resulta primero esa tras Ayer, de entrada, dicen más de lo que parece. (7)",
+    "answer": "CARPETA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Objeto para guardar documentos",
+    "fodder": "casi Ana resulta primero esa tras Ayer",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «casi Ana resulta primero esa tras Ayer» forman CARPETA.",
+    "_def": "Objeto para guardar papeles"
+  },
+  {
+    "id": "d218",
+    "difficulty": "muy-dificil",
+    "clue": "Extremo de algo; casa, abreviada, bo como buque, abreviado. (4)",
+    "answer": "CABO",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Extremo de algo",
+    "fodder": "casa",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "CA+BO=CABO",
+    "_def": "Extremo o jefe intermedio"
+  },
+  {
+    "id": "d219",
+    "difficulty": "muy-dificil",
+    "clue": "Sin asperezas: isla perdió el rumbo antes de llegar. (4)",
+    "answer": "LISA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Sin asperezas",
+    "fodder": "isla",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de ISLA = LISA.",
+    "_def": "Lisa"
+  },
+  {
+    "id": "d220",
+    "difficulty": "muy-dificil",
+    "clue": "Descarga eléctrica atmosférica; rayos queda sin s antes de seguir. (4)",
+    "answer": "RAYO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Descarga eléctrica atmosférica",
+    "fodder": "rayos",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de RAYOS para obtener RAYO.",
+    "_def": "Descarga luminosa"
+  },
+  {
+    "id": "d221",
+    "difficulty": "experto",
+    "clue": "Habitación amplia; sal, on como encendido, en inglés. (5)",
+    "answer": "SALON",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Habitación amplia",
+    "fodder": "sal",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "SAL+ON=SALON",
+    "_def": "Habitación amplia"
+  },
+  {
+    "id": "d222",
+    "difficulty": "experto",
+    "clue": "Borde de una página; Mientras alguien revisaba, ganó espacio, naturalmente, de entrada, dejan la respuesta escondida. (6)",
+    "answer": "MARGEN",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Borde de una página",
+    "fodder": "Mientras alguien revisaba, ganó espacio, naturalmente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las iniciales de «Mientras alguien revisaba, ganó espacio, naturalmente» forman MARGEN.",
+    "_def": "Borde o espacio lateral"
+  },
+  {
+    "id": "d223",
+    "difficulty": "experto",
+    "clue": "Aspecto exterior; por imagina nos también Ana, de entrada, dicen más de lo que parece. (5)",
+    "answer": "PINTA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Aspecto exterior",
+    "fodder": "por imagina nos también Ana",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «por imagina nos también Ana» forman PINTA.",
+    "_def": "Aspecto exterior"
+  },
+  {
+    "id": "d224",
+    "difficulty": "muy-dificil",
+    "clue": "Movimiento hacia delante; Ana varias Ana nos cierra esa, de entrada, dicen más de lo que parece. (6)",
+    "answer": "AVANCE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Movimiento hacia delante",
+    "fodder": "Ana varias Ana nos cierra esa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Ana varias Ana nos cierra esa» forman AVANCE.",
+    "_def": "Progreso"
+  },
+  {
+    "id": "d225",
+    "difficulty": "experto",
+    "clue": "Parte dura del esqueleto; Hoy una enfermera salió observando, de entrada, dejan la respuesta escondida. (5)",
+    "answer": "HUESO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Parte dura del esqueleto",
+    "fodder": "Hoy una enfermera salió observando",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las iniciales de «Hoy una enfermera salió observando» forman HUESO.",
+    "_def": "Parte dura del esqueleto"
+  },
+  {
+    "id": "d226",
+    "difficulty": "experto",
+    "clue": "Masa de agua interior; LARGO queda sin O antes de seguir. (4)",
+    "answer": "LAGO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Masa de agua interior",
+    "fodder": "LARGO",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de LARGO para obtener LAGO.",
+    "_def": "Masa de agua interior"
+  },
+  {
+    "id": "d227",
+    "difficulty": "muy-dificil",
+    "clue": "Lo que cubre el rostro; mira Alguien siempre casi Ayer rápido Apenas, de entrada, dicen más de lo que parece. (7)",
+    "answer": "MASCARA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Lo que cubre el rostro",
+    "fodder": "mira Alguien siempre casi Ayer rápido Apenas",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «mira Alguien siempre casi Ayer rápido Apenas» forman MASCARA.",
+    "_def": "Objeto que cubre el rostro"
+  },
+  {
+    "id": "d228",
+    "difficulty": "experto",
+    "clue": "Modifica algo; casi Ahora muy baja indica Apenas, de entrada, dicen más de lo que parece. (6)",
+    "answer": "CAMBIA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Modifica algo",
+    "fodder": "casi Ahora muy baja indica Apenas",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «casi Ahora muy baja indica Apenas» forman CAMBIA.",
+    "_def": "Modifica"
+  },
+  {
+    "id": "d229",
+    "difficulty": "dificil",
+    "clue": "Alegría sonora; ASIR vuelve sobre sus pasos. (4)",
+    "answer": "RISA",
+    "mechanisms": [
+      "reversal"
+    ],
+    "definition": "Alegría sonora",
+    "fodder": "ASIR",
+    "indicators": [
+      "vuelve sobre sus pasos"
+    ],
+    "explanation": "ASIR al revés = RISA.",
+    "_def": "Risa"
+  },
+  {
+    "id": "d230",
+    "difficulty": "experto",
+    "clue": "Grupo de alumnos; clave cambia una letra: v por s. (5)",
+    "answer": "CLASE",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Grupo de alumnos",
+    "fodder": "CLAVE",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "CLAVE cambia V por S = CLASE.",
+    "_def": "Grupo de alumnos o categoría"
+  },
+  {
+    "id": "d231",
+    "difficulty": "experto",
+    "clue": "Espacio sobre nuestras cabezas; CIELOS queda sin S antes de seguir. (5)",
+    "answer": "CIELO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Espacio sobre nuestras cabezas",
+    "fodder": "CIELOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de CIELOS para obtener CIELO.",
+    "_def": "Espacio sobre nuestras cabezas"
+  },
+  {
+    "id": "d232",
+    "difficulty": "experto",
+    "clue": "Número de ejemplares impresos; tal indica resulta Ayer desde Alguien, de entrada, dicen más de lo que parece. (6)",
+    "answer": "TIRADA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Número de ejemplares impresos",
+    "fodder": "tal indica resulta Ayer desde Alguien",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «tal indica resulta Ayer desde Alguien» forman TIRADA.",
+    "_def": "Conjunto de ejemplares impresos"
+  },
+  {
+    "id": "d233",
+    "difficulty": "experto",
+    "clue": "Puede llevar compras; bajo obviamente luego sin Ayer, de entrada, dicen más de lo que parece. (5)",
+    "answer": "BOLSA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Puede llevar compras",
+    "fodder": "bajo obviamente luego sin Ayer",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «bajo obviamente luego sin Ayer» forman BOLSA.",
+    "_def": "Recipiente flexible"
+  },
+  {
+    "id": "d234",
+    "difficulty": "muy-dificil",
+    "clue": "Asiento de un monarca: torno perdió el orden antes de la escena. (5)",
+    "answer": "TRONO",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Asiento de un monarca",
+    "fodder": "TORNO",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de TORNO = TRONO.",
+    "_def": "Asiento de un monarca"
+  },
+  {
+    "id": "d235",
+    "difficulty": "experto",
+    "clue": "Construcción elevada; Construcción alta, perdido en torreón, sin llamar la atención. (5)",
+    "answer": "TORRE",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Construcción elevada",
+    "fodder": "torre",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "TORRE aparece oculto en torreón.",
+    "_def": "Construcción alta"
+  },
+  {
+    "id": "d236",
+    "difficulty": "dificil",
+    "clue": "Representación a escala; pleno cambia una letra: e por a. (5)",
+    "answer": "PLANO",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Representación a escala",
+    "fodder": "PLENO",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "PLENO cambia E por A = PLANO.",
+    "_def": "Sin relieve"
+  },
+  {
+    "id": "d237",
+    "difficulty": "experto",
+    "clue": "Puede ocultar al protagonista; primero Apenas nunca todo Alguien le luego Ahora, de entrada, dicen más de lo que parece. (8)",
+    "answer": "PANTALLA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Puede ocultar al protagonista",
+    "fodder": "primero Apenas nunca todo Alguien le luego Ahora",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «primero Apenas nunca todo Alguien le luego Ahora» forman PANTALLA.",
+    "_def": "Superficie donde se muestra algo"
+  },
+  {
+    "id": "d238",
+    "difficulty": "dificil",
+    "clue": "Acción de encajar; en nunca cierra Ana junto entre, de entrada, dicen más de lo que parece. (6)",
+    "answer": "ENCAJE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Acción de encajar",
+    "fodder": "en nunca cierra Ana junto entre",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «en nunca cierra Ana junto entre» forman ENCAJE.",
+    "_def": "Tejido ornamental"
+  },
+  {
+    "id": "d239",
+    "difficulty": "muy-dificil",
+    "clue": "Separación entre dos puntos; donde indica solo todo Ayer no cada Inés Ayer, de entrada, dicen más de lo que parece. (9)",
+    "answer": "DISTANCIA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Separación entre dos puntos",
+    "fodder": "donde indica solo todo Ayer no cada Inés Ayer",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «donde indica solo todo Ayer no cada Inés Ayer» forman DISTANCIA.",
+    "_def": "Espacio entre dos puntos"
+  },
+  {
+    "id": "d240",
+    "difficulty": "dificil",
+    "clue": "Órgano de la visión; Ojo, perdido en ojota, sin llamar la atención. (3)",
+    "answer": "OJO",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Órgano de la visión",
+    "fodder": "ojo",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "OJO aparece oculto en ojota.",
+    "_def": "Ojo"
+  },
+  {
+    "id": "d241",
+    "difficulty": "muy-dificil",
+    "clue": "Fija el barco: canal perdió el rumbo antes de llegar. (5)",
+    "answer": "ANCLA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Fija el barco",
+    "fodder": "canal",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de CANAL = ANCLA.",
+    "_def": "Pieza que sujeta una embarcación"
+  },
+  {
+    "id": "d242",
+    "difficulty": "experto",
+    "clue": "Defensa protectora; en sin con usted donde observa, de entrada, dicen más de lo que parece. (6)",
+    "answer": "ESCUDO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Defensa protectora",
+    "fodder": "en sin con usted donde observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «en sin con usted donde observa» forman ESCUDO.",
+    "_def": "Emblema protector"
+  },
+  {
+    "id": "d243",
+    "difficulty": "muy-dificil",
+    "clue": "Pieza que cubre: pata perdió el rumbo antes de llegar. (4)",
+    "answer": "TAPA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Pieza que cubre",
+    "fodder": "pata",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de PATA = TAPA.",
+    "_def": "Cubierta de un recipiente"
+  },
+  {
+    "id": "d244",
+    "difficulty": "experto",
+    "clue": "Pieza alargada, perdido en barranco, sin llamar la atención. (5)",
+    "answer": "BARRA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Pieza alargada",
+    "fodder": "barra",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "BARRA aparece oculto en barranco.",
+    "_def": "Pieza alargada"
+  },
+  {
+    "id": "d245",
+    "difficulty": "experto",
+    "clue": "Acción de montar; mira otra nadie también Ana jamás esa, de entrada, dicen más de lo que parece. (7)",
+    "answer": "MONTAJE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Acción de montar",
+    "fodder": "mira otra nadie también Ana jamás esa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «mira otra nadie también Ana jamás esa» forman MONTAJE.",
+    "_def": "Proceso de ensamblar"
+  },
+  {
+    "id": "d246",
+    "difficulty": "muy-dificil",
+    "clue": "Recorrido cerrado; casi imagina resulta con una intenta tal otra, de entrada, dicen más de lo que parece. (8)",
+    "answer": "CIRCUITO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Recorrido cerrado",
+    "fodder": "casi imagina resulta con una intenta tal otra",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «casi imagina resulta con una intenta tal otra» forman CIRCUITO.",
+    "_def": "Recorrido cerrado de corriente o movimiento"
+  },
+  {
+    "id": "d247",
+    "difficulty": "dificil",
+    "clue": "Gran extensión salada; Mar, perdido en comarca, sin llamar la atención. (3)",
+    "answer": "MAR",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Gran extensión salada",
+    "fodder": "mar",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "MAR aparece oculto en comarca.",
+    "_def": "Mar"
+  },
+  {
+    "id": "d248",
+    "difficulty": "experto",
+    "clue": "Primate; mira otro no otro, de entrada, dicen más de lo que parece. (4)",
+    "answer": "MONO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Primate",
+    "fodder": "mira otro no otro",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «mira otro no otro» forman MONO.",
+    "_def": "Animal primate o prenda"
+  },
+  {
+    "id": "d249",
+    "difficulty": "experto",
+    "clue": "Espacio de entrada de un edificio; Ana tal resulta intenta otra, de entrada, dicen más de lo que parece. (5)",
+    "answer": "ATRIO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Espacio de entrada de un edificio",
+    "fodder": "Ana tal resulta intenta otra",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Ana tal resulta intenta otra» forman ATRIO.",
+    "_def": "Espacio previo a un edificio"
+  },
+  {
+    "id": "d250",
+    "difficulty": "muy-dificil",
+    "clue": "Lo esperas en una fila; turista, abreviado, no como negación. (5)",
+    "answer": "TURNO",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Lo esperas en una fila",
+    "fodder": "turista",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "TUR+NO=TURNO",
+    "_def": "Orden de intervención"
+  },
+  {
+    "id": "d251",
+    "difficulty": "experto",
+    "clue": "Superficie que se pisa; sobre usted en la observa, de entrada, dicen más de lo que parece. (5)",
+    "answer": "SUELO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Superficie que se pisa",
+    "fodder": "sobre usted en la observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «sobre usted en la observa» forman SUELO.",
+    "_def": "Superficie que pisamos"
+  },
+  {
+    "id": "d252",
+    "difficulty": "muy-dificil",
+    "clue": "Disminución de un dolor; alivios queda sin s antes de seguir. (6)",
+    "answer": "ALIVIO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Disminución de un dolor",
+    "fodder": "alivios",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de ALIVIOS para obtener ALIVIO.",
+    "_def": "Sensación de descanso"
+  },
+  {
+    "id": "d253",
+    "difficulty": "dificil",
+    "clue": "Material para confeccionar ropa; Tela, perdido en estela, sin llamar la atención. (4)",
+    "answer": "TELA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Material para confeccionar ropa",
+    "fodder": "tela",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "TELA aparece oculto en estela.",
+    "_def": "Tela"
+  },
+  {
+    "id": "d254",
+    "difficulty": "experto",
+    "clue": "Pieza que gira y produce impulso; hace entre la intenta casi esa, de entrada, dicen más de lo que parece. (6)",
+    "answer": "HELICE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Pieza que gira y produce impulso",
+    "fodder": "hace entre la intenta casi esa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «hace entre la intenta casi esa» forman HELICE.",
+    "_def": "Elemento que gira para propulsar"
+  },
+  {
+    "id": "d255",
+    "difficulty": "dificil",
+    "clue": "Acción de elevarse del suelo; SALTOS queda sin S antes de seguir. (5)",
+    "answer": "SALTO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Acción de elevarse del suelo",
+    "fodder": "SALTOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de SALTOS para obtener SALTO.",
+    "_def": "Brinco"
+  },
+  {
+    "id": "d256",
+    "difficulty": "experto",
+    "clue": "Recinto para animales; como otra recuerda rápido Ayer luego, de entrada, dicen más de lo que parece. (6)",
+    "answer": "CORRAL",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Recinto para animales",
+    "fodder": "como otra recuerda rápido Ayer luego",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «como otra recuerda rápido Ayer luego» forman CORRAL.",
+    "_def": "Recinto para animales"
+  },
+  {
+    "id": "d257",
+    "difficulty": "experto",
+    "clue": "Representación resumida; entre solo quizá una entre mientras Ana, de entrada, dicen más de lo que parece. (7)",
+    "answer": "ESQUEMA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Representación resumida",
+    "fodder": "entre solo quizá una entre mientras Ana",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «entre solo quizá una entre mientras Ana» forman ESQUEMA.",
+    "_def": "Representación simplificada"
+  },
+  {
+    "id": "d258",
+    "difficulty": "experto",
+    "clue": "Representación visual; se cuela en la imagen quedó nítida, sin llamar la atención. (6)",
+    "answer": "IMAGEN",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Representación visual",
+    "fodder": "IMAGEN",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "IMAGEN aparece oculto en «la imagen quedó nítida».",
+    "_def": "Representación visual"
+  },
+  {
+    "id": "d259",
+    "difficulty": "experto",
+    "clue": "Extremo de un eje; palo cambia una letra: a por o. (4)",
+    "answer": "POLO",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Extremo de un eje",
+    "fodder": "PALO",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "PALO cambia A por O = POLO.",
+    "_def": "Extremo de un eje o prenda"
+  },
+  {
+    "id": "d260",
+    "difficulty": "experto",
+    "clue": "Cuerpo celeste; Ahora sobre todo recuerda observa, de entrada, dicen más de lo que parece. (5)",
+    "answer": "ASTRO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Cuerpo celeste",
+    "fodder": "Ahora sobre todo recuerda observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Ahora sobre todo recuerda observa» forman ASTRO.",
+    "_def": "Cuerpo celeste"
+  },
+  {
+    "id": "d261",
+    "difficulty": "experto",
+    "clue": "Cubo de juego; dato cambia una letra: t por d. (4)",
+    "answer": "DADO",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Cubo de juego",
+    "fodder": "DATO",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "DATO cambia T por D = DADO.",
+    "_def": "Cubo para juegos"
+  },
+  {
+    "id": "d262",
+    "difficulty": "experto",
+    "clue": "Se abre en una pared; ve en nos todo Ana nadie Ayer, de entrada, dicen más de lo que parece. (7)",
+    "answer": "VENTANA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Se abre en una pared",
+    "fodder": "ve en nos todo Ana nadie Ayer",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «ve en nos todo Ana nadie Ayer» forman VENTANA.",
+    "_def": "Abertura con luz"
+  },
+  {
+    "id": "d263",
+    "difficulty": "muy-dificil",
+    "clue": "Establecimiento abierto al público; luego observa cada Ahora la, de entrada, dicen más de lo que parece. (5)",
+    "answer": "LOCAL",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Establecimiento abierto al público",
+    "fodder": "luego observa cada Ahora la",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «luego observa cada Ahora la» forman LOCAL.",
+    "_def": "Del lugar"
+  },
+  {
+    "id": "d264",
+    "difficulty": "experto",
+    "clue": "Borde de un río o mar; otro rápido Inés le la Ahora, de entrada, dicen más de lo que parece. (6)",
+    "answer": "ORILLA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Borde de un río o mar",
+    "fodder": "otro rápido Inés le la Ahora",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «otro rápido Inés le la Ahora» forman ORILLA.",
+    "_def": "Borde del agua o terreno"
+  },
+  {
+    "id": "d265",
+    "difficulty": "muy-dificil",
+    "clue": "Motivo de algo; CAUSAS queda sin S antes de seguir. (5)",
+    "answer": "CAUSA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Motivo de algo",
+    "fodder": "CAUSAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de CAUSAS para obtener CAUSA.",
+    "_def": "Motivo de un hecho"
+  },
+  {
+    "id": "d266",
+    "difficulty": "muy-dificil",
+    "clue": "Acción de disparar; disparos queda sin s antes de seguir. (7)",
+    "answer": "DISPARO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Acción de disparar",
+    "fodder": "disparos",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de DISPAROS para obtener DISPARO.",
+    "_def": "Acción de lanzar un proyectil"
+  },
+  {
+    "id": "d267",
+    "difficulty": "muy-dificil",
+    "clue": "Producto de una combustión; hasta usted mañana obviamente, de entrada, dicen más de lo que parece. (4)",
+    "answer": "HUMO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Producto de una combustión",
+    "fodder": "hasta usted mañana obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «hasta usted mañana obviamente» forman HUMO.",
+    "_def": "Producto gaseoso de una combustión"
+  },
+  {
+    "id": "d268",
+    "difficulty": "muy-dificil",
+    "clue": "Pieza de un juego; fue intenta cierra hace Ahora, de entrada, dicen más de lo que parece. (5)",
+    "answer": "FICHA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Pieza de un juego",
+    "fodder": "fue intenta cierra hace Ahora",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «fue intenta cierra hace Ahora» forman FICHA.",
+    "_def": "Pieza o registro pequeño"
+  },
+  {
+    "id": "d269",
+    "difficulty": "experto",
+    "clue": "Sacerdote; cuba cambia una letra: b por r. (4)",
+    "answer": "CURA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Sacerdote",
+    "fodder": "CUBA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "CUBA cambia B por R = CURA.",
+    "_def": "Sacerdote o remedio"
+  },
+  {
+    "id": "d270",
+    "difficulty": "experto",
+    "clue": "Puede tener curvas y asfalto; pero intenta siempre tal Alguien, de entrada, dicen más de lo que parece. (5)",
+    "answer": "PISTA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Puede tener curvas y asfalto",
+    "fodder": "pero intenta siempre tal Alguien",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «pero intenta siempre tal Alguien» forman PISTA.",
+    "_def": "Indicio o lugar de carrera"
+  },
+  {
+    "id": "d271",
+    "difficulty": "muy-dificil",
+    "clue": "Suelo; sierra cambia una letra: s por t. (6)",
+    "answer": "TIERRA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Suelo",
+    "fodder": "SIERRA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "SIERRA cambia S por T = TIERRA.",
+    "_def": "Suelo o planeta"
+  },
+  {
+    "id": "d272",
+    "difficulty": "muy-dificil",
+    "clue": "Parte de una prenda; MANGAS queda sin S antes de seguir. (5)",
+    "answer": "MANGA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Parte de una prenda",
+    "fodder": "MANGAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de MANGAS para obtener MANGA.",
+    "_def": "Parte de una prenda"
+  },
+  {
+    "id": "d273",
+    "difficulty": "muy-dificil",
+    "clue": "Pieza metálica para fijar; Pieza para unir mediante golpe, perdido en clavote, sin llamar la atención. (5)",
+    "answer": "CLAVO",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Pieza metálica para fijar",
+    "fodder": "clavo",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "CLAVO aparece oculto en clavote.",
+    "_def": "Pieza para unir mediante golpe"
+  },
+  {
+    "id": "d274",
+    "difficulty": "experto",
+    "clue": "Superficie de tierra; tal esa revisa resulta en nadie obviamente, de entrada, dicen más de lo que parece. (7)",
+    "answer": "TERRENO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Superficie de tierra",
+    "fodder": "tal esa revisa resulta en nadie obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «tal esa revisa resulta en nadie obviamente» forman TERRENO.",
+    "_def": "Superficie de tierra"
+  },
+  {
+    "id": "d275",
+    "difficulty": "dificil",
+    "clue": "Suena; can, perro, to como to, interjección. (5)",
+    "answer": "CANTO",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Suena",
+    "fodder": "can",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "CAN+TO=CANTO",
+    "_def": "Borde de una pieza"
+  },
+  {
+    "id": "d276",
+    "difficulty": "dificil",
+    "clue": "Parte puntiaguda; se cuela en el pequeño pico nevado, sin llamar la atención. (4)",
+    "answer": "PICO",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Parte puntiaguda",
+    "fodder": "PICO",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "PICO aparece oculto en «el pequeño pico nevado».",
+    "_def": "Punta aguda"
+  },
+  {
+    "id": "d277",
+    "difficulty": "experto",
+    "clue": "Contorno de una figura; por el revisa frente indica le, de entrada, dicen más de lo que parece. (6)",
+    "answer": "PERFIL",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Contorno de una figura",
+    "fodder": "por el revisa frente indica le",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «por el revisa frente indica le» forman PERFIL.",
+    "_def": "Contorno de una figura"
+  },
+  {
+    "id": "d278",
+    "difficulty": "dificil",
+    "clue": "Da entrada a una casa; Abertura de paso, perdido en puertazo, sin llamar la atención. (6)",
+    "answer": "PUERTA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Da entrada a una casa",
+    "fodder": "puerta",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "PUERTA aparece oculto en puertazo.",
+    "_def": "Abertura de paso"
+  },
+  {
+    "id": "d279",
+    "difficulty": "experto",
+    "clue": "Objeto que arde con una mecha; bela cambia una letra: b por v. (4)",
+    "answer": "VELA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Objeto que arde con una mecha",
+    "fodder": "BELA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "BELA cambia B por V = VELA.",
+    "_def": "Objeto de cera o tela para navegar"
+  },
+  {
+    "id": "d280",
+    "difficulty": "experto",
+    "clue": "Actividad para ocupar el tiempo; Actividad para ocupar el tiempo, perdido en pasatiempo, sin llamar la atención. (10)",
+    "answer": "PASATIEMPO",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Actividad para ocupar el tiempo",
+    "fodder": "pasatiempo",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "PASATIEMPO aparece oculto en pasatiempo.",
+    "_def": "Actividad para ocupar el tiempo"
+  },
+  {
+    "id": "d281",
+    "difficulty": "dificil",
+    "clue": "Malla de hilos; se cuela en la redacción quedó lista, sin llamar la atención. (3)",
+    "answer": "RED",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Malla de hilos",
+    "fodder": "RED",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "RED aparece oculto en «la redacción quedó lista».",
+    "_def": "Malla para atrapar"
+  },
+  {
+    "id": "d282",
+    "difficulty": "experto",
+    "clue": "Tira estrecha de material; CINTAS queda sin S antes de seguir. (5)",
+    "answer": "CINTA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Tira estrecha de material",
+    "fodder": "CINTAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de CINTAS para obtener CINTA.",
+    "_def": "Tira estrecha"
+  },
+  {
+    "id": "d283",
+    "difficulty": "experto",
+    "clue": "Parte plana de una planta; hace observa junta Ayer, de entrada, dicen más de lo que parece. (4)",
+    "answer": "HOJA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Parte plana de una planta",
+    "fodder": "hace observa junta Ayer",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «hace observa junta Ayer» forman HOJA.",
+    "_def": "Parte plana de una planta"
+  },
+  {
+    "id": "d284",
+    "difficulty": "muy-dificil",
+    "clue": "Proyectil; BALAS queda sin S antes de seguir. (4)",
+    "answer": "BALA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Proyectil",
+    "fodder": "BALAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de BALAS para obtener BALA.",
+    "_def": "Proyectil pequeño"
+  },
+  {
+    "id": "d285",
+    "difficulty": "experto",
+    "clue": "Unión entre cosas; esa nos la Ana cada el, de entrada, dicen más de lo que parece. (6)",
+    "answer": "ENLACE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Unión entre cosas",
+    "fodder": "esa nos la Ana cada el",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «esa nos la Ana cada el» forman ENLACE.",
+    "_def": "Unión"
+  },
+  {
+    "id": "d286",
+    "difficulty": "experto",
+    "clue": "Que contiene dos veces una cantidad; donde otro buen los en, de entrada, dicen más de lo que parece. (5)",
+    "answer": "DOBLE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Que contiene dos veces una cantidad",
+    "fodder": "donde otro buen los en",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «donde otro buen los en» forman DOBLE.",
+    "_def": "Que vale dos"
+  },
+  {
+    "id": "d287",
+    "difficulty": "muy-dificil",
+    "clue": "Pelota para jugar; bajo Ana luego otra nunca, de entrada, dicen más de lo que parece. (5)",
+    "answer": "BALON",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Pelota para jugar",
+    "fodder": "bajo Ana luego otra nunca",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «bajo Ana luego otra nunca» forman BALON.",
+    "_def": "Pelota usada en deportes"
+  },
+  {
+    "id": "d288",
+    "difficulty": "experto",
+    "clue": "Parte posterior; dorsos queda sin s antes de seguir. (5)",
+    "answer": "DORSO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Parte posterior",
+    "fodder": "dorsos",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de DORSOS para obtener DORSO.",
+    "_def": "Parte posterior"
+  },
+  {
+    "id": "d289",
+    "difficulty": "experto",
+    "clue": "Prenda para la mano, perdido en guantelete, sin llamar la atención. (6)",
+    "answer": "GUANTE",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Prenda para la mano",
+    "fodder": "guante",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "GUANTE aparece oculto en guantelete.",
+    "_def": "Prenda para la mano"
+  },
+  {
+    "id": "d290",
+    "difficulty": "dificil",
+    "clue": "De gran altura; Ahora le tras observa, de entrada, dicen más de lo que parece. (4)",
+    "answer": "ALTO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "De gran altura",
+    "fodder": "Ahora le tras observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Ahora le tras observa» forman ALTO.",
+    "_def": "Alto"
+  },
+  {
+    "id": "d291",
+    "difficulty": "muy-dificil",
+    "clue": "Comida de la noche: nace perdió el orden antes de la escena. (4)",
+    "answer": "CENA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Comida de la noche",
+    "fodder": "NACE",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de NACE = CENA.",
+    "_def": "Comida de la noche"
+  },
+  {
+    "id": "d292",
+    "difficulty": "muy-dificil",
+    "clue": "Relativo a la conducta, perdido en moralista, sin llamar la atención. (5)",
+    "answer": "MORAL",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Relativo a la conducta",
+    "fodder": "moral",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "MORAL aparece oculto en moralista.",
+    "_def": "Relativo a la conducta"
+  },
+  {
+    "id": "d293",
+    "difficulty": "experto",
+    "clue": "Señal distintiva; marta cambia una letra: t por c. (5)",
+    "answer": "MARCA",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Señal distintiva",
+    "fodder": "MARTA",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "MARTA cambia T por C = MARCA.",
+    "_def": "Señal distintiva"
+  },
+  {
+    "id": "d294",
+    "difficulty": "muy-dificil",
+    "clue": "Conjunto de cables; cierra Ana bajo la en Ahora de observa, de entrada, dicen más de lo que parece. (8)",
+    "answer": "CABLEADO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Conjunto de cables",
+    "fodder": "cierra Ana bajo la en Ahora de observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «cierra Ana bajo la en Ahora de observa» forman CABLEADO.",
+    "_def": "Conjunto de cables"
+  },
+  {
+    "id": "d295",
+    "difficulty": "dificil",
+    "clue": "Parte frontal de la cabeza; se cuela en la caravana siguió de largo, sin llamar la atención. (4)",
+    "answer": "CARA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Parte frontal de la cabeza",
+    "fodder": "CARA",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "CARA aparece oculto en «la caravana siguió de largo».",
+    "_def": "Parte delantera de algo"
+  },
+  {
+    "id": "d296",
+    "difficulty": "muy-dificil",
+    "clue": "Parte principal de un árbol; TRONCOS queda sin S antes de seguir. (6)",
+    "answer": "TRONCO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Parte principal de un árbol",
+    "fodder": "TRONCOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de TRONCOS para obtener TRONCO.",
+    "_def": "Parte principal de un árbol"
+  },
+  {
+    "id": "d297",
+    "difficulty": "dificil",
+    "clue": "Utensilio para trasvasar líquidos; embudos queda sin s antes de seguir. (6)",
+    "answer": "EMBUDO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Utensilio para trasvasar líquidos",
+    "fodder": "embudos",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de EMBUDOS para obtener EMBUDO.",
+    "_def": "Utensilio para trasvasar líquidos"
+  },
+  {
+    "id": "d298",
+    "difficulty": "dificil",
+    "clue": "El colectivo la hace; primero Apenas recuerda Alguien donde Apenas, de entrada, dicen más de lo que parece. (6)",
+    "answer": "PARADA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "El colectivo la hace",
+    "fodder": "primero Apenas recuerda Alguien donde Apenas",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «primero Apenas recuerda Alguien donde Apenas» forman PARADA.",
+    "_def": "Lugar donde se detiene un transporte"
+  },
+  {
+    "id": "d299",
+    "difficulty": "dificil",
+    "clue": "Palo para golpear una pelota; se cuela en el combate terminó temprano, sin llamar la atención. (4)",
+    "answer": "BATE",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Palo para golpear una pelota",
+    "fodder": "BATE",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "BATE aparece oculto en «el combate terminó temprano».",
+    "_def": "Golpea desde el banco"
+  },
+  {
+    "id": "d300",
+    "difficulty": "experto",
+    "clue": "Documento de una reunión; Ayer cierra todo Ahora, de entrada, dicen más de lo que parece. (4)",
+    "answer": "ACTA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Documento de una reunión",
+    "fodder": "Ayer cierra todo Ahora",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Ayer cierra todo Ahora» forman ACTA.",
+    "_def": "Documento que deja constancia"
+  },
+  {
+    "id": "d301",
+    "difficulty": "dificil",
+    "clue": "Parte de un árbol: arma perdió el rumbo antes de llegar. (4)",
+    "answer": "RAMA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Parte de un árbol",
+    "fodder": "arma",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de ARMA = RAMA.",
+    "_def": "Rama"
+  },
+  {
+    "id": "d302",
+    "difficulty": "muy-dificil",
+    "clue": "Masa visible de vapor de agua; NUBES queda sin S antes de seguir. (4)",
+    "answer": "NUBE",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Masa visible de vapor de agua",
+    "fodder": "NUBES",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de NUBES para obtener NUBE.",
+    "_def": "Masa visible de gotas"
+  },
+  {
+    "id": "d303",
+    "difficulty": "experto",
+    "clue": "Tejido muscular animal; coche, abreviado, ne como noreste, abreviado. (5)",
+    "answer": "CARNE",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Tejido muscular animal",
+    "fodder": "coche",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "CAR+NE=CARNE",
+    "_def": "Tejido muscular comestible"
+  },
+  {
+    "id": "d304",
+    "difficulty": "muy-dificil",
+    "clue": "Viento suave; BRISAS queda sin S antes de seguir. (5)",
+    "answer": "BRISA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Viento suave",
+    "fodder": "BRISAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de BRISAS para obtener BRISA.",
+    "_def": "Viento suave"
+  },
+  {
+    "id": "d305",
+    "difficulty": "dificil",
+    "clue": "Lámpara portátil; los imagina no tras en recuerda nadie Alguien, de entrada, dicen más de lo que parece. (8)",
+    "answer": "LINTERNA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Lámpara portátil",
+    "fodder": "los imagina no tras en recuerda nadie Alguien",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «los imagina no tras en recuerda nadie Alguien» forman LINTERNA.",
+    "_def": "Luz portátil"
+  },
+  {
+    "id": "d306",
+    "difficulty": "muy-dificil",
+    "clue": "Parte superior de una habitación; tras entre casi hoy obviamente, de entrada, dicen más de lo que parece. (5)",
+    "answer": "TECHO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Parte superior de una habitación",
+    "fodder": "tras entre casi hoy obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «tras entre casi hoy obviamente» forman TECHO.",
+    "_def": "Cubierta superior de un edificio"
+  },
+  {
+    "id": "d307",
+    "difficulty": "experto",
+    "clue": "Choque o impacto; gira observa la por en, de entrada, dicen más de lo que parece. (5)",
+    "answer": "GOLPE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Choque o impacto",
+    "fodder": "gira observa la por en",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «gira observa la por en» forman GOLPE.",
+    "_def": "Impacto"
+  },
+  {
+    "id": "d308",
+    "difficulty": "experto",
+    "clue": "Vía para desplazarse; camino, abreviado, ino como interior, abreviado. (6)",
+    "answer": "CAMINO",
+    "mechanisms": [
+      "charade"
+    ],
+    "definition": "Vía para desplazarse",
+    "fodder": "camino",
+    "indicators": [
+      "como"
+    ],
+    "explanation": "CAM+INO=CAMINO",
+    "_def": "Vía para ir de un sitio a otro"
+  },
+  {
+    "id": "d309",
+    "difficulty": "dificil",
+    "clue": "Comida mexicana; se cuela en el taco de billar, sin llamar la atención. (4)",
+    "answer": "TACO",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Comida mexicana",
+    "fodder": "TACO",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "TACO aparece oculto en «el taco de billar».",
+    "_def": "Porción o pieza compacta"
+  },
+  {
+    "id": "d310",
+    "difficulty": "dificil",
+    "clue": "Elevación de agua; suena como hola al oído. (3)",
+    "answer": "OLA",
+    "mechanisms": [
+      "homophone"
+    ],
+    "definition": "Elevación de agua",
+    "fodder": "hola",
+    "indicators": [
+      "al oído"
+    ],
+    "explanation": "OLA suena como hola.",
+    "_def": "Masa de agua que avanza"
+  },
+  {
+    "id": "d311",
+    "difficulty": "dificil",
+    "clue": "Juguete que vuela con hilo; como obviamente muy esa tal Ahora, de entrada, dicen más de lo que parece. (6)",
+    "answer": "COMETA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Juguete que vuela con hilo",
+    "fodder": "como obviamente muy esa tal Ahora",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «como obviamente muy esa tal Ahora» forman COMETA.",
+    "_def": "Cuerpo que sigue una órbita larga"
+  },
+  {
+    "id": "d312",
+    "difficulty": "experto",
+    "clue": "Altura de un sonido; tino cambia una letra: i por o. (4)",
+    "answer": "TONO",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Altura de un sonido",
+    "fodder": "TINO",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "TINO cambia I por O = TONO.",
+    "_def": "Grado de color o sonido"
+  },
+  {
+    "id": "d313",
+    "difficulty": "experto",
+    "clue": "Ave doméstica; guarda Ana la luego Inés nunca Ayer, de entrada, dicen más de lo que parece. (7)",
+    "answer": "GALLINA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Ave doméstica",
+    "fodder": "guarda Ana la luego Inés nunca Ayer",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «guarda Ana la luego Inés nunca Ayer» forman GALLINA.",
+    "_def": "Ave doméstica"
+  },
+  {
+    "id": "d314",
+    "difficulty": "dificil",
+    "clue": "Línea alrededor de la que gira algo; el junta esa, de entrada, dicen más de lo que parece. (3)",
+    "answer": "EJE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Línea alrededor de la que gira algo",
+    "fodder": "el junta esa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «el junta esa» forman EJE.",
+    "_def": "Pivote de un mecanismo"
+  },
+  {
+    "id": "d315",
+    "difficulty": "experto",
+    "clue": "Acción de rodar; recuerda otro de Ana, de entrada, dicen más de lo que parece. (4)",
+    "answer": "RODA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Acción de rodar",
+    "fodder": "recuerda otro de Ana",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «recuerda otro de Ana» forman RODA.",
+    "_def": "Quilla de la proa"
+  },
+  {
+    "id": "d316",
+    "difficulty": "experto",
+    "clue": "Caja para recibir cartas; buen una zona observa nos, de entrada, dicen más de lo que parece. (5)",
+    "answer": "BUZON",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Caja para recibir cartas",
+    "fodder": "buen una zona observa nos",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «buen una zona observa nos» forman BUZON.",
+    "_def": "Caja para cartas"
+  },
+  {
+    "id": "d317",
+    "difficulty": "experto",
+    "clue": "Objeto que da forma; Mientras observa, luego decide, entra, de entrada, dejan la respuesta escondida. (5)",
+    "answer": "MOLDE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Objeto que da forma",
+    "fodder": "Mientras observa, luego decide, entra",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las iniciales de «Mientras observa, luego decide, entra» forman MOLDE.",
+    "_def": "Forma para reproducir"
+  },
+  {
+    "id": "d318",
+    "difficulty": "experto",
+    "clue": "Figura de dos líneas que se cortan; con resulta usa zurdo, de entrada, dicen más de lo que parece. (4)",
+    "answer": "CRUZ",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Figura de dos líneas que se cortan",
+    "fodder": "con resulta usa zurdo",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «con resulta usa zurdo» forman CRUZ.",
+    "_def": "Figura de dos brazos"
+  },
+  {
+    "id": "d319",
+    "difficulty": "muy-dificil",
+    "clue": "Línea aparente del cielo; hacia otro recuerda Inés zurdo otro nadie tal esa, de entrada, dicen más de lo que parece. (9)",
+    "answer": "HORIZONTE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Línea aparente del cielo",
+    "fodder": "hacia otro recuerda Inés zurdo otro nadie tal esa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «hacia otro recuerda Inés zurdo otro nadie tal esa» forman HORIZONTE.",
+    "_def": "Línea aparente donde cielo y tierra se encuentran"
+  },
+  {
+    "id": "d320",
+    "difficulty": "experto",
+    "clue": "Combustión con llamas; juego cambia una letra: j por f. (5)",
+    "answer": "FUEGO",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Combustión con llamas",
+    "fodder": "JUEGO",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "JUEGO cambia J por F = FUEGO.",
+    "_def": "Combustión"
+  },
+  {
+    "id": "d321",
+    "difficulty": "muy-dificil",
+    "clue": "Conjunto de instrumentos de percusión; baja Ana tras en recuerda intenta Apenas, de entrada, dicen más de lo que parece. (7)",
+    "answer": "BATERIA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Conjunto de instrumentos de percusión",
+    "fodder": "baja Ana tras en recuerda intenta Apenas",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «baja Ana tras en recuerda intenta Apenas» forman BATERIA.",
+    "_def": "Conjunto de elementos o instrumento de percusión"
+  },
+  {
+    "id": "d322",
+    "difficulty": "dificil",
+    "clue": "Mueble para apoyar cosas; Mesa, perdido en mesada, sin llamar la atención. (4)",
+    "answer": "MESA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Mueble para apoyar cosas",
+    "fodder": "mesa",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "MESA aparece oculto en mesada.",
+    "_def": "Mesa"
+  },
+  {
+    "id": "d323",
+    "difficulty": "experto",
+    "clue": "Puede esperarte en una sala; Alguien sin intenta entre nos también otro, de entrada, dicen más de lo que parece. (7)",
+    "answer": "ASIENTO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Puede esperarte en una sala",
+    "fodder": "Alguien sin intenta entre nos también otro",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «Alguien sin intenta entre nos también otro» forman ASIENTO.",
+    "_def": "Lugar para sentarse"
+  },
+  {
+    "id": "d324",
+    "difficulty": "muy-dificil",
+    "clue": "Queda escrito en un archivo; revisa entre gira indica sobre tras recuerda otro, de entrada, dicen más de lo que parece. (8)",
+    "answer": "REGISTRO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Queda escrito en un archivo",
+    "fodder": "revisa entre gira indica sobre tras recuerda otro",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «revisa entre gira indica sobre tras recuerda otro» forman REGISTRO.",
+    "_def": "Constancia escrita"
+  },
+  {
+    "id": "d325",
+    "difficulty": "muy-dificil",
+    "clue": "Máquina que produce movimiento; MOTORES queda sin S antes de seguir. (5)",
+    "answer": "MOTOR",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Máquina que produce movimiento",
+    "fodder": "MOTORES",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de MOTORES para obtener MOTOR.",
+    "_def": "Máquina que genera movimiento"
+  },
+  {
+    "id": "d326",
+    "difficulty": "experto",
+    "clue": "Está debajo de todo; finalmente otra nos donde obviamente, de entrada, dicen más de lo que parece. (5)",
+    "answer": "FONDO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Está debajo de todo",
+    "fodder": "finalmente otra nos donde obviamente",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «finalmente otra nos donde obviamente» forman FONDO.",
+    "_def": "Parte más profunda"
+  },
+  {
+    "id": "d327",
+    "difficulty": "experto",
+    "clue": "Fila de asientos; gradas queda sin s antes de seguir. (5)",
+    "answer": "GRADA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Fila de asientos",
+    "fodder": "gradas",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de GRADAS para obtener GRADA.",
+    "_def": "Peldaño amplio"
+  },
+  {
+    "id": "d328",
+    "difficulty": "experto",
+    "clue": "Masa gaseosa luminosa de un fuego; se cuela en la llama del mechero, sin llamar la atención. (5)",
+    "answer": "LLAMA",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "Masa gaseosa luminosa de un fuego",
+    "fodder": "LLAMA",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "LLAMA aparece oculto en «la llama del mechero».",
+    "_def": "Lengua de fuego o animal andino"
+  },
+  {
+    "id": "d329",
+    "difficulty": "experto",
+    "clue": "Parte entre cabeza y tronco; con usted el la luego otra, de entrada, dicen más de lo que parece. (6)",
+    "answer": "CUELLO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Parte entre cabeza y tronco",
+    "fodder": "con usted el la luego otra",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «con usted el la luego otra» forman CUELLO.",
+    "_def": "Parte que une cabeza y tronco"
+  },
+  {
+    "id": "d330",
+    "difficulty": "muy-dificil",
+    "clue": "Celebración religiosa: sima perdió el orden antes de la escena. (4)",
+    "answer": "MISA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Celebración religiosa",
+    "fodder": "SIMA",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de SIMA = MISA.",
+    "_def": "Celebración religiosa"
+  },
+  {
+    "id": "d331",
+    "difficulty": "muy-dificil",
+    "clue": "Algo que queda por hacer; primero en no donde intenta el nadie tal el, de entrada, dicen más de lo que parece. (9)",
+    "answer": "PENDIENTE",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Algo que queda por hacer",
+    "fodder": "primero en no donde intenta el nadie tal el",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «primero en no donde intenta el nadie tal el» forman PENDIENTE.",
+    "_def": "Que queda por hacer o arete"
+  },
+  {
+    "id": "d332",
+    "difficulty": "experto",
+    "clue": "De sabor azucarado, perdido en dulcemente, sin llamar la atención. (5)",
+    "answer": "DULCE",
+    "mechanisms": [
+      "hidden"
+    ],
+    "definition": "De sabor azucarado",
+    "fodder": "dulce",
+    "indicators": [
+      "sin llamar la atención"
+    ],
+    "explanation": "DULCE aparece oculto en dulcemente.",
+    "_def": "De sabor azucarado"
+  },
+  {
+    "id": "d333",
+    "difficulty": "muy-dificil",
+    "clue": "Sucesión de puntos; luego indica nos el Ahora, de entrada, dicen más de lo que parece. (5)",
+    "answer": "LINEA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Sucesión de puntos",
+    "fodder": "luego indica nos el Ahora",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «luego indica nos el Ahora» forman LINEA.",
+    "_def": "Trazado que une puntos"
+  },
+  {
+    "id": "d334",
+    "difficulty": "experto",
+    "clue": "Unidad de medida; grano cambia una letra: n por d. (5)",
+    "answer": "GRADO",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Unidad de medida",
+    "fodder": "GRANO",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "GRANO cambia N por D = GRADO.",
+    "_def": "Unidad de medida o nivel"
+  },
+  {
+    "id": "d335",
+    "difficulty": "experto",
+    "clue": "Camino previsto; FRUTA queda sin A antes de seguir. (4)",
+    "answer": "RUTA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Camino previsto",
+    "fodder": "FRUTA",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de FRUTA para obtener RUTA.",
+    "_def": "Itinerario"
+  },
+  {
+    "id": "d336",
+    "difficulty": "muy-dificil",
+    "clue": "Semilla pequeña: rango perdió el orden antes de la escena. (5)",
+    "answer": "GRANO",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Semilla pequeña",
+    "fodder": "RANGO",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de RANGO = GRANO.",
+    "_def": "Semilla pequeña"
+  },
+  {
+    "id": "d337",
+    "difficulty": "experto",
+    "clue": "Serie que se repite; Clara inició cada labor ordenada, de entrada, dejan la respuesta escondida. (5)",
+    "answer": "CICLO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Serie que se repite",
+    "fodder": "Clara inició cada labor ordenada",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las iniciales de «Clara inició cada labor ordenada» forman CICLO.",
+    "_def": "Serie que se repite"
+  },
+  {
+    "id": "d338",
+    "difficulty": "experto",
+    "clue": "Tiempo vivido; edads queda sin s antes de seguir. (4)",
+    "answer": "EDAD",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Tiempo vivido",
+    "fodder": "edads",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de EDADS para obtener EDAD.",
+    "_def": "Tiempo vivido"
+  },
+  {
+    "id": "d339",
+    "difficulty": "dificil",
+    "clue": "Agarrar; RISA vuelve sobre sus pasos. (4)",
+    "answer": "ASIR",
+    "mechanisms": [
+      "reversal"
+    ],
+    "definition": "Agarrar",
+    "fodder": "RISA",
+    "indicators": [
+      "vuelve sobre sus pasos"
+    ],
+    "explanation": "RISA al revés = ASIR.",
+    "_def": "Agarrar"
+  },
+  {
+    "id": "d340",
+    "difficulty": "experto",
+    "clue": "Impresión producida por la luz; dolor cambia una letra: d por c. (5)",
+    "answer": "COLOR",
+    "mechanisms": [
+      "substitution"
+    ],
+    "definition": "Impresión producida por la luz",
+    "fodder": "DOLOR",
+    "indicators": [
+      "cambia una letra"
+    ],
+    "explanation": "DOLOR cambia D por C = COLOR.",
+    "_def": "Propiedad visual"
+  },
+  {
+    "id": "d341",
+    "difficulty": "muy-dificil",
+    "clue": "Borde que rodea una imagen; MARCOS queda sin S antes de seguir. (5)",
+    "answer": "MARCO",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Borde que rodea una imagen",
+    "fodder": "MARCOS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de MARCOS para obtener MARCO.",
+    "_def": "Borde que rodea"
+  },
+  {
+    "id": "d342",
+    "difficulty": "experto",
+    "clue": "Asiento alargado; breve Ahora nunca cada observa, de entrada, dicen más de lo que parece. (5)",
+    "answer": "BANCO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Asiento alargado",
+    "fodder": "breve Ahora nunca cada observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «breve Ahora nunca cada observa» forman BANCO.",
+    "_def": "Asiento o entidad financiera"
+  },
+  {
+    "id": "d343",
+    "difficulty": "experto",
+    "clue": "Fuerza que mueve; indica muy primero usted los sin observa, de entrada, dicen más de lo que parece. (7)",
+    "answer": "IMPULSO",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Fuerza que mueve",
+    "fodder": "indica muy primero usted los sin observa",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «indica muy primero usted los sin observa» forman IMPULSO.",
+    "_def": "Fuerza que inicia movimiento"
+  },
+  {
+    "id": "d344",
+    "difficulty": "dificil",
+    "clue": "Radiación que permite ver; le un zanja, de entrada, dicen más de lo que parece. (3)",
+    "answer": "LUZ",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Radiación que permite ver",
+    "fodder": "le un zanja",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «le un zanja» forman LUZ.",
+    "_def": "Lo contrario de la oscuridad"
+  },
+  {
+    "id": "d345",
+    "difficulty": "muy-dificil",
+    "clue": "Principio espiritual: lama perdió el orden antes de la escena. (4)",
+    "answer": "ALMA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Principio espiritual",
+    "fodder": "LAMA",
+    "indicators": [
+      "perdió el orden"
+    ],
+    "explanation": "Anagrama de LAMA = ALMA.",
+    "_def": "Parte espiritual o esencia"
+  },
+  {
+    "id": "d346",
+    "difficulty": "muy-dificil",
+    "clue": "Objeto indefinido: saco perdió el rumbo antes de llegar. (4)",
+    "answer": "COSA",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Objeto indefinido",
+    "fodder": "saco",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de SACO = COSA.",
+    "_def": "Objeto indeterminado"
+  },
+  {
+    "id": "d347",
+    "difficulty": "muy-dificil",
+    "clue": "Pieza que se pulsa; TECLAS queda sin S antes de seguir. (5)",
+    "answer": "TECLA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Pieza que se pulsa",
+    "fodder": "TECLAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de TECLAS para obtener TECLA.",
+    "_def": "Botón que se pulsa"
+  },
+  {
+    "id": "d348",
+    "difficulty": "experto",
+    "clue": "Herramienta para cavar; PALAS queda sin S antes de seguir. (4)",
+    "answer": "PALA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Herramienta para cavar",
+    "fodder": "PALAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de PALAS para obtener PALA.",
+    "_def": "Herramienta para cavar"
+  },
+  {
+    "id": "d349",
+    "difficulty": "muy-dificil",
+    "clue": "Asiento con respaldo; SILLAS queda sin S antes de seguir. (5)",
+    "answer": "SILLA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Asiento con respaldo",
+    "fodder": "SILLAS",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de SILLAS para obtener SILLA.",
+    "_def": "Asiento con respaldo"
+  },
+  {
+    "id": "d350",
+    "difficulty": "experto",
+    "clue": "Pieza que une dos partes móviles; breve intenta solo Ayer guarda resulta Alguien, de entrada, dicen más de lo que parece. (7)",
+    "answer": "BISAGRA",
+    "mechanisms": [
+      "initials"
+    ],
+    "definition": "Pieza que une dos partes móviles",
+    "fodder": "breve intenta solo Ayer guarda resulta Alguien",
+    "indicators": [
+      "de entrada"
+    ],
+    "explanation": "Las primeras letras de «breve intenta solo Ayer guarda resulta Alguien» forman BISAGRA.",
+    "_def": "Pieza que permite girar una puerta"
+  },
+  {
+    "id": "d351",
+    "difficulty": "dificil",
+    "clue": "Orilla del mar; ACOSTA queda sin A antes de seguir. (5)",
+    "answer": "COSTA",
+    "mechanisms": [
+      "deletion"
+    ],
+    "definition": "Orilla del mar",
+    "fodder": "ACOSTA",
+    "indicators": [
+      "queda sin"
+    ],
+    "explanation": "Se elimina la última letra de ACOSTA para obtener COSTA.",
+    "_def": "Orilla del mar"
+  },
+  {
+    "id": "d352",
+    "difficulty": "dificil",
+    "clue": "Afecto: ramo perdió el rumbo antes de llegar. (4)",
+    "answer": "AMOR",
+    "mechanisms": [
+      "anagram"
+    ],
+    "definition": "Afecto",
+    "fodder": "ramo",
+    "indicators": [
+      "perdió el rumbo"
+    ],
+    "explanation": "Anagrama de RAMO = AMOR.",
+    "_def": "Afecto profundo"
   },
   {
     "id": "d353",
-    "difficulty": "dificil",
-    "clue": "Sirve para de sabor azucarado y también para persona amable. (5)",
-    "answer": "DULCE",
+    "difficulty": "experto",
+    "clue": "Nombre de una obra; todo imagina también una la obviamente, de entrada, dicen más de lo que parece. (6)",
+    "answer": "TITULO",
     "mechanisms": [
-      "double-definition"
+      "initials"
     ],
-    "definition": "De sabor azucarado",
-    "fodder": "persona amable",
+    "definition": "Nombre de una obra",
+    "fodder": "todo imagina también una la obviamente",
     "indicators": [
-      "y también"
+      "de entrada"
     ],
-    "explanation": "Las dos definiciones apuntan a DULCE: «De sabor azucarado» y «persona amable»."
+    "explanation": "Las primeras letras de «todo imagina también una la obviamente» forman TITULO.",
+    "_def": "Nombre de una obra o rango"
   },
   {
     "id": "d354",
-    "difficulty": "dificil",
-    "clue": "Sirve para flor y también para color entre rojo y blanco. (4)",
-    "answer": "ROSA",
+    "difficulty": "experto",
+    "clue": "Cantidad de agua que lleva un río; Cantidad de agua que fluye, perdido en caudaloso, sin llamar la atención. (6)",
+    "answer": "CAUDAL",
     "mechanisms": [
-      "double-definition"
+      "hidden"
     ],
-    "definition": "Flor",
-    "fodder": "color entre rojo y blanco",
+    "definition": "Cantidad de agua que lleva un río",
+    "fodder": "caudal",
     "indicators": [
-      "y también"
+      "sin llamar la atención"
     ],
-    "explanation": "Las dos definiciones apuntan a ROSA: «Flor» y «color entre rojo y blanco»."
+    "explanation": "CAUDAL aparece oculto en caudaloso.",
+    "_def": "Cantidad de agua que fluye"
   },
   {
     "id": "d355",
-    "difficulty": "dificil",
-    "clue": "Curva entre dos puntos que queda cuando barco pierde una pieza. (4)",
-    "answer": "ARCO",
+    "difficulty": "experto",
+    "clue": "Parte anterior; frentes queda sin s antes de seguir. (6)",
+    "answer": "FRENTE",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Curva entre dos puntos",
-    "fodder": "barco",
+    "definition": "Parte anterior",
+    "fodder": "frentes",
     "indicators": [
-      "pierde una pieza"
+      "queda sin"
     ],
-    "explanation": "ARCO se obtiene de barco al retirar la letra indicada por la pista."
+    "explanation": "Se elimina la última letra de FRENTES para obtener FRENTE.",
+    "_def": "Parte delantera"
   },
   {
     "id": "d356",
-    "difficulty": "dificil",
-    "clue": "Elemento que forma parte de un conjunto que queda cuando piezas pierde una pieza. (5)",
-    "answer": "PIEZA",
+    "difficulty": "experto",
+    "clue": "Fragmento de un texto; PASAJES queda sin S antes de seguir. (6)",
+    "answer": "PASAJE",
     "mechanisms": [
       "deletion"
     ],
-    "definition": "Elemento que forma parte de un conjunto",
-    "fodder": "piezas",
+    "definition": "Fragmento de un texto",
+    "fodder": "PASAJES",
     "indicators": [
-      "pierde una pieza"
+      "queda sin"
     ],
-    "explanation": "PIEZA se obtiene de piezas al retirar la letra indicada por la pista."
+    "explanation": "Se elimina la última letra de PASAJES para obtener PASAJE.",
+    "_def": "Lugar de paso o billete"
   }
 ];
